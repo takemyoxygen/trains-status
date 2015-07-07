@@ -1,0 +1,1322 @@
+﻿<ReisMogelijkheden>
+
+  <ReisMogelijkheid>
+    <Melding>
+	    <Id>2012_gn_asn_25feb_4mrt</Id>
+	    <Ernstig>false</Ernstig>
+	    <Text>Let op, werk aan het spoor Assen - Groningen</Text>
+	 </Melding>
+
+	 <Melding>
+	    <Id>whatever</Id>
+	    <Ernstig>false</Ernstig>
+	    <Text>Ololo test</Text>
+	 </Melding>
+
+    <AantalOverstappen>0</AantalOverstappen>
+    <GeplandeReisTijd>0:32</GeplandeReisTijd>
+
+    <ActueleReisTijd>0:34</ActueleReisTijd> <!--optional-->
+
+
+
+    <AankomstVertraging>+2 min</AankomstVertraging> <!--optional-->
+
+    <Optimaal>false</Optimaal>
+    <GeplandeVertrekTijd>2015-07-05T13:54:00+0200</GeplandeVertrekTijd>
+    <ActueleVertrekTijd>2015-07-05T13:54:00+0200</ActueleVertrekTijd>
+    <GeplandeAankomstTijd>2015-07-05T14:26:00+0200</GeplandeAankomstTijd>
+    <ActueleAankomstTijd>2015-07-05T14:28:00+0200</ActueleAankomstTijd>
+
+
+    <Status>VERTRAAGD</Status> <!--optional-->
+
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>5744</RitNummer>
+
+
+      <Status>VERTRAAGD</Status>
+      <ReisDetails><!--optional-->
+      	<ReisDetail>Trave detaiils</ReisDetail>
+     </ReisDetails> 
+      <GeplandeStoringId>outage-id</GeplandeStoringId> <!--optional-->
+      <OngeplandeStoringId>outage-id</OngeplandeStoringId> <!--optional-->
+
+
+      <ReisStop>
+
+
+        <Naam>Naarden-Bussum</Naam>
+        <Tijd>2015-07-05T13:54:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T14:09:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Diemen Zuid</Naam>
+        <Tijd>2015-07-05T14:16:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Duivendrecht</Naam>
+        <Tijd>2015-07-05T14:20:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam RAI</Naam>
+        <Tijd>2015-07-05T14:23:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam Zuid</Naam>
+        <Tijd>2015-07-05T14:26:00+0200</Tijd>
+
+        <VertrekVertraging>+2 min</VertrekVertraging>
+
+
+
+
+        <Spoor wijziging="false">3</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+  </ReisMogelijkheid>
+
+  <ReisMogelijkheid>
+
+    <AantalOverstappen>4</AantalOverstappen>
+    <GeplandeReisTijd>0:30</GeplandeReisTijd>
+
+    <ActueleReisTijd>0:30</ActueleReisTijd>
+
+
+
+    <Optimaal>false</Optimaal>
+    <GeplandeVertrekTijd>2015-07-05T14:10:00+0200</GeplandeVertrekTijd>
+    <ActueleVertrekTijd>2015-07-05T14:10:00+0200</ActueleVertrekTijd>
+    <GeplandeAankomstTijd>2015-07-05T14:40:00+0200</GeplandeAankomstTijd>
+    <ActueleAankomstTijd>2015-07-05T14:40:00+0200</ActueleAankomstTijd>
+
+
+    <Status>VOLGENS-PLAN</Status>
+
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>5844</RitNummer>
+
+
+      <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Naarden-Bussum</Naam>
+        <Tijd>2015-07-05T14:10:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T14:17:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">5</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>4344</RitNummer>
+
+
+      <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T14:23:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">6</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Diemen Zuid</Naam>
+        <Tijd>2015-07-05T14:30:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Duivendrecht</Naam>
+        <Tijd>2015-07-05T14:34:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam RAI</Naam>
+        <Tijd>2015-07-05T14:37:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam Zuid</Naam>
+        <Tijd>2015-07-05T14:40:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">3</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+  </ReisMogelijkheid>
+
+  <ReisMogelijkheid>
+
+    <AantalOverstappen>0</AantalOverstappen>
+    <GeplandeReisTijd>0:32</GeplandeReisTijd>
+
+    <ActueleReisTijd>0:29</ActueleReisTijd>
+
+
+    <VertrekVertraging>+3 min</VertrekVertraging>
+
+
+    <Optimaal>false</Optimaal>
+    <GeplandeVertrekTijd>2015-07-05T14:24:00+0200</GeplandeVertrekTijd>
+    <ActueleVertrekTijd>2015-07-05T14:27:00+0200</ActueleVertrekTijd>
+    <GeplandeAankomstTijd>2015-07-05T14:56:00+0200</GeplandeAankomstTijd>
+    <ActueleAankomstTijd>2015-07-05T14:56:00+0200</ActueleAankomstTijd>
+
+
+    <Status>VERTRAAGD</Status>
+
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>5746</RitNummer>
+
+
+      <Status>VERTRAAGD</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Naarden-Bussum</Naam>
+        <Tijd>2015-07-05T14:24:00+0200</Tijd>
+
+        <VertrekVertraging>+3 min</VertrekVertraging>
+
+
+
+
+        <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T14:39:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Diemen Zuid</Naam>
+        <Tijd>2015-07-05T14:46:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Duivendrecht</Naam>
+        <Tijd>2015-07-05T14:50:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam RAI</Naam>
+        <Tijd>2015-07-05T14:53:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam Zuid</Naam>
+        <Tijd>2015-07-05T14:56:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">3</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+  </ReisMogelijkheid>
+
+  <ReisMogelijkheid>
+
+    <AantalOverstappen>1</AantalOverstappen>
+    <GeplandeReisTijd>0:30</GeplandeReisTijd>
+
+    <ActueleReisTijd>0:30</ActueleReisTijd>
+
+
+
+    <Optimaal>false</Optimaal>
+    <GeplandeVertrekTijd>2015-07-05T14:40:00+0200</GeplandeVertrekTijd>
+    <ActueleVertrekTijd>2015-07-05T14:40:00+0200</ActueleVertrekTijd>
+    <GeplandeAankomstTijd>2015-07-05T15:10:00+0200</GeplandeAankomstTijd>
+    <ActueleAankomstTijd>2015-07-05T15:10:00+0200</ActueleAankomstTijd>
+
+
+    <Status>VOLGENS-PLAN</Status>
+
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>5846</RitNummer>
+
+
+      <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Naarden-Bussum</Naam>
+        <Tijd>2015-07-05T14:40:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T14:47:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">5</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>4346</RitNummer>
+
+
+      <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T14:53:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">6</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Diemen Zuid</Naam>
+        <Tijd>2015-07-05T15:00:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Duivendrecht</Naam>
+        <Tijd>2015-07-05T15:04:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam RAI</Naam>
+        <Tijd>2015-07-05T15:07:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam Zuid</Naam>
+        <Tijd>2015-07-05T15:10:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">3</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+  </ReisMogelijkheid>
+
+  <ReisMogelijkheid>
+
+    <AantalOverstappen>0</AantalOverstappen>
+    <GeplandeReisTijd>0:32</GeplandeReisTijd>
+
+    <ActueleReisTijd>0:32</ActueleReisTijd>
+
+
+
+    <Optimaal>false</Optimaal>
+    <GeplandeVertrekTijd>2015-07-05T14:54:00+0200</GeplandeVertrekTijd>
+    <ActueleVertrekTijd>2015-07-05T14:54:00+0200</ActueleVertrekTijd>
+    <GeplandeAankomstTijd>2015-07-05T15:26:00+0200</GeplandeAankomstTijd>
+    <ActueleAankomstTijd>2015-07-05T15:26:00+0200</ActueleAankomstTijd>
+
+
+    <Status>VOLGENS-PLAN</Status>
+
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>5748</RitNummer>
+
+
+      <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Naarden-Bussum</Naam>
+        <Tijd>2015-07-05T14:54:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T15:09:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Diemen Zuid</Naam>
+        <Tijd>2015-07-05T15:16:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Duivendrecht</Naam>
+        <Tijd>2015-07-05T15:20:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam RAI</Naam>
+        <Tijd>2015-07-05T15:23:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam Zuid</Naam>
+        <Tijd>2015-07-05T15:26:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">3</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+  </ReisMogelijkheid>
+
+  <ReisMogelijkheid>
+
+    <AantalOverstappen>1</AantalOverstappen>
+    <GeplandeReisTijd>0:30</GeplandeReisTijd>
+
+    <ActueleReisTijd>0:26</ActueleReisTijd>
+
+
+    <VertrekVertraging>+4 min</VertrekVertraging>
+
+
+    <Optimaal>true</Optimaal>
+    <GeplandeVertrekTijd>2015-07-05T15:10:00+0200</GeplandeVertrekTijd>
+    <ActueleVertrekTijd>2015-07-05T15:14:00+0200</ActueleVertrekTijd>
+    <GeplandeAankomstTijd>2015-07-05T15:40:00+0200</GeplandeAankomstTijd>
+    <ActueleAankomstTijd>2015-07-05T15:40:00+0200</ActueleAankomstTijd>
+
+
+    <Status>VERTRAAGD</Status>
+
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>5848</RitNummer>
+
+
+      <Status>VERTRAAGD</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Naarden-Bussum</Naam>
+        <Tijd>2015-07-05T15:10:00+0200</Tijd>
+
+        <VertrekVertraging>+4 min</VertrekVertraging>
+
+
+
+
+        <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T15:17:00+0200</Tijd>
+
+        <VertrekVertraging>+3 min</VertrekVertraging>
+
+
+
+
+        <Spoor wijziging="false">5</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>4348</RitNummer>
+
+
+      <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T15:23:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">6</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Diemen Zuid</Naam>
+        <Tijd>2015-07-05T15:30:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Duivendrecht</Naam>
+        <Tijd>2015-07-05T15:34:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam RAI</Naam>
+        <Tijd>2015-07-05T15:37:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam Zuid</Naam>
+        <Tijd>2015-07-05T15:40:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">3</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+  </ReisMogelijkheid>
+
+  <ReisMogelijkheid>
+
+    <AantalOverstappen>0</AantalOverstappen>
+    <GeplandeReisTijd>0:32</GeplandeReisTijd>
+
+    <ActueleReisTijd>0:32</ActueleReisTijd>
+
+
+
+    <Optimaal>false</Optimaal>
+    <GeplandeVertrekTijd>2015-07-05T15:24:00+0200</GeplandeVertrekTijd>
+    <ActueleVertrekTijd>2015-07-05T15:24:00+0200</ActueleVertrekTijd>
+    <GeplandeAankomstTijd>2015-07-05T15:56:00+0200</GeplandeAankomstTijd>
+    <ActueleAankomstTijd>2015-07-05T15:56:00+0200</ActueleAankomstTijd>
+
+
+    <Status>VOLGENS-PLAN</Status>
+
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>5750</RitNummer>
+
+
+      <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Naarden-Bussum</Naam>
+        <Tijd>2015-07-05T15:24:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T15:39:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Diemen Zuid</Naam>
+        <Tijd>2015-07-05T15:46:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Duivendrecht</Naam>
+        <Tijd>2015-07-05T15:50:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam RAI</Naam>
+        <Tijd>2015-07-05T15:53:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam Zuid</Naam>
+        <Tijd>2015-07-05T15:56:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">3</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+  </ReisMogelijkheid>
+
+  <ReisMogelijkheid>
+
+    <AantalOverstappen>1</AantalOverstappen>
+    <GeplandeReisTijd>0:30</GeplandeReisTijd>
+x
+    <ActueleReisTijd>0:26</ActueleReisTijd>
+
+
+    <VertrekVertraging>+4 min</VertrekVertraging>
+
+
+    <Optimaal>false</Optimaal>
+    <GeplandeVertrekTijd>2015-07-05T15:40:00+0200</GeplandeVertrekTijd>
+    <ActueleVertrekTijd>2015-07-05T15:44:00+0200</ActueleVertrekTijd>
+    <GeplandeAankomstTijd>2015-07-05T16:10:00+0200</GeplandeAankomstTijd>
+    <ActueleAankomstTijd>2015-07-05T16:10:00+0200</ActueleAankomstTijd>
+
+
+    <Status>VERTRAAGD</Status>
+
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>5850</RitNummer>
+
+
+      <Status>VERTRAAGD</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Naarden-Bussum</Naam>
+        <Tijd>2015-07-05T15:40:00+0200</Tijd>
+
+        <VertrekVertraging>+4 min</VertrekVertraging>
+
+
+
+
+        <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T15:47:00+0200</Tijd>
+
+        <VertrekVertraging>+3 min</VertrekVertraging>
+
+
+
+
+        <Spoor wijziging="false">5</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>4350</RitNummer>
+
+
+      <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T15:53:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">6</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Diemen Zuid</Naam>
+        <Tijd>2015-07-05T16:00:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Duivendrecht</Naam>
+        <Tijd>2015-07-05T16:04:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam RAI</Naam>
+        <Tijd>2015-07-05T16:07:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam Zuid</Naam>
+        <Tijd>2015-07-05T16:10:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">3</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+  </ReisMogelijkheid>
+
+  <ReisMogelijkheid>
+
+    <AantalOverstappen>0</AantalOverstappen>
+    <GeplandeReisTijd>0:32</GeplandeReisTijd>
+
+
+    <Optimaal>false</Optimaal>
+    <GeplandeVertrekTijd>2015-07-05T15:54:00+0200</GeplandeVertrekTijd>
+    <ActueleVertrekTijd>2015-07-05T15:54:00+0200</ActueleVertrekTijd>
+    <GeplandeAankomstTijd>2015-07-05T16:26:00+0200</GeplandeAankomstTijd>
+    <ActueleAankomstTijd>2015-07-05T16:26:00+0200</ActueleAankomstTijd>
+
+
+    <Status>VOLGENS-PLAN</Status>
+
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>5752</RitNummer>
+
+
+      <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Naarden-Bussum</Naam>
+        <Tijd>2015-07-05T15:54:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T16:09:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Diemen Zuid</Naam>
+        <Tijd>2015-07-05T16:16:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Duivendrecht</Naam>
+        <Tijd>2015-07-05T16:20:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam RAI</Naam>
+        <Tijd>2015-07-05T16:23:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam Zuid</Naam>
+        <Tijd>2015-07-05T16:26:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">3</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+  </ReisMogelijkheid>
+
+  <ReisMogelijkheid>
+
+    <AantalOverstappen>1</AantalOverstappen>
+    <GeplandeReisTijd>0:30</GeplandeReisTijd>
+
+
+
+
+    <Optimaal>false</Optimaal>
+    <GeplandeVertrekTijd>2015-07-05T16:10:00+0200</GeplandeVertrekTijd>
+    <ActueleVertrekTijd>2015-07-05T16:10:00+0200</ActueleVertrekTijd>
+    <GeplandeAankomstTijd>2015-07-05T16:40:00+0200</GeplandeAankomstTijd>
+    <ActueleAankomstTijd>2015-07-05T16:40:00+0200</ActueleAankomstTijd>
+
+
+    <Status>VOLGENS-PLAN</Status>
+
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>5852</RitNummer>
+
+
+      <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Naarden-Bussum</Naam>
+        <Tijd>2015-07-05T16:10:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T16:17:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">5</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>4352</RitNummer>
+
+
+      <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T16:23:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">6</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Diemen Zuid</Naam>
+        <Tijd>2015-07-05T16:30:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Duivendrecht</Naam>
+        <Tijd>2015-07-05T16:34:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam RAI</Naam>
+        <Tijd>2015-07-05T16:37:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam Zuid</Naam>
+        <Tijd>2015-07-05T16:40:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">3</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+  </ReisMogelijkheid>
+
+  <ReisMogelijkheid>
+
+    <AantalOverstappen>0</AantalOverstappen>
+    <GeplandeReisTijd>0:32</GeplandeReisTijd>
+
+    <Optimaal>false</Optimaal>
+    <GeplandeVertrekTijd>2015-07-05T16:24:00+0200</GeplandeVertrekTijd>
+    <ActueleVertrekTijd>2015-07-05T16:24:00+0200</ActueleVertrekTijd>
+    <GeplandeAankomstTijd>2015-07-05T16:56:00+0200</GeplandeAankomstTijd>
+    <ActueleAankomstTijd>2015-07-05T16:56:00+0200</ActueleAankomstTijd>
+
+
+    <Status>VOLGENS-PLAN</Status>
+
+
+    <ReisDeel reisSoort="TRAIN">
+
+
+      <Vervoerder>NS</Vervoerder>
+      <VervoerType>Sprinter</VervoerType>
+      <RitNummer>5754</RitNummer>
+
+
+      <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+      <ReisStop>
+
+
+        <Naam>Naarden-Bussum</Naam>
+        <Tijd>2015-07-05T16:24:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+      </ReisStop>
+
+
+
+      <ReisStop>
+        <Naam>Weesp</Naam>
+        <Tijd>2015-07-05T16:39:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Diemen Zuid</Naam>
+        <Tijd>2015-07-05T16:46:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Duivendrecht</Naam>
+        <Tijd>2015-07-05T16:50:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam RAI</Naam>
+        <Tijd>2015-07-05T16:53:00+0200</Tijd>
+
+      </ReisStop>
+
+      <ReisStop>
+        <Naam>Amsterdam Zuid</Naam>
+        <Tijd>2015-07-05T16:56:00+0200</Tijd>
+
+
+
+
+        <Spoor wijziging="false">3</Spoor>
+
+
+      </ReisStop>
+
+
+
+    </ReisDeel>
+
+  </ReisMogelijkheid>
+
+</ReisMogelijkheden>
