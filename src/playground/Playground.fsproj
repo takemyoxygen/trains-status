@@ -53,8 +53,12 @@
     <Content Include="samples\live-departures.xml" />
     <Content Include="samples\travel-options.xml" />
     <Compile Include="AssemblyInfo.fs" />
-    <None Include="playground.fsx" />
     <None Include="setup.fsx" />
+    <None Include="Credentials.fsx" />
+    <None Include="Http.fsx" />
+    <None Include="LiveDepartures.fsx" />
+    <None Include="TravelOptions.fsx" />
+    <None Include="playground.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
