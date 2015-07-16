@@ -4,6 +4,7 @@
 #r "System.Xml.Linq.dll"
 
 open System
+open System.Xml.Linq
 open FSharp.Data
 open Credentials
 
@@ -19,18 +20,21 @@ type LiveDeparture = {
 
 type Estimated<'a> = {
     Planned: 'a;
-    Actual: 'a
+    Actual: 'a option
 }
 
 type TravelOptionsXml = XmlProvider<"samples/travel-options.xml">
 
 type Stop = {
     Name: string;
-    Time: DateTime
+    Time: DateTime;
+    Delay: string option;
 }
 
+type OutageId = string
+
 type Outage = {
-    Id: string;
+    Id: OutageId;
     Severe: bool;
     Text: string;
 }
@@ -39,18 +43,32 @@ type TravelLeg = {
     TrainId: int;
     Stops: Stop list;
     Status: string;
-    Type: string;
+    PlannedOutage: OutageId option;
+    UnplannedOutage: OutageId option
 }
 
 type TravelOption = {
     Outages: Outage list;
     Transfers: int;
     Duration: Estimated<TimeSpan>
-    Delay: string option;
+    DepartureDelay: string option;
+    ArrivalDelay: string option;
     DepartureTime: Estimated<DateTime>;
     ArrivalTime: Estimated<DateTime>;
-    Legs: TravelLeg list
+    Legs: TravelLeg list;
+    IsOptimal: bool;
+    Status: string
 }
+
+let (-->) (xml: XElement) name = 
+    let xname = XName.Get name
+    xml.Element xname |> Option.ofObj
+
+let (-?>) (xml: XElement option) name =
+    xml |> Option.map (fun x -> x --> name)
+
+let (-!>) (xml: XElement option) f =
+    xml |> Option.map (fun x -> f x.Value)
 
 let liveDepartures from =
     let endpoint = "http://webservices.ns.nl/ns-api-avt"
@@ -60,10 +78,10 @@ let liveDepartures from =
                       headers = [auth])
     let departures = LiveDeparturesXml.Parse response
     departures.VertrekkendeTreins
-    |> Seq.map (fun xml -> 
-                   { Id = xml.RitNummer; 
-                     DepartsAt = xml.VertrekTijd; 
-                     Destination = xml.EindBestemming; 
+    |> Seq.map (fun xml ->
+                   { Id = xml.RitNummer;
+                     DepartsAt = xml.VertrekTijd;
+                     Destination = xml.EindBestemming;
                      Stops = xml.RouteTekst.Split(',') |> Seq.map (fun s -> s.Trim()) |> List.ofSeq})
     |> List.ofSeq
 
@@ -78,27 +96,36 @@ let routes origin destination =
 
     let xml = TravelOptionsXml.Parse response
     xml.ReisMogelijkheids
-    |> Seq.map (fun option -> 
+    |> Seq.map (fun option ->
                     { Outages = option.Meldings |> Seq.map (fun outage -> { Id = outage.Id; Severe = outage.Ernstig; Text = outage.Text }) |> List.ofSeq;
                       Transfers = option.AantalOverstappen;
-                      Duration = {Planned = option.GeplandeAankomstTijd.TimeOfDay; Actual = option.ActueleAankomstTijd.TimeOfDay};
-                      Legs = [];
-                      DepartureTime = {Planned = DateTime.Now; Actual = DateTime.Now}
-                      ArrivalTime = Unchecked.defaultof<_>;
-                      Delay = option.AankomstVertraging})
+                      Duration = {Planned = option.GeplandeReisTijd.TimeOfDay; Actual = option.ActueleReisTijd |> Option.map (fun dt -> dt.TimeOfDay)};
+                      Legs = option.ReisDeels |> Seq.map (fun leg ->
+                                                                { TrainId = leg.RitNummer;
+                                                                  Status = leg.Status;
+                                                                  PlannedOutage = leg.GeplandeStoringId;
+                                                                  UnplannedOutage = leg.OngeplandeStoringId;
+                                                                  Stops = leg.ReisStops |> Seq.map (fun stop -> {Name = stop.Naam; Time = stop.Tijd; Delay = stop.VertrekVertraging}) |> List.ofSeq})
+                                              |> List.ofSeq
+                      DepartureTime = {Planned = option.GeplandeVertrekTijd; Actual = Some option.ActueleVertrekTijd}
+                      ArrivalTime = {Planned = option.GeplandeAankomstTijd; Actual = Some option.ActueleAankomstTijd};
+                      DepartureDelay = option.VertrekVertraging;
+                      ArrivalDelay = option.AankomstVertraging;
+                      IsOptimal = option.Optimaal;
+                      Status = option.Status})
     |> List.ofSeq
 
 let response = routes "Naarden-Bussum" "Amsterdam Zuid"
 
-let sample = System.IO.File.ReadAllText "samples/travel-options.xml"
-             |> TravelOptionsXml.Parse
-
-
-let filtered = sample.ReisMogelijkheids
-                |> Seq.filter (fun xml -> xml.ReisDeels |> Seq.exists (fun deel -> deel.RitNummer = 5852))
-                |> List.ofSeq
-
-filtered.[0].XElement.Elements(System.Xml.Linq.XName.Get("GeplandeReisTijd"))
-|> Seq.map (fun x -> x.Value)
-|> Seq.iter (printfn "%s")
-//response.[0].GeplandeReisTijd.TimeOfDay
+response.[0].Duration
+//
+//let sample = System.IO.File.ReadAllText "samples/travel-options.xml"
+//             |> TravelOptionsXml.Parse
+//
+//let filtered = sample.ReisMogelijkheids
+//                |> Seq.filter (fun xml -> xml.ReisDeels |> Seq.exists (fun deel -> deel.RitNummer = 5852))
+//                |> List.ofSeq
+//
+//filtered.[0].XElement.Elements(System.Xml.Linq.XName.Get("GeplandeReisTijd"))
+//|> Seq.map (fun x -> x.Value)
+//|> Seq.iter (printfn "%s")
