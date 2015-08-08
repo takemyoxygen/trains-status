@@ -1,1 +1,0 @@
-xcopy %DEPLOYMENT_SOURCE%/src/Playground %DEPLOYMENT_TARGET%
