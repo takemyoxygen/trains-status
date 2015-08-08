@@ -1,10 +1,23 @@
-#load "setup.fsx"
+#r "packages/Suave/lib/net40/Suave.dll"
 
-#load "LiveDepartures.fsx"
-#load "TravelOptions.fsx"
+open System
+open Suave
+open Suave.Http.Successful
+open Suave.Web
+open Suave.Types
+open System.Net
 
-open LiveDepartures
-open TravelOptions
+let configuredPort = Environment.GetCommandLineArgs()
+                     |> Seq.tryFind(fun s -> s.StartsWith("port="))
+                     |> Option.map(fun s -> s.Replace("port=", String.Empty))
+                     |> Option.map(Sockets.Port.Parse)
 
-let departures = LiveDepartures.from "Naarden-Bussum"
-let options = TravelOptions.find "Naarden-Bussum" "Amsterdam Zuid"
+let port = defaultArg configuredPort (uint16 8080)
+printfn "Starting Suave server on port %i" port
+
+let serverConfig = 
+    { defaultConfig with
+       bindings = [ HttpBinding.mk HTTP IPAddress.Loopback port ]
+    }
+
+startWebServer serverConfig (OK "Hello World!")
