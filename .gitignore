@@ -155,3 +155,4 @@ $RECYCLE.BIN/
 # custom
 packages
 paket.exe
+.vs
