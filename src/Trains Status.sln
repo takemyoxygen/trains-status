@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Playground", "Playground\Playground.fsproj", "{B8AD6EEB-1031-4C74-BF6A-EEE57F6AD49C}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Playground", "Playground\Playground.fsproj", "{1AC0F0E6-273C-48DE-88BD-0BB98CB4BFE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B8AD6EEB-1031-4C74-BF6A-EEE57F6AD49C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8AD6EEB-1031-4C74-BF6A-EEE57F6AD49C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8AD6EEB-1031-4C74-BF6A-EEE57F6AD49C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8AD6EEB-1031-4C74-BF6A-EEE57F6AD49C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AC0F0E6-273C-48DE-88BD-0BB98CB4BFE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AC0F0E6-273C-48DE-88BD-0BB98CB4BFE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AC0F0E6-273C-48DE-88BD-0BB98CB4BFE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AC0F0E6-273C-48DE-88BD-0BB98CB4BFE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

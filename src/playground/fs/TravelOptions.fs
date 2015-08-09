@@ -1,11 +1,17 @@
-﻿#load "Http.fsx"
-#r "../packages/Fsharp.Data/lib/net40/FSharp.Data.dll"
-#r "System.Xml.Linq.dll"
+﻿//#load "Http.fsx"
+//#r "../packages/Fsharp.Data/lib/net40/FSharp.Data.dll"
+//#r "System.Xml.Linq.dll"
+
+#if !INTERACTIVE
+module TravelOptions
+#endif
+
 
 open System
 open FSharp.Data
+open Http
 
-type private Xml = XmlProvider< "../samples/travel-options.xml" >
+type private Xml = XmlProvider< "samples/travel-options.xml" >
 
 type Estimated<'a> = 
     { Planned : 'a
@@ -44,11 +50,11 @@ type T =
 
 let private endpoint = "http://webservices.ns.nl/ns-api-treinplanner"
 
-let find origin destination = 
+let find creds origin destination = 
     let xml = 
-        Http.get endpoint [ "fromStation", origin;
-                            "toStation", destination;
-                            "previousAdvices", "0" ]
+        Http.get creds endpoint [ "fromStation", origin;
+                                  "toStation", destination;
+                                  "previousAdvices", "0" ]
     
     let data = Xml.Parse xml
     data.ReisMogelijkheids

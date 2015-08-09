@@ -157,3 +157,4 @@ packages
 paket.exe
 .vs
 .paket
+credentials.txt
