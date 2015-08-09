@@ -17,6 +17,6 @@ if not (File.Exists "paket.exe") then
 Paket.Dependencies.Install """
     source https://nuget.org/api/v2
     nuget FSharp.Data 
+    nuget FSharp.Compiler.Tools
+    nuget Suave
 """;;
-
-printfn "Done"

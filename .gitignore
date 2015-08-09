@@ -156,3 +156,4 @@ $RECYCLE.BIN/
 packages
 paket.exe
 .vs
+.paket
