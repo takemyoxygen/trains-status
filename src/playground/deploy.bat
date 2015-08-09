@@ -35,6 +35,6 @@ if errorlevel 1 (
 )
 
 @echo "Copying files to web root"
-xcopy /s /y .  "C:\projects\temp\deployed\"
+xcopy /s /y .  "%DEPLOYMENT_TARGET%"
 
 popd
