@@ -22,19 +22,19 @@ if not exist paket.lock (
   .paket\paket.exe restore
 )
 
+@echo "Preparing web.config"
+
+if exist web.azure.config (
+  @echo "Using web.azure.config"
+  rm web.config
+  rename web.azure.config web.config
+)
+
 if errorlevel 1 (
   exit /b %errorlevel%
 )
 
-@echo "Preparing web.config"
-
-if exist web.azure.config(
-	@echo "Using web.azure.config"
-	rm web.config
-	rename web.azure.config web.config
-)
-
 @echo "Copying files to web root"
-xcopy /s /y .  %DEPLOYMENT_TARGET%
+xcopy /s /y .  "C:\projects\temp\deployed\"
 
 popd
