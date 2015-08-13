@@ -57,9 +57,10 @@
     <None Include="fs\LiveDepartures.fsx" />
     <Compile Include="fs\TravelOptions.fs" />
     <Compile Include="fs\Status.fs" />
+    <Compile Include="fs\Controller.fs" />
+    <Compile Include="fs\Json.fs" />
     <None Include="app.fsx" />
     <None Include="setup.fsx" />
-    <Compile Include="fs\Controller.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Data">
@@ -68,6 +69,9 @@
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Suave">
       <HintPath>packages\Suave\lib\net40\Suave.dll</HintPath>

@@ -6,6 +6,7 @@ NUGET
     FSharp.Data (2.2.3)
       Zlib.Portable (>= 1.10.0) - framework: portable-net40+sl50+wp80+win80
     FsPickler (1.2.21)
+    Newtonsoft.Json (7.0.1)
     Suave (0.30.0)
       FSharp.Core (>= 3.1.2.1)
       FsPickler (>= 1.2.5)

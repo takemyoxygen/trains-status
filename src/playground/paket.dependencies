@@ -3,3 +3,4 @@
     nuget FSharp.Data 
     nuget FSharp.Compiler.Tools
     nuget Suave
+    nuget Newtonsoft.Json

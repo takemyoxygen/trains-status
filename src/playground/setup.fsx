@@ -19,5 +19,5 @@ Paket.Dependencies.Install """
     nuget FSharp.Data 
     nuget FSharp.Compiler.Tools
     nuget Suave
-    nuget Json.Net
+    nuget Newtonsoft.Json
 """;;
