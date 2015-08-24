@@ -7,6 +7,7 @@
 #load "fs/Http.fs"
 #load "fs/TravelOptions.fs"
 #load "fs/Status.fs"
+#load "fs/Stations.fs"
 #load "fs/Controller.fs"
 #load "fs/Json.fs"
 
@@ -30,15 +31,28 @@ let config = Config.current
 
 printfn "Starting Suave server on port %i" config.Port
 
+let mimeTypes =
+  defaultMimeTypesMap
+    >=> (function | ".jsx" -> mkMimeType "text/jsx" true | _ -> None)
+
 let serverConfig = 
-    { defaultConfig with bindings = [ HttpBinding.mk HTTP IPAddress.Loopback config.Port ] }
+    { defaultConfig with 
+        logger = Logging.Loggers.saneDefaultsFor Logging.LogLevel.Verbose
+        bindings = [ HttpBinding.mk HTTP IPAddress.Loopback config.Port ]
+        mimeTypesMap = mimeTypes }
 
 let json response =
     Json.toJsonString response
     |> OK
     >>= setMimeType "application/json"
 
-let resolver = new CamelCasePropertyNamesContractResolver()
+let staticContent  = 
+    [".js"; ".jsx"; ".css"; ".html"]
+    |> Seq.map (fun s -> s.Replace(".", "\."))
+    |> String.concat "|"
+    |> sprintf "(%s)$"
+
+printfn "Static content: \"%s\"" staticContent
 
 let app = 
     choose
@@ -47,8 +61,9 @@ let app =
                 config.Credentials 
                 (Uri.UnescapeDataString origin)
                 (Uri.UnescapeDataString destination))
-
+         GET >>= path "/api/stations" >>= (json <| Controller.getAllStations config.Credentials)
          GET >>= path "/" >>= file "Index.html"
+         GET >>= pathRegex staticContent >>= browse __SOURCE_DIRECTORY__
          OK "Nothing here"]
 
 startWebServer serverConfig app
