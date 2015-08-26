@@ -25,6 +25,8 @@ open Suave.Http.Writers
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 
+open Common
+
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
 let config = Config.current
@@ -35,8 +37,8 @@ let mimeTypes =
   defaultMimeTypesMap
     >=> (function | ".jsx" -> mkMimeType "text/jsx" true | _ -> None)
 
-let serverConfig = 
-    { defaultConfig with 
+let serverConfig =
+    { defaultConfig with
         logger = Logging.Loggers.saneDefaultsFor Logging.LogLevel.Verbose
         bindings = [ HttpBinding.mk HTTP IPAddress.Loopback config.Port ]
         mimeTypesMap = mimeTypes }
@@ -46,7 +48,7 @@ let json response =
     |> OK
     >>= setMimeType "application/json"
 
-let staticContent  = 
+let staticContent  =
     [".js"; ".jsx"; ".css"; ".html"]
     |> Seq.map (fun s -> s.Replace(".", "\."))
     |> String.concat "|"
@@ -54,14 +56,26 @@ let staticContent  =
 
 printfn "Static content: \"%s\"" staticContent
 
-let app = 
+let app =
     choose
-        [GET >>= pathScan "/api/%s/%s" (fun (origin, destination) -> 
-            json <| Controller.checkStatus 
-                config.Credentials 
+        [GET >>= pathScan "/api/status/%s/%s" (fun (origin, destination) ->
+            json <| Controller.checkStatus
+                config.Credentials
                 (Uri.UnescapeDataString origin)
                 (Uri.UnescapeDataString destination))
          GET >>= path "/api/stations" >>= (json <| Controller.getAllStations config.Credentials)
+         GET >>= path "/api/stations/closest" >>= (fun context -> async {
+                let stations = opt {
+                    let! lat = context.request.["lat"] |> Option.tryMap Double.TryParse
+                    let! lon = context.request.["lon"] |> Option.tryMap Double.TryParse
+                    let! count = context.request.["count"] |> Option.tryMap Int32.TryParse
+                    printfn "Looking for %i stations near %f, %f" count lat lon
+                    return Controller.getClosest config.Credentials lat lon count
+                }
+                match stations with
+                | Some(s) -> return! json s context
+                | None -> return None
+            })
          GET >>= path "/" >>= file "Index.html"
          GET >>= pathRegex staticContent >>= browse __SOURCE_DIRECTORY__
          OK "Nothing here"]
