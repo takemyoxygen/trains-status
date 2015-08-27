@@ -64,7 +64,7 @@ let app =
                 (Uri.UnescapeDataString origin)
                 (Uri.UnescapeDataString destination))
          GET >>= path "/api/stations" >>= (json <| Controller.getAllStations config.Credentials)
-         GET >>= path "/api/stations/closest" >>= (fun context -> async {
+         GET >>= path "/api/stations/nearby" >>= (fun context -> async {
                 let stations = opt {
                     let! lat = context.request.["lat"] |> Option.tryMap Double.TryParse
                     let! lon = context.request.["lon"] |> Option.tryMap Double.TryParse
@@ -76,6 +76,7 @@ let app =
                 | Some(s) -> return! json s context
                 | None -> return None
             })
+         GET >>= path "/api/stations/favourite" >>= (json <| Controller.favouriteStations())
          GET >>= path "/" >>= file "Index.html"
          GET >>= pathRegex staticContent >>= browse __SOURCE_DIRECTORY__
          OK "Nothing here"]

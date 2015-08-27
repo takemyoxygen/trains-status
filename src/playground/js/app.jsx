@@ -1,40 +1,33 @@
-var StationsList = React.createClass({
-    render: function(){
-      return <div>
-              <select>
-                {this.props.stations.map(function(station){
-                  return <option value={station.name}>{station.name}</option>;
-                })}
-              </select>
-            </div>;
-    }
-});
-
-var StatusCheck = React.createClass({
-    getInitialState: function(){
-      return {stations: []};
-    },
-    componentDidMount: function(){
-      $.getJSON("/api/stations").done(function(stations){
-        if (this.isMounted()){
-            this.setState({stations: stations});
+var Origin = React.createClass({
+  getInitialState: function(){
+    return {station: "..."};
+  },
+  componentDidMount: function(){
+    Stations.load()
+      .done(function(stations){
+        if (this.isMounted() && stations.length && stations.length > 0){
+          var station = stations[0].name;
+          this.setState({station: station});
+          if (typeof this.props.onStationSelected === "function"){
+            this.props.onStationSelected(station);
+          }
         }
       }.bind(this));
-    },
-    render: function(){
-      return <div>
-              <StationsList stations={this.state.stations}/>
-              <StationsList stations={this.state.stations}/>
-              <div>
-                <input type="button" className="btn" value="Check status"/>
-              </div>
-            </div>;
-    }
+  },
+  render: function(){
+    return <h3>Closest station: <span className="label label-primary">{this.state.station}</span></h3>;
+  }
+});
+
+var DirectionsStatus = React.createClass({
+  render: function(){
+    return <Origin onStationSelected={function(s){console.log(s);}}/>;
+  }
 });
 
 var App = React.createClass({
   render: function(){
-    return <StatusCheck />;
+    return <DirectionsStatus />;
   }
 });
 
