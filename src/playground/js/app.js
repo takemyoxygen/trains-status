@@ -1,5 +1,5 @@
 define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations){
-  var Origin = React.createClass({
+  var Origin = React.createClass({displayName: "Origin",
     getInitialState: function(){
       return {station: "..."};
     },
@@ -16,11 +16,11 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
         }.bind(this));
     },
     render: function(){
-      return <h3>Closest station: <span className="label label-primary">{this.state.station}</span></h3>;
+      return React.createElement("h3", null, "Closest station: ", React.createElement("span", {className: "label label-primary"}, this.state.station));
     }
   });
 
-  var Direction = React.createClass({
+  var Direction = React.createClass({displayName: "Direction",
     getInitialState: function() {return {status: "loading"};},
     labelType: function(status) {
       switch (status){
@@ -62,23 +62,23 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
     },
     render: function(){
       return (
-        <li className={"list-group-item" + (this.state.disabled ? " disabled": "")}>
-          <div className="row">
-            <div className="col-md-10">
-              {this.props.destination.name}
-            </div>
-            <div className={"col-md-1" + (this.state.disabled ? " hidden" : "")}>
-              <span className={"label label-" + this.labelType(this.state.status)}>
-                <span className={"glyphicon glyphicon-" + this.iconType(this.state.status)} aria-hidden="true"></span>
-              </span>
-            </div>
-          </div>
-        </li>
+        React.createElement("li", {className: "list-group-item" + (this.state.disabled ? " disabled": "")}, 
+          React.createElement("div", {className: "row"}, 
+            React.createElement("div", {className: "col-md-10"}, 
+              this.props.destination.name
+            ), 
+            React.createElement("div", {className: "col-md-1" + (this.state.disabled ? " hidden" : "")}, 
+              React.createElement("span", {className: "label label-" + this.labelType(this.state.status)}, 
+                React.createElement("span", {className: "glyphicon glyphicon-" + this.iconType(this.state.status), "aria-hidden": "true"})
+              )
+            )
+          )
+        )
       );
     }
   })
 
-  var FavouritesStatus = React.createClass({
+  var FavouritesStatus = React.createClass({displayName: "FavouritesStatus",
     componentDidMount: function(){
       Stations
         .loadFavourites()
@@ -94,19 +94,19 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
     },
     render: function(){
         return (
-          <div className="row">
-            <div className="col-md-5">
-              <ul className="list-group">
-                {this.state.stations.map(function(s){
-                  return <Direction origin={this.props.origin} destination={s} />;
-                }.bind(this))}
-              </ul>
-            </div>
-          </div>);
+          React.createElement("div", {className: "row"}, 
+            React.createElement("div", {className: "col-md-5"}, 
+              React.createElement("ul", {className: "list-group"}, 
+                this.state.stations.map(function(s){
+                  return React.createElement(Direction, {origin: this.props.origin, destination: s});
+                }.bind(this))
+              )
+            )
+          ));
     }
   });
 
-  var DirectionsStatus = React.createClass({
+  var DirectionsStatus = React.createClass({displayName: "DirectionsStatus",
     onOriginChanged: function(station){
       this.props.origin.onNext(station);
     },
@@ -115,22 +115,22 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
     },
     render: function(){
       return (
-        <div>
-          <Origin onStationSelected={this.onOriginChanged}/>
-          <FavouritesStatus origin={this.props.origin}/>
-        </div>);
+        React.createElement("div", null, 
+          React.createElement(Origin, {onStationSelected: this.onOriginChanged}), 
+          React.createElement(FavouritesStatus, {origin: this.props.origin})
+        ));
     }
   });
 
-  var App = React.createClass({
+  var App = React.createClass({displayName: "App",
     render: function(){
-      return <DirectionsStatus />;
+      return React.createElement(DirectionsStatus, null);
     }
   });
 
   return {
     start: function(){
-      React.render(<App />, document.getElementById("app"));
+      React.render(React.createElement(App, null), document.getElementById("app"));
     }
   };
 });

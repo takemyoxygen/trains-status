@@ -159,3 +159,5 @@ paket.exe
 .paket
 credentials.txt
 bower_components
+node_modules
+.module-cache

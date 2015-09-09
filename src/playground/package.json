@@ -1,0 +1,17 @@
+{
+  "name": "trains-status",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js/app.js",
+  "dependencies": {
+    "bower": "^1.5.2",
+    "bower-requirejs": "^1.2.0",
+    "react-tools": "^0.13.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
