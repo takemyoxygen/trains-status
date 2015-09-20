@@ -1,6 +1,4 @@
-﻿#if !INTERACTIVE
 module Stations
-#endif
 
 open FSharp.Data
 
@@ -20,7 +18,7 @@ let all credentials =
     |> Seq.filter (fun s -> s.Land = "NL")
     |> Seq.map (fun s ->
         { Name = s.Namen.Lang
-          Coordinates = 
+          Coordinates =
             { Latitude = float s.Lat
               Longitude = float s.Lon}})
     |> List.ofSeq

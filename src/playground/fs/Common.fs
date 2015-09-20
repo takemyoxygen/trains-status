@@ -1,19 +1,18 @@
-#if !INTERACTIVE
+[<AutoOpen>]
 module Common
-#endif
 
-type Credentials = 
+type Credentials =
     { Username : string
       Password : string }
 
-type Coordinates = 
+type Coordinates =
     { Latitude: double
       Longitude: double;}
 
 [<RequireQualifiedAccess>]
-module Option = 
+module Option =
     let tryMap f = function
-    | Some(x) -> 
+    | Some(x) ->
         match f x with
         | true, _ as result -> Some <| snd result
         | _ -> None

@@ -1,6 +1,4 @@
-﻿#if !INTERACTIVE
 module Controller
-#endif
 
 open System
 
@@ -22,7 +20,7 @@ let getAllStations credentials =
 
 let getClosest credentials lat lon count =
     let distance coord1 coord2 =
-        let toRad = ((*) (Math.PI / 180.0))
+        let toRad x =  x * (Math.PI / 180.0)
         let haversin x = pown (sin <| x / 2.0) 2
 
         let r = 6371000.0

@@ -12,6 +12,6 @@ requirejs.config({
   ]
 });
 
-require(["app"], function(foo){
-  foo.start();
+require(["app"], function(app){
+  app.start();
 });

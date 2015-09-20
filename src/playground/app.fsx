@@ -1,4 +1,5 @@
 #r "packages/Suave/lib/net40/Suave.dll"
+#r "System.Xml.Linq"
 #r "packages/FSharp.Data/lib/net40/FSharp.Data.dll"
 #r "packages/Newtonsoft.Json/lib/net40/Newtonsoft.Json.dll"
 
@@ -24,8 +25,6 @@ open Suave.Http.Files
 open Suave.Http.Writers
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
-
-open Common
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 

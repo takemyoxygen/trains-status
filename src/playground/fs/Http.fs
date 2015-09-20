@@ -1,15 +1,10 @@
-//#load "Common.fsx"
-//#r "../packages/Fsharp.Data/lib/net40/FSharp.Data.dll"
-
-#if !INTERACTIVE
 module Http
-#endif
 
 open Common
 open FSharp.Data
 
-let private auth creds = 
+let private auth creds =
     HttpRequestHeaders.BasicAuth creds.Username creds.Password
 
-let get creds url query = 
+let get creds url query =
     Http.RequestString(url, query = query, headers = [auth creds])
