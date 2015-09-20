@@ -1,4 +1,5 @@
 define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations){
+
   var Origin = React.createClass({displayName: "Origin",
     getInitialState: function(){
       return {station: "..."};
@@ -20,8 +21,26 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
     }
   });
 
+  var TrainsList = React.createClass({displayName: "TrainsList",
+      formatDate: function(s){
+          var date = new Date(s);
+          return date.getHours() + ":" + date.getMinutes();
+      },
+      render: function(){
+          return (
+              React.createElement("div", {className: "row"}, 
+                  React.createElement("ul", null, 
+                    this.props.trains.map(function(t){
+                        return React.createElement("li", null, this.formatDate(t.time) + ":" + t.legs.join(" -> "))
+                    }.bind(this))
+                  )
+              )
+          );
+      }
+  });
+
   var Direction = React.createClass({displayName: "Direction",
-    getInitialState: function() {return {status: "loading"};},
+    getInitialState: function() {return {status: "loading", trains: []};},
     labelType: function(status) {
       switch (status){
         case "ok": return "success";
@@ -56,7 +75,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
       $.getJSON("/api/status/" + origin.name + "/" + this.props.destination.name)
         .done(function(response){
           if (this.isMounted()){
-              this.setState({status: response.status.toLowerCase()});
+              this.setState({status: response.status.toLowerCase(), trains: response.trains});
           }
         }.bind(this));
     },
@@ -72,7 +91,8 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
                 React.createElement("span", {className: "glyphicon glyphicon-" + this.iconType(this.state.status), "aria-hidden": "true"})
               )
             )
-          )
+          ), 
+          React.createElement(TrainsList, {trains: this.state.trains})
         )
       );
     }

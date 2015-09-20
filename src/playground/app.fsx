@@ -58,6 +58,7 @@ printfn "Static content: \"%s\"" staticContent
 let app =
     choose
         [GET >>= pathScan "/api/status/%s/%s" (fun (origin, destination) ->
+            printfn "Checking status between %s and %s" origin destination
             json <| Controller.checkStatus
                 config.Credentials
                 (Uri.UnescapeDataString origin)

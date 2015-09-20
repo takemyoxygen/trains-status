@@ -6,6 +6,25 @@ open Http
 
 type private Xml = XmlProvider< "samples/travel-options.xml" >
 
+type Status =
+    | AccordingToPlan
+    | Amended
+    | Delayed
+    | New
+    | NotOptimal
+    | Cancelled
+    | PlanChanged
+    | Unknown
+    static member fromString  = function
+        | "VOLGENS-PLAN" -> Status.AccordingToPlan
+        | "GEWIJZIGD" -> Status.Amended
+        | "VERTRAAGD" -> Status.Delayed
+        | "NIEUW" -> Status.New
+        | "NIET-OPTIMAAL" -> Status.NotOptimal
+        | "NIET-MOGELIJK" -> Status.Cancelled
+        | "PLAN-GEWIJZIGD" -> Status.PlanChanged
+        | _ -> Status.Unknown
+
 type Estimated<'a> =
     { Planned : 'a
       Actual : 'a option }
@@ -39,7 +58,7 @@ type T =
       ArrivalTime : Estimated<DateTime>
       Legs : TravelLeg list
       IsOptimal : bool
-      Status : string }
+      Status : Status }
 
 let private endpoint = "http://webservices.ns.nl/ns-api-treinplanner"
 
@@ -87,5 +106,5 @@ let find creds origin destination =
              DepartureDelay = option.VertrekVertraging
              ArrivalDelay = option.AankomstVertraging
              IsOptimal = option.Optimaal
-             Status = option.Status })
+             Status = Status.fromString option.Status })
     |> List.ofSeq

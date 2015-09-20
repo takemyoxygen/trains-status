@@ -5,14 +5,36 @@ open System
 open Common
 open Status
 
-type CheckStatusResponse = {Status: string; Message: string}
+type TravelInfo =
+    { Time: DateTime;
+      Legs: string list;
+      ArrivalDelay: string;
+      DepartureDelay: string}
+
+type CheckStatusResponse =
+    { Status: string;
+      Message: string;
+      Trains: TravelInfo list}
+
 type GetStationsResponse = {Name: string}
 
 let checkStatus creds origin destination =
-    match Status.check creds origin destination with
-    | Ok-> {Status = "OK"; Message = null}
-    | Delayed -> {Status = "Delayed"; Message = null}
-    | NotFound -> {Status = "NotFound"; Message = sprintf "No travel options found between %s and %s" origin destination}
+    let status, options = Status.check creds origin destination
+    let trainsResp =
+        options
+        |> List.map (fun opt ->
+                { Time = opt.DepartureTime.Planned;
+                  Legs = opt.Legs |> List.map (fun leg -> (leg.Stops |> List.last).Name);
+                  ArrivalDelay = defaultArg opt.ArrivalDelay String.Empty
+                  DepartureDelay = defaultArg opt.DepartureDelay String.Empty })
+
+    let statusResp, messageResp =
+        match status with
+        | Ok-> "OK", null
+        | Delayed -> "Delayed", null
+        | NotFound -> "NotFound", (sprintf "No travel options found between %s and %s" origin destination)
+
+    { Status = statusResp; Message = messageResp; Trains = trainsResp }
 
 let getAllStations credentials =
     Stations.all credentials
