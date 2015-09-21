@@ -3,6 +3,7 @@ module Config
 open Suave.Sockets
 open System
 open System.IO
+open Common
 
 type Config =
     { Port : Port

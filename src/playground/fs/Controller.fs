@@ -1,40 +1,19 @@
 module Controller
 
 open System
+open Suave.Http.RequestErrors
 
 open Common
-open Status
-
-type TravelInfo =
-    { Time: DateTime;
-      Legs: string list;
-      ArrivalDelay: string;
-      DepartureDelay: string}
-
-type CheckStatusResponse =
-    { Status: string;
-      Message: string;
-      Trains: TravelInfo list}
 
 type GetStationsResponse = {Name: string}
 
+let private unescape = Uri.UnescapeDataString
+
 let checkStatus creds origin destination =
-    let status, options = Status.check creds origin destination
-    let trainsResp =
-        options
-        |> List.map (fun opt ->
-                { Time = opt.DepartureTime.Planned;
-                  Legs = opt.Legs |> List.map (fun leg -> (leg.Stops |> List.last).Name);
-                  ArrivalDelay = defaultArg opt.ArrivalDelay String.Empty
-                  DepartureDelay = defaultArg opt.DepartureDelay String.Empty })
+    match Status.check creds (unescape origin) (unescape destination) with
+    | Status.NoOptionsFound(orig, dest) -> NOT_FOUND <| sprintf "No travel options found between %s  and  %s" orig dest
+    | Status.TravelOptionsStatus(status) -> Json.asResponse status
 
-    let statusResp, messageResp =
-        match status with
-        | Ok-> "OK", null
-        | Delayed -> "Delayed", null
-        | NotFound -> "NotFound", (sprintf "No travel options found between %s and %s" origin destination)
-
-    { Status = statusResp; Message = messageResp; Trains = trainsResp }
 
 let getAllStations credentials =
     Stations.all credentials

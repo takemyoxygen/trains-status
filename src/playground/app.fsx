@@ -3,6 +3,7 @@
 #r "packages/FSharp.Data/lib/net40/FSharp.Data.dll"
 #r "packages/Newtonsoft.Json/lib/net40/Newtonsoft.Json.dll"
 
+#load "fs/Json.fs"
 #load "fs/Common.fs"
 #load "fs/Config.fs"
 #load "fs/Http.fs"
@@ -10,7 +11,6 @@
 #load "fs/Status.fs"
 #load "fs/Stations.fs"
 #load "fs/Controller.fs"
-#load "fs/Json.fs"
 
 open System
 open Suave
@@ -25,6 +25,8 @@ open Suave.Http.Files
 open Suave.Http.Writers
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
+
+open Common
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
@@ -42,11 +44,6 @@ let serverConfig =
         bindings = [ HttpBinding.mk HTTP IPAddress.Loopback config.Port ]
         mimeTypesMap = mimeTypes }
 
-let json response =
-    Json.toJsonString response
-    |> OK
-    >>= setMimeType "application/json"
-
 let staticContent  =
     [".js"; ".jsx"; ".css"; ".html"]
     |> Seq.map (fun s -> s.Replace(".", "\."))
@@ -58,12 +55,8 @@ printfn "Static content: \"%s\"" staticContent
 let app =
     choose
         [GET >>= pathScan "/api/status/%s/%s" (fun (origin, destination) ->
-            printfn "Checking status between %s and %s" origin destination
-            json <| Controller.checkStatus
-                config.Credentials
-                (Uri.UnescapeDataString origin)
-                (Uri.UnescapeDataString destination))
-         GET >>= path "/api/stations" >>= (json <| Controller.getAllStations config.Credentials)
+            Controller.checkStatus config.Credentials origin destination)
+         GET >>= path "/api/stations" >>= (Json.asResponse <| Controller.getAllStations config.Credentials)
          GET >>= path "/api/stations/nearby" >>= (fun context -> async {
                 let stations = opt {
                     let! lat = context.request.["lat"] |> Option.tryMap Double.TryParse
@@ -73,10 +66,10 @@ let app =
                     return Controller.getClosest config.Credentials lat lon count
                 }
                 match stations with
-                | Some(s) -> return! json s context
+                | Some(s) -> return! Json.asResponse s context
                 | None -> return None
             })
-         GET >>= path "/api/stations/favourite" >>= (json <| Controller.favouriteStations())
+         GET >>= path "/api/stations/favourite" >>= (Json.asResponse <| Controller.favouriteStations())
          GET >>= path "/" >>= file "Index.html"
          GET >>= pathRegex staticContent >>= browse __SOURCE_DIRECTORY__
          OK "Nothing here"]

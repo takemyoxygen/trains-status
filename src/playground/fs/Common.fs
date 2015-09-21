@@ -1,4 +1,3 @@
-[<AutoOpen>]
 module Common
 
 type Credentials =
