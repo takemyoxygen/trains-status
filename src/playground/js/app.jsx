@@ -21,19 +21,39 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
     }
   });
 
-  var TravelOptions = React.createClass({
+  var StopStatus = React.createClass({
       formatDate: function(s){
           var date = new Date(s);
           return date.getHours() + ":" + date.getMinutes();
       },
       render: function(){
+          var delayed = this.props.stop.delay != null;
+          return (
+              <span>
+                  <span>{this.props.stop.station}</span>
+                  <span style={{color: (delayed ? "red" : "default")}}>
+                      {" (" + this.formatDate(this.props.stop.time) + (delayed ? (" " + this.props.stop.delay) : "" + ")")}
+                  </span>
+              </span>
+          );
+      }
+  });
+
+  var TravelOptions = React.createClass({
+
+      render: function(){
           return (
               <div className="row">
-                  <ul>
+                  <div className="col-md-12">
                     {this.props.travelOptions.map(function(option){
-                        return <li>{this.formatDate(option.from.time) + ": from " + option.from.station + " to " + option.to.station}</li>
+                        return (
+                            <div>
+                                from <StopStatus stop={option.from}/>,
+                                to <StopStatus stop={option.to}/>
+                            </div>
+                        )
                     }.bind(this))}
-                  </ul>
+                  </div>
               </div>
           );
       }
@@ -52,7 +72,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
     iconType: function(status) {
       switch (status){
         case "ok": return "ok-sign";
-        case "delayed": return "alert";
+        case "warning": return "alert";
         case "notfound": return "remove-sign";
         default: return "question-sign";
       }
@@ -88,7 +108,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
             <div className="col-md-10">
               {this.props.destination.name}
             </div>
-            <div className="col-md-1"}>
+            <div className="col-md-1">
               <span className={"label label-" + this.labelType(this.state.status)}>
                 <span className={"glyphicon glyphicon-" + this.iconType(this.state.status)} aria-hidden="true"></span>
               </span>
@@ -117,7 +137,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
     render: function(){
         return (
           <div className="row">
-            <div className="col-md-5">
+            <div className="col-md-6">
               <ul className="list-group">
                 {this.state.stations.map(function(s){
                   return <Direction origin={this.props.origin} destination={s} />;
