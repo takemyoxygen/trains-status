@@ -36,7 +36,12 @@ printfn "Starting Suave server on port %i" config.Port
 
 let mimeTypes =
   defaultMimeTypesMap
-    >=> (function | ".jsx" -> mkMimeType "text/jsx" true | _ -> None)
+    >=> (function
+            | ".jsx" -> mkMimeType "text/jsx" true
+            | ".woff" -> mkMimeType "application/x-font-woff" false
+            | ".woff2" -> mkMimeType "application/font-woff2" false
+            | ".ttf" -> mkMimeType " application/font-sfnt" false
+            | _ -> None)
 
 let serverConfig =
     { defaultConfig with
@@ -45,7 +50,7 @@ let serverConfig =
         mimeTypesMap = mimeTypes }
 
 let staticContent  =
-    [".js"; ".jsx"; ".css"; ".html"]
+    [".js"; ".jsx"; ".css"; ".html"; ".woff"; ".woff2"; ".ttf"]
     |> Seq.map (fun s -> s.Replace(".", "\."))
     |> String.concat "|"
     |> sprintf "(%s)$"
