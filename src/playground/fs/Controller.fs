@@ -38,4 +38,4 @@ let getClosest credentials lat lon count =
     |> List.ofSeq
 
 let favouriteStations () =
-    [{Name = "Amsterdam Zuid"}; {Name = "Naarden-Bussum"}]
+    [{Name = "Amsterdam Zuid"}; {Name = "Naarden-Bussum"}; {Name = "Utrecht Centraal"}]

@@ -21,7 +21,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
     }
   });
 
-  var TrainsList = React.createClass({
+  var TravelOptions = React.createClass({
       formatDate: function(s){
           var date = new Date(s);
           return date.getHours() + ":" + date.getMinutes();
@@ -30,8 +30,8 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
           return (
               <div className="row">
                   <ul>
-                    {this.props.trains.map(function(t){
-                        return <li>{this.formatDate(t.time) + ":" + t.legs.join(" -> ")}</li>
+                    {this.props.travelOptions.map(function(option){
+                        return <li>{this.formatDate(option.from.time) + ": from " + option.from.station + " to " + option.to.station}</li>
                     }.bind(this))}
                   </ul>
               </div>
@@ -40,11 +40,11 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
   });
 
   var Direction = React.createClass({
-    getInitialState: function() {return {status: "loading", trains: []};},
+    getInitialState: function() {return {status: "loading", travelOptions: [], expanded: false};},
     labelType: function(status) {
       switch (status){
         case "ok": return "success";
-        case "delayed": return "warning";
+        case "warning": return "warning";
         case "notfound": return "danger";
         default: return "info";
       }
@@ -67,32 +67,34 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
           return s.name != this.props.destination.name;
         }.bind(this))
         .subscribe(function(origin){
-        this.checkStatus(origin);
+            this.checkStatus(origin);
       }.bind(this));
     },
+    toggleExpanded: function(){
+        this.setState({expanded: !this.state.expanded});
+    },
     checkStatus: function(origin){
-      console.log("Checkig status...");
       $.getJSON("/api/status/" + origin.name + "/" + this.props.destination.name)
         .done(function(response){
           if (this.isMounted()){
-              this.setState({status: response.status.toLowerCase(), trains: response.trains});
+              this.setState({status: response.status, travelOptions: response.options});
           }
         }.bind(this));
     },
     render: function(){
       return (
-        <li className={"list-group-item" + (this.state.disabled ? " disabled": "")}>
-          <div className="row">
+        <li className={"list-group-item" + (this.state.disabled ? " hidden": "")}>
+          <div className="row" style={{cursor: "pointer"}} onClick={this.toggleExpanded}>
             <div className="col-md-10">
               {this.props.destination.name}
             </div>
-            <div className={"col-md-1" + (this.state.disabled ? " hidden" : "")}>
+            <div className="col-md-1"}>
               <span className={"label label-" + this.labelType(this.state.status)}>
                 <span className={"glyphicon glyphicon-" + this.iconType(this.state.status)} aria-hidden="true"></span>
               </span>
             </div>
           </div>
-          <TrainsList trains={this.state.trains} />
+          {this.state.expanded ? <TravelOptions travelOptions={this.state.travelOptions} /> : null}
         </li>
       );
     }
