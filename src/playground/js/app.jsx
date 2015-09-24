@@ -31,8 +31,8 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
           return (
               <span>
                   <span>{this.props.stop.station}</span>
-                  <span style={{color: (delayed ? "red" : "default")}}>
-                      {" (" + this.formatDate(this.props.stop.time) + (delayed ? (" " + this.props.stop.delay) : "" + ")")}
+                  <span className={delayed ? "delayed" : ""}>
+                      {" (" + this.formatDate(this.props.stop.time) + (delayed ? (" " + this.props.stop.delay) : "") + ")"}
                   </span>
               </span>
           );
@@ -43,13 +43,22 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
 
       render: function(){
           return (
-              <div className="row">
+              <div className="row travel-options">
                   <div className="col-md-12">
-                    {this.props.travelOptions.map(function(option){
+                    {this.props.travelOptions.map(function(option, i, options){
                         return (
                             <div>
-                                from <StopStatus stop={option.from}/>,
-                                to <StopStatus stop={option.to}/>
+                                <div>
+                                    from <StopStatus stop={option.from}/>,
+                                    to <StopStatus stop={option.to}/>
+                                </div>
+                                {option.via.length > 0
+                                    ? (
+                                        <div>
+                                            via {option.via.map(function(s){return s.station;}).join(", ")}
+                                        </div>)
+                                    : false}
+                                {i < options.length - 1 ? <hr/>: false}
                             </div>
                         )
                     }.bind(this))}

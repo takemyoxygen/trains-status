@@ -43,6 +43,11 @@ let mimeTypes =
             | ".ttf" -> mkMimeType " application/font-sfnt" false
             | _ -> None)
 
+let noCache =
+  setHeader "Cache-Control" "no-cache, no-store, must-revalidate"
+  >>= setHeader "Pragma" "no-cache"
+  >>= setHeader "Expires" "0"
+
 let serverConfig =
     { defaultConfig with
         logger = Logging.Loggers.saneDefaultsFor Logging.LogLevel.Verbose
@@ -78,5 +83,6 @@ let app =
          GET >>= path "/" >>= file "Index.html"
          GET >>= pathRegex staticContent >>= browse __SOURCE_DIRECTORY__
          OK "Nothing here"]
+     >>= noCache
 
 startWebServer serverConfig app
