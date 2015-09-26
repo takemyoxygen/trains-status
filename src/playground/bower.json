@@ -1,0 +1,22 @@
+{
+  "name": "trains-status",
+  "version": "1.0.0",
+  "authors": [
+    "Uladzimir Makarau <uladzimir.makarau@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.13.3",
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.5",
+    "requirejs": "~2.1.20",
+    "rxjs": "~3.1.1"
+  }
+}

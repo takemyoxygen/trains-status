@@ -51,15 +51,15 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="fs\Json.fs" />
     <Compile Include="fs\Common.fs" />
     <Compile Include="fs\Config.fs" />
     <Compile Include="fs\Http.fs" />
-    <None Include="fs\LiveDepartures.fsx" />
     <Compile Include="fs\TravelOptions.fs" />
     <Compile Include="fs\Status.fs" />
     <Compile Include="fs\Stations.fs" />
     <Compile Include="fs\Controller.fs" />
-    <Compile Include="fs\Json.fs" />
+    <Compile Include="fs\LiveDepartures.fs" />
     <None Include="app.fsx" />
     <None Include="setup.fsx" />
   </ItemGroup>
@@ -85,7 +85,7 @@
     <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
