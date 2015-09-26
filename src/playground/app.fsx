@@ -28,9 +28,11 @@ open Newtonsoft.Json.Serialization
 
 open Common
 
-Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
+let home = __SOURCE_DIRECTORY__
 
-let config = Config.current
+printfn "Current folder: %s" home
+Environment.CurrentDirectory <- home
+let config = Config.current home
 
 printfn "Starting Suave server on port %i" config.Port
 
