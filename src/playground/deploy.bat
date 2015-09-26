@@ -37,4 +37,10 @@ if errorlevel 1 (
 @echo "Copying files to web root"
 xcopy /s /y .  "%DEPLOYMENT_TARGET%"
 
+cd "%DEPLOYMENT_TARGET%"
+npm install
+node_modules\.bin\bower.cmd install
+node_modules\.bin\jsx.cmd --watch -x jsx js/ js/
+node_modules\.bin\autoless.cmd --no-watch styles styles
+
 popd
