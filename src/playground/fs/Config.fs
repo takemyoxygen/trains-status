@@ -1,19 +1,21 @@
 module Config
 
 open Suave.Sockets
+open Suave.Logging
 open System
 open System.IO
 open Common
 
 type Config =
-    { Port : Port
-      Credentials : Credentials }
+    { Port: Port
+      Credentials: Credentials;
+      LogLevel: LogLevel}
 
 let private args =
     Environment.GetCommandLineArgs()
     |> Seq.map (fun arg -> arg.Split('='))
     |> Seq.filter (fun tokens -> tokens.Length = 2)
-    |> Seq.map (fun tokens -> tokens.[0], tokens.[1])
+    |> Seq.map (fun tokens -> tokens.[0].ToLower(), tokens.[1])
     |> Map.ofSeq
 
 let private getArg name defaultValue =
@@ -23,7 +25,6 @@ let private getArg name defaultValue =
 
 let current home =
     let username, password = args.TryFind "username", args.TryFind "password"
-
     let username, password =
         match username, password with
         | Some(user), Some(pass) -> user, pass
@@ -34,6 +35,7 @@ let current home =
             defaultArg username lines.[0], defaultArg password lines.[1]
 
     { Port = Port.Parse <| getArg "port" "8081"
+      LogLevel = getArg "loglevel" "warn" |> LogLevel.FromString
       Credentials =
           { Username = username
             Password = password } }

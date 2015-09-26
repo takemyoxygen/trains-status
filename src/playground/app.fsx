@@ -34,7 +34,7 @@ printfn "Current folder: %s" home
 Environment.CurrentDirectory <- home
 let config = Config.current home
 
-printfn "Starting Suave server on port %i" config.Port
+printfn "Starting Suave server on port %i with log level %O" config.Port config.LogLevel
 
 let mimeTypes =
   defaultMimeTypesMap
@@ -52,7 +52,7 @@ let noCache =
 
 let serverConfig =
     { defaultConfig with
-        logger = Logging.Loggers.saneDefaultsFor Logging.LogLevel.Verbose
+        logger = Logging.Loggers.saneDefaultsFor config.LogLevel
         bindings = [ HttpBinding.mk HTTP IPAddress.Loopback config.Port ]
         mimeTypesMap = mimeTypes }
 
