@@ -38,9 +38,17 @@ if errorlevel 1 (
 xcopy /s /y .  "%DEPLOYMENT_TARGET%"
 
 cd "%DEPLOYMENT_TARGET%"
+
+@echo "Installing npm packages"
 npm install
+
+@echo "Installing bower packages"
 node_modules\.bin\bower.cmd install
+
+@echo "Compiling JSX files"
 node_modules\.bin\jsx.cmd --watch -x jsx js/ js/
+
+@echo "Compiling LESS files"
 node_modules\.bin\autoless.cmd --no-watch styles styles
 
 popd
