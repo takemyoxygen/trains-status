@@ -37,4 +37,18 @@ if errorlevel 1 (
 @echo "Copying files to web root"
 xcopy /s /y .  "%DEPLOYMENT_TARGET%"
 
+cd "%DEPLOYMENT_TARGET%"
+
+@echo "Installing npm packages"
+call npm install --production
+
+@echo "Installing bower packages"
+call node_modules\.bin\bower.cmd install --production
+
+@echo "Compiling JSX files"
+call node_modules\.bin\jsx.cmd -x jsx js/ js/
+
+@echo "Compiling LESS files"
+call node_modules\.bin\autoless.cmd --no-watch styles styles
+
 popd

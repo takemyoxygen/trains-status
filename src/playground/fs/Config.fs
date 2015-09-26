@@ -21,14 +21,13 @@ let private getArg name defaultValue =
     | Some(x) -> x
     | None -> defaultValue
 
-let current =
+let current home =
     let username, password = args.TryFind "username", args.TryFind "password"
 
     let username, password =
         match username, password with
         | Some(user), Some(pass) -> user, pass
         | _ ->
-            let home = Environment.CurrentDirectory
             let file = Path.Combine(home, "credentials.txt")
             printfn "Using credentials from \"%s\"" file
             let lines = File.ReadAllLines file
