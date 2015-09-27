@@ -17,7 +17,15 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
         }.bind(this));
     },
     render: function(){
-      return <h3>Closest station: <span className="label label-primary">{this.state.station}</span></h3>;
+      return (
+          <h3 className="origin">
+            Closest station:
+            <span className="station-name">{this.state.station}</span>
+            <button className="btn btn-default btn-sm edit-icon" type="button" title="Change">
+                <span className="glyphicon glyphicon-edit"></span>
+            </button>
+          </h3>
+      );
     }
   });
 
@@ -55,7 +63,9 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
                                 {option.via.length > 0
                                     ? (
                                         <div>
-                                            via {option.via.map(function(s){return s.station;}).join(", ")}
+                                            via {option.via.map(function(s){
+                                                return <StopStatus stop={s}/>;
+                                            })}
                                         </div>)
                                     : false}
                                 {i < options.length - 1 ? <hr/>: false}
@@ -69,34 +79,18 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
   });
 
   var Direction = React.createClass({
-    getInitialState: function() {return {status: "loading", travelOptions: [], expanded: false};},
-    labelType: function(status) {
-      switch (status){
-        case "ok": return "success";
-        case "warning": return "warning";
-        case "notfound": return "danger";
-        default: return "info";
-      }
-    },
-    iconType: function(status) {
-      switch (status){
-        case "ok": return "ok-sign";
-        case "warning": return "alert";
-        case "notfound": return "remove-sign";
-        default: return "question-sign";
-      }
+    getInitialState: function() {
+        return {status: "loading", travelOptions: [], expanded: false};
     },
     componentDidMount: function(){
       this.originSubscription = this.props.origin
         .filter(function(s){return s != null;})
-        .do(function(s){
-          this.setState({disabled: s.name == this.props.destination.name});
-        }.bind(this))
-        .filter(function(s){
-          return s.name != this.props.destination.name;
-        }.bind(this))
         .subscribe(function(origin){
-            this.checkStatus(origin);
+            if (origin.name == this.props.destination.name){
+                this.setState({status: "disabled"});
+            } else {
+                this.checkStatus(origin);
+            }
       }.bind(this));
     },
     toggleExpanded: function(){
@@ -112,16 +106,9 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
     },
     render: function(){
       return (
-        <li className={"list-group-item" + (this.state.disabled ? " hidden": "")}>
-          <div className="row" style={{cursor: "pointer"}} onClick={this.toggleExpanded}>
-            <div className="col-md-10">
+        <li className={"list-group-item" + " " + this.state.status + (this.state.disabled ? " hidden": "")}>
+          <div className="direction" onClick={this.toggleExpanded}>
               {this.props.destination.name}
-            </div>
-            <div className="col-md-1">
-              <span className={"label label-" + this.labelType(this.state.status)}>
-                <span className={"glyphicon glyphicon-" + this.iconType(this.state.status)} aria-hidden="true"></span>
-              </span>
-            </div>
           </div>
           {this.state.expanded ? <TravelOptions travelOptions={this.state.travelOptions} /> : null}
         </li>
@@ -145,14 +132,12 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
     },
     render: function(){
         return (
-          <div className="row">
-            <div className="col-md-6">
+          <div className="row favourites">
               <ul className="list-group">
                 {this.state.stations.map(function(s){
                   return <Direction origin={this.props.origin} destination={s} />;
                 }.bind(this))}
               </ul>
-            </div>
           </div>);
     }
   });
