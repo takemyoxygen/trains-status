@@ -51,29 +51,28 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
 
       render: function(){
           return (
-              <div className="row travel-options">
-                  <div className="col-md-12">
-                    {this.props.travelOptions.map(function(option, i, options){
+            <table className="table travel-options">
+                <tbody>
+                    {this.props.travelOptions.map(function(option){
                         return (
-                            <div>
-                                <div>
-                                    from <StopStatus stop={option.from}/>,
-                                    to <StopStatus stop={option.to}/>
-                                </div>
-                                {option.via.length > 0
-                                    ? (
-                                        <div>
-                                            via {option.via.map(function(s){
-                                                return <StopStatus stop={s}/>;
-                                            })}
-                                        </div>)
-                                    : false}
-                                {i < options.length - 1 ? <hr/>: false}
-                            </div>
-                        )
-                    }.bind(this))}
-                  </div>
-              </div>
+                            <tr>
+                                <td>
+                                    <span>from <StopStatus stop={option.from}/>,</span>
+                                    <span>to <StopStatus stop={option.to}/></span>
+                                    {option.via.length > 0
+                                        ? (
+                                            <span>
+                                                via {option.via.map(function(s){
+                                                    return <StopStatus stop={s}/>;
+                                                })}
+                                            </span>)
+                                        : false}
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
           );
       }
   });
