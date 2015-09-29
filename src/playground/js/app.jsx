@@ -47,32 +47,42 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
       }
   });
 
-  var TravelOptions = React.createClass({
+  var Transfers = React.createClass({
+      render: function(){
+          if (this.props.transfers == null || this.props.transfers.length == 0) {
+              return null;
+          }
 
+          return (
+              <span>
+                  via {this.props.transfers.map(function(s){
+                      return <StopStatus stop={s}/>;
+                  })}
+              </span>
+          );
+      }
+  });
+
+  var TravelOption = React.createClass({
       render: function(){
           return (
-            <table className="table travel-options">
-                <tbody>
-                    {this.props.travelOptions.map(function(option){
-                        return (
-                            <tr>
-                                <td>
-                                    <span>from <StopStatus stop={option.from}/>,</span>
-                                    <span>to <StopStatus stop={option.to}/></span>
-                                    {option.via.length > 0
-                                        ? (
-                                            <span>
-                                                via {option.via.map(function(s){
-                                                    return <StopStatus stop={s}/>;
-                                                })}
-                                            </span>)
-                                        : false}
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+              <div className="row travel-option">
+                  <span>from <StopStatus stop={this.props.option.from}/>,</span>
+                  <span>to <StopStatus stop={this.props.option.to}/></span>
+                  <Transfers transfers={this.props.option.via} />
+              </div>
+        );
+    }
+  });
+
+  var TravelOptions = React.createClass({
+      render: function(){
+          return (
+            <div className="travel-options">
+                {this.props.travelOptions.map(function(option){
+                    return <TravelOption option={option} />
+                })}
+            </div>
           );
       }
   });
