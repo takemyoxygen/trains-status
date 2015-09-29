@@ -63,13 +63,40 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
       }
   });
 
+  var TravelOptionStatus = React.createClass({
+      render: function(){
+          var iconType;
+          switch (this.props.status) {
+              case "ok":
+                iconType = "glyphicon-ok";
+                break;
+              case "warning":
+                iconType = "glyphicon-warning-sign";
+                break;
+              case "cancelled":
+                iconType = "glyphicon-remove";
+                break;
+              default:
+                iconType = "glyphicon-question-sign";
+                break
+          }
+
+          return <span className={"glyphicon " + iconType}></span>
+      }
+  });
+
   var TravelOption = React.createClass({
       render: function(){
           return (
               <div className="row travel-option">
-                  <span>from <StopStatus stop={this.props.option.from}/></span>
-                  <span>to <StopStatus stop={this.props.option.to}/></span>
-                  <Transfers transfers={this.props.option.via} />
+                  <div className="travel-option-description col-md-11">
+                      <span>from <StopStatus stop={this.props.option.from}/></span>
+                      <span>to <StopStatus stop={this.props.option.to}/></span>
+                      <Transfers transfers={this.props.option.via} />
+                  </div>
+                  <div className="status col-md-1">
+                      <TravelOptionStatus status={this.props.option.status}/>
+                  </div>
               </div>
         );
     }
