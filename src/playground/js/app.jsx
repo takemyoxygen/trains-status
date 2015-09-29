@@ -67,7 +67,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
       render: function(){
           return (
               <div className="row travel-option">
-                  <span>from <StopStatus stop={this.props.option.from}/>,</span>
+                  <span>from <StopStatus stop={this.props.option.from}/></span>
                   <span>to <StopStatus stop={this.props.option.to}/></span>
                   <Transfers transfers={this.props.option.via} />
               </div>
