@@ -1,23 +1,23 @@
 define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations){
 
-  var Origin = React.createClass({
-    getInitialState: function(){
-      return {station: "..."};
-    },
-    componentDidMount: function(){
-      Stations.loadNearby()
-        .done(function(stations){
-          if (this.isMounted() && stations.length && stations.length > 0){
+  class Origin extends React.Component{
+      constructor(){
+          super();
+          this.state = {station: "loading closest station"};
+      }
+
+    componentDidMount = () => Stations
+        .loadNearby()
+        .done(stations => {
+          if (stations.length && stations.length > 0){
             var origin = stations[0];
             this.setState({station: origin.name});
             if (typeof this.props.onStationSelected === "function"){
               this.props.onStationSelected(origin);
             }
           }
-        }.bind(this));
-    },
-    render: function(){
-      return (
+        })
+    render = () => (
           <h3 className="origin">
             Closest station:
             <span className="station-name">{this.state.station}</span>
@@ -25,16 +25,15 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
                 <span className="glyphicon glyphicon-edit"></span>
             </button>
           </h3>
-      );
-    }
-  });
+      )
+  };
 
-  var StopStatus = React.createClass({
-      formatDate: function(s){
+  class StopStatus extends React.Component{
+      formatDate(s){
           var date = new Date(s);
           return date.getHours() + ":" + date.getMinutes();
-      },
-      render: function(){
+      }
+      render(){
           var delayed = this.props.stop.delay != null;
           return (
               <span>
@@ -45,10 +44,10 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
               </span>
           );
       }
-  });
+  };
 
-  var Transfers = React.createClass({
-      render: function(){
+  class Transfers extends React.Component{
+      render(){
           if (this.props.transfers == null || this.props.transfers.length == 0) {
               return null;
           }
@@ -61,10 +60,10 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
               </span>
           );
       }
-  });
+  };
 
-  var TravelOptionStatus = React.createClass({
-      render: function(){
+  class TravelOptionStatus extends React.Component{
+      render(){
           var iconType;
           switch (this.props.status) {
               case "ok":
@@ -83,122 +82,104 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
 
           return <span className={"glyphicon " + iconType}></span>
       }
-  });
+  };
 
-  var TravelOption = React.createClass({
-      render: function(){
-          return (
-              <div className="row travel-option">
-                  <div className="travel-option-description col-md-11">
-                      <span>from <StopStatus stop={this.props.option.from}/></span>
-                      <span>to <StopStatus stop={this.props.option.to}/></span>
-                      <Transfers transfers={this.props.option.via} />
-                  </div>
-                  <div className="status col-md-1">
-                      <TravelOptionStatus status={this.props.option.status}/>
-                  </div>
+  class TravelOption extends React.Component{
+      render = () => (
+          <div className="row travel-option">
+              <div className="travel-option-description col-md-11">
+                  <span>from <StopStatus stop={this.props.option.from}/></span>
+                  <span>to <StopStatus stop={this.props.option.to}/></span>
+                  <Transfers transfers={this.props.option.via} />
               </div>
+              <div className="status col-md-1">
+                  <TravelOptionStatus status={this.props.option.status}/>
+              </div>
+          </div>
         );
-    }
-  });
+  };
 
-  var TravelOptions = React.createClass({
-      render: function(){
-          return (
-            <div className="travel-options">
-                {this.props.travelOptions.map(function(option){
-                    return <TravelOption option={option} />
-                })}
-            </div>
-          );
+  class TravelOptions extends React.Component{
+      render = () => (
+        <div className="travel-options">
+            {this.props.travelOptions.map(function(option){
+                return <TravelOption option={option} />
+            })}
+        </div>
+      )
+  };
+
+  class Direction extends React.Component{
+      constructor(){
+          super();
+          this.state = {status: "loading", travelOptions: [], expanded: false};
       }
-  });
 
-  var Direction = React.createClass({
-    getInitialState: function() {
-        return {status: "loading", travelOptions: [], expanded: false};
-    },
-    componentDidMount: function(){
+    componentDidMount(){
       this.originSubscription = this.props.origin
-        .filter(function(s){return s != null;})
-        .subscribe(function(origin){
+        .filter(s => s != null)
+        .subscribe(origin => {
             if (origin.name == this.props.destination.name){
                 this.setState({status: "disabled"});
             } else {
                 this.checkStatus(origin);
             }
-      }.bind(this));
-    },
-    toggleExpanded: function(){
-        this.setState({expanded: !this.state.expanded});
-    },
-    checkStatus: function(origin){
+      });
+    }
+
+    toggleExpanded = () => this.setState({expanded: !this.state.expanded})
+
+    checkStatus(origin){
       $.getJSON("/api/status/" + origin.name + "/" + this.props.destination.name)
-        .done(function(response){
-          if (this.isMounted()){
-              this.setState({status: response.status, travelOptions: response.options});
-          }
-        }.bind(this));
-    },
-    render: function(){
-      return (
+        .done(response => this.setState({status: response.status, travelOptions: response.options}));
+    }
+
+    render = () => (
         <li className={"list-group-item" + " " + this.state.status + (this.state.disabled ? " hidden": "")}>
           <div className="direction" onClick={this.toggleExpanded}>
               {this.props.destination.name}
           </div>
           {this.state.expanded ? <TravelOptions travelOptions={this.state.travelOptions} /> : null}
         </li>
-      );
-    }
-  })
+      )
+    };
 
-  var FavouritesStatus = React.createClass({
-    componentDidMount: function(){
-      Stations
+  class FavouritesStatus extends React.Component{
+    constructor(){
+      super();
+      this.state = {stations: []};
+    }
+
+    componentDidMount = () => Stations
         .loadFavourites()
-        .done(function(stations){
-          this.setState({stations: stations});
-        }.bind(this));
-    },
-    getInitialState: function(){
-      return {stations: []};
-    },
-    getDefaultProps: function(){
-      return {};
-    },
-    render: function(){
-        return (
-          <div className="row favourites">
-              <ul className="list-group">
-                {this.state.stations.map(function(s){
-                  return <Direction origin={this.props.origin} destination={s} />;
-                }.bind(this))}
-              </ul>
-          </div>);
-    }
-  });
+        .done(stations => this.setState({stations: stations}))
 
-  var DirectionsStatus = React.createClass({
-    onOriginChanged: function(station){
-      this.props.origin.onNext(station);
-    },
-    getDefaultProps: function(){
-      return {origin: new Rx.BehaviorSubject(null)};
-    },
-    render: function(){
-      return (
+    render = () => (
+      <div className="row favourites">
+          <ul className="list-group">
+            {this.state.stations.map(s => <Direction origin={this.props.origin} destination={s} />)}
+          </ul>
+      </div>)
+  };
+
+  class DirectionsStatus extends React.Component{
+      constructor(){
+          super();
+          this.state = {origin: new Rx.BehaviorSubject(null)}
+      }
+
+    onOriginChanged = origin => this.state.origin.onNext(origin)
+
+    render = () => (
         <div>
           <Origin onStationSelected={this.onOriginChanged}/>
-          <FavouritesStatus origin={this.props.origin}/>
+          <FavouritesStatus origin={this.state.origin}/>
         </div>);
-    }
-  });
+  };
 
-  var App = React.createClass({
-    render: function(){
-      return <DirectionsStatus />;
-    }
-  });
+  class App extends React.Component{
+    render = () => <DirectionsStatus />
+  };
 
   return {
     start: function(){
