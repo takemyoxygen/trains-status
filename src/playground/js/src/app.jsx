@@ -41,8 +41,8 @@ class StopStatus extends React.Component{
           return (
               <span>
                   <span>{this.props.stop.station}</span>
-                  <span className={delayed ? "delayed" : ""}>
-                      {" (" + this.formatDate(this.props.stop.time) + (delayed ? (" " + this.props.stop.delay) : "") + ")"}
+                  <span className={`departure-time ${delayed ? "delayed" : ""}`}>
+                      {`(${this.formatDate(this.props.stop.time)}${delayed ? (" " + this.props.stop.delay) : ""})`}
                   </span>
               </span>
           );
@@ -83,7 +83,7 @@ class TravelOptionStatus extends React.Component{
                 break
           }
 
-          return <span className={"glyphicon " + iconType}></span>
+          return <span className={`glyphicon ${iconType}`}></span>
       }
   };
 
@@ -105,9 +105,7 @@ class TravelOption extends React.Component{
 class TravelOptions extends React.Component{
       render = () => (
         <div className="travel-options">
-            {this.props.travelOptions.map(function(option){
-                return <TravelOption option={option} />
-            })}
+            {this.props.travelOptions.map(option => <TravelOption option={option} />)}
         </div>
       )
   };
@@ -133,12 +131,12 @@ class Direction extends React.Component{
     toggleExpanded = () => this.setState({expanded: !this.state.expanded})
 
     checkStatus(origin){
-      $.getJSON("/api/status/" + origin.name + "/" + this.props.destination.name)
+      $.getJSON(`/api/status/${origin.name}/${this.props.destination.name}`)
         .done(response => this.setState({status: response.status, travelOptions: response.options}));
     }
 
     render = () => (
-        <li className={"list-group-item" + " " + this.state.status + (this.state.disabled ? " hidden": "")}>
+        <li className={`list-group-item ${this.state.status} ${this.state.disabled ? "hidden": ""}`}>
           <div className="direction" onClick={this.toggleExpanded}>
               {this.props.destination.name}
           </div>
@@ -185,9 +183,7 @@ class App extends React.Component{
   };
 
 var app = {
-    start: function(){
-      React.render(<App />, document.getElementById("app"));
-    }
+    start: () => React.render(<App />, document.getElementById("app"))
 };
 
 export {app};
