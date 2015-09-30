@@ -1,6 +1,9 @@
-define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations){
+import React from "react";
+import Rx from "rxjs";
+import $ from "jquery";
+import {Stations} from "stations";
 
-  class Origin extends React.Component{
+class Origin extends React.Component{
       constructor(){
           super();
           this.state = {station: "loading closest station"};
@@ -28,7 +31,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
       )
   };
 
-  class StopStatus extends React.Component{
+class StopStatus extends React.Component{
       formatDate(s){
           var date = new Date(s);
           return date.getHours() + ":" + date.getMinutes();
@@ -46,7 +49,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
       }
   };
 
-  class Transfers extends React.Component{
+class Transfers extends React.Component{
       render(){
           if (this.props.transfers == null || this.props.transfers.length == 0) {
               return null;
@@ -62,7 +65,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
       }
   };
 
-  class TravelOptionStatus extends React.Component{
+class TravelOptionStatus extends React.Component{
       render(){
           var iconType;
           switch (this.props.status) {
@@ -84,7 +87,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
       }
   };
 
-  class TravelOption extends React.Component{
+class TravelOption extends React.Component{
       render = () => (
           <div className="row travel-option">
               <div className="travel-option-description col-md-11">
@@ -99,7 +102,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
         );
   };
 
-  class TravelOptions extends React.Component{
+class TravelOptions extends React.Component{
       render = () => (
         <div className="travel-options">
             {this.props.travelOptions.map(function(option){
@@ -109,7 +112,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
       )
   };
 
-  class Direction extends React.Component{
+class Direction extends React.Component{
       constructor(){
           super();
           this.state = {status: "loading", travelOptions: [], expanded: false};
@@ -144,7 +147,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
       )
     };
 
-  class FavouritesStatus extends React.Component{
+class FavouritesStatus extends React.Component{
     constructor(){
       super();
       this.state = {stations: []};
@@ -162,7 +165,7 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
       </div>)
   };
 
-  class DirectionsStatus extends React.Component{
+class DirectionsStatus extends React.Component{
       constructor(){
           super();
           this.state = {origin: new Rx.BehaviorSubject(null)}
@@ -177,13 +180,14 @@ define(["react", "rxjs", "jquery", "stations"], function(React, Rx, $, Stations)
         </div>);
   };
 
-  class App extends React.Component{
+class App extends React.Component{
     render = () => <DirectionsStatus />
   };
 
-  return {
+var app = {
     start: function(){
       React.render(<App />, document.getElementById("app"));
     }
-  };
-});
+};
+
+export {app};
