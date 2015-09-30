@@ -46,7 +46,7 @@ call npm install --production
 call node_modules\.bin\bower.cmd install --production
 
 @echo "Compiling JSX and JS files"
-start node_modules\.bin\babel.cmd js/src --out-dir js/build
+start node_modules\.bin\babel.cmd js/src --out-dir js/build --modules amd
 
 @echo "Compiling LESS files"
 call node_modules\.bin\autoless.cmd --no-watch styles styles
