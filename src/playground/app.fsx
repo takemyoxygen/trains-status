@@ -68,7 +68,6 @@ let app =
     choose
         [GET >>= pathScan "/api/status/%s/%s" (fun (origin, destination) ->
             Controller.checkStatus config.Credentials origin destination)
-         GET >>= path "/api/stations" >>= (Json.asResponse <| Controller.getAllStations config.Credentials)
          GET >>= path "/api/stations/nearby" >>= (fun context -> async {
                 let stations = opt {
                     let! lat = context.request.["lat"] |> Option.tryMap Double.TryParse

@@ -5,7 +5,8 @@ open Suave.Http.RequestErrors
 
 open Common
 
-type GetStationsResponse = {Name: string}
+type GetStationsResponse = {Name: string; LiveDeparturesUrl: string}
+type FavouriteStation = {Name: string}
 
 let private unescape = Uri.UnescapeDataString
 
@@ -14,10 +15,8 @@ let checkStatus creds origin destination =
     | Status.NoOptionsFound(orig, dest) -> NOT_FOUND <| sprintf "No travel options found between %s  and  %s" orig dest
     | Status.TravelOptionsStatus(status) -> Json.asResponse status
 
-
-let getAllStations credentials =
-    Stations.all credentials
-    |> List.map (fun s -> {Name = s.Name})
+let private liveDeparturesUrl (station: Stations.T) =
+    sprintf "http://www.ns.nl/actuele-vertrektijden/avt?station=%s" (station.Code.ToLower())
 
 let getClosest credentials lat lon count =
     let distance coord1 coord2 =
@@ -34,7 +33,7 @@ let getClosest credentials lat lon count =
     Stations.all credentials
     |> Seq.sortBy (fun st -> distance origin st.Coordinates)
     |> Seq.take count
-    |> Seq.map (fun s -> {Name = s.Name})
+    |> Seq.map (fun s -> {Name = s.Name; LiveDeparturesUrl = liveDeparturesUrl s})
     |> List.ofSeq
 
 let favouriteStations () =

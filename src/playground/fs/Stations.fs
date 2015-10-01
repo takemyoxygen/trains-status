@@ -8,7 +8,8 @@ let private endpoint = "http://webservices.ns.nl/ns-api-stations-v2"
 
 type T =
     { Name : string
-      Coordinates: Coordinates }
+      Coordinates: Coordinates;
+      Code: string}
 
 type private Xml = XmlProvider< "samples/stations.xml" >
 
@@ -18,6 +19,7 @@ let all credentials =
     |> Seq.filter (fun s -> s.Land = "NL")
     |> Seq.map (fun s ->
         { Name = s.Namen.Lang
+          Code = s.Code
           Coordinates =
             { Latitude = float s.Lat
               Longitude = float s.Lon}})
