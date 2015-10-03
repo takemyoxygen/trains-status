@@ -8,7 +8,7 @@ if not (File.Exists "paket.exe") then
     use wc = new Net.WebClient()
     let tmp = Path.GetTempFileName()
     printfn "Downloading Paket"
-    wc.DownloadFile(url, tmp); 
+    wc.DownloadFile(url, tmp);
     File.Move(tmp,Path.GetFileName url)
     printfn "Paket is ready"
 
@@ -16,7 +16,7 @@ if not (File.Exists "paket.exe") then
 
 Paket.Dependencies.Install """
     source https://nuget.org/api/v2
-    nuget FSharp.Data 
+    nuget FSharp.Data
     nuget FSharp.Compiler.Tools
     nuget Suave
     nuget Newtonsoft.Json
