@@ -1,5 +1,6 @@
 import React from "react";
 import $ from "jquery";
+import Rx from "rxjs";
 
 export default class User extends React.Component{
 
@@ -14,18 +15,11 @@ export default class User extends React.Component{
     }
 
     componentDidMount(){
-        this.tryRenderSignIn();
-    }
-
-    tryRenderSignIn(){
-        setTimeout(() => {
-            if (typeof gapi === "undefined"){
-                console.log("No gapi yet.");
-                this.tryRenderSignIn();
-            } else {
-                this.renderSignIn();
-            }
-        }, 100)
+        Rx.Observable
+            .interval(100)
+            .skipWhile (() => typeof gapi === "undefined")
+            .take(1)
+            .subscribe(() => this.renderSignIn())
     }
 
     renderSignIn(){
