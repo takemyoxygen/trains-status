@@ -4,40 +4,13 @@
 		<meta charset="utf-8">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="google-signin-client_id" content="1070118148604-54uf2ocdsog6qsbigomu22v42aujahht.apps.googleusercontent.com">
 
 		<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="styles/styles.css">
 		<title>trains status</title>
 	</head>
 	<body>
-		<div>
-			<div class="g-signin2" data-onsuccess="onSignIn"></div>
-			<a href="#" onclick="signOut();">Sign out</a>
-		</div>
 		<div id="app" class="container"/>
-		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script data-main="js/build/config" src="bower_components/requirejs/require.js"></script>
-
-		<script type="text/javascript">
-			function onSignIn(googleUser) {
-				var profile = googleUser.getBasicProfile();
-				console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-				console.log('Name: ' + profile.getName());
-				console.log('Image URL: ' + profile.getImageUrl());
-				console.log('Email: ' + profile.getEmail());
-				var token = googleUser.getAuthResponse().id_token;
-				console.log('Token ID: ' + googleUser.getAuthResponse().id_token);
-
-				$.get("/api/user/info?token=" + token);
-			};
-
-			function signOut() {
-	    		var auth2 = gapi.auth2.getAuthInstance();
-			    auth2.signOut().then(function () {
-		      		console.log('User signed out.');
-			    });
-		  	}
-		</script>
 	</body>
 </html>
