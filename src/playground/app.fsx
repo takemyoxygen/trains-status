@@ -82,10 +82,7 @@ let app =
                 | None -> return None
             })
          GET >>= path "/api/stations/favourite" >>= (Json.asResponse <| Controller.favouriteStations())
-         GET >>= pathScan "/api/auth/token=%s" (fun token ->
-             match Auth.validate token |> Async.RunSynchronously with
-             | Some(email) -> OK email
-             | None -> BAD_REQUEST "Invalid authentication token")
+         GET >>= path "/api/user/info" >>= Auth.getUserInfo
          GET >>= path "/" >>= file "Index.html"
          GET >>= pathRegex staticContent >>= browse __SOURCE_DIRECTORY__
          OK "Nothing here"]

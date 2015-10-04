@@ -29,7 +29,7 @@
 				var token = googleUser.getAuthResponse().id_token;
 				console.log('Token ID: ' + googleUser.getAuthResponse().id_token);
 
-				$.get("/api/auth/token=" + token);
+				$.get("/api/user/info?token=" + token);
 			};
 
 			function signOut() {
