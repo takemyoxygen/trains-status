@@ -81,7 +81,7 @@ let app =
                 | Some(s) -> return! Json.asResponse s context
                 | None -> return None
             })
-         GET >>= path "/api/stations/favourite" >>= (Json.asResponse <| Controller.favouriteStations())
+         GET >>= pathScan "/api/user/%s/favourite" (fun _ -> Json.asResponse <| Controller.favouriteStations())
          GET >>= path "/api/user/info" >>= Auth.getUserInfo
          GET >>= path "/" >>= file "Index.html"
          GET >>= pathRegex staticContent >>= browse __SOURCE_DIRECTORY__

@@ -4,6 +4,7 @@ import $ from "jquery";
 import Rx from "rxjs";
 import Origin from "view/origin"
 import TravelOptions from "view/travel-options"
+import Auth from "auth";
 
 class Direction extends React.Component{
     constructor(){
@@ -49,9 +50,17 @@ class FavouritesStatus extends React.Component{
       this.state = {stations: []};
     }
 
-    componentDidMount = () => Stations
-        .loadFavourites()
-        .done(stations => this.setState({stations: stations}))
+    componentDidMount = () =>
+        Auth.currentUser
+            .subscribe(user => {
+                if (user.loggedIn){
+                    Stations
+                        .loadFavourites(user.id)
+                        .done(stations => this.setState({stations: stations}));
+                } else {
+                    this.setState({stations: []});
+                }
+            })
 
     render = () => (
         <div className="row favourites">
