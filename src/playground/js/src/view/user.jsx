@@ -1,12 +1,14 @@
 import React from "react";
 import $ from "jquery";
 import Rx from "rxjs";
+import Auth from "auth";
 
 export default class User extends React.Component{
 
     constructor(){
         super();
-        this.state = {loggedIn: false, initialized: false};
+        this.state = {user: {}, initialized: false};
+        Auth.currentUser.subscribe(user => this.setState({user: user, initialized: true}));
     }
 
     componentWillMount(){
@@ -14,26 +16,7 @@ export default class User extends React.Component{
     }
 
     componentDidMount(){
-        Rx.Observable
-            .interval(100)
-            .skipWhile (() => typeof gapi === "undefined")
-            .take(1)
-            .subscribe(() => this.initializeAuthentication());
-    }
-
-    initializeAuthentication(){
-        gapi.load("auth2", () => {
-            var auth2 = gapi.auth2.init({
-                client_id: '1070118148604-54uf2ocdsog6qsbigomu22v42aujahht.apps.googleusercontent.com',
-                scope: 'profile'
-            });
-
-            auth2.then(() => {
-                console.log("[Initialized]: logged in - " + auth2.isSignedIn.get());
-                this.setState({initialized: true, loggedIn: auth2.isSignedIn.get()});
-            });
-            this.renderSignIn();
-        });
+        Auth.initialize().then(() => this.renderSignIn());
     }
 
     renderSignIn(){
@@ -43,34 +26,22 @@ export default class User extends React.Component{
             'height': 30,
             'longtitle': false,
             'theme': 'dark',
-            'onsuccess': this.signIn,
+            'onsuccess': googleUser => {
+                if(!this.state.user.loggedIn){
+                    Auth.signIn(googleUser);
+                }
+            },
         });
     }
 
-    signIn = googleUser => {
-        var profile = googleUser.getBasicProfile();
-        var token = googleUser.getAuthResponse().id_token;
-        var name = profile.getName();
-        $.get("/api/user/info?token=" + token)
-            .then(() => this.setState({loggedIn: true, username: name}));
-    }
-
-    signOut = () => {
-        gapi.auth2
-            .getAuthInstance()
-            .signOut()
-            .then(() => {
-                console.log('User signed out.');
-                this.setState({loggedIn: false});
-            });
-    }
+    signOut = () => Auth.signOut();
 
     render(){
         return (
             <div className="user">
-                <div id="sign-in" className={`sign-in ${(!this.state.loggedIn && this.state.initialized) ? "": "hidden"}`}></div>
-                <div className={`username ${this.state.loggedIn && this.state.initialized ? "": "hidden"}`}>
-                    <span>Hello, {this.state.username}</span>
+                <div id="sign-in" className={`sign-in ${(!this.state.user.loggedIn && this.state.initialized) ? "": "hidden"}`}></div>
+                <div className={`username ${this.state.user.loggedIn && this.state.initialized ? "": "hidden"}`}>
+                    <span>Hello, {this.state.user.name}</span>
                     <a href="#" onClick={this.signOut}>Sign out</a>
                 </div>
             </div>
