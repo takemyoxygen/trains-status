@@ -25,19 +25,26 @@ let private getArg name defaultValue =
     | None -> defaultValue
 
 let current home =
-    let username, password = args.TryFind "username", args.TryFind "password"
-    let username, password =
-        match username, password with
-        | Some(user), Some(pass) -> user, pass
+    let username, password, connectionString =
+        args.TryFind "username",
+        args.TryFind "password",
+        args.TryFind "connection-string"
+
+    let username, password, connectionString =
+        match username, password, connectionString with
+        | Some(user), Some(pass), Some(conn) -> user, pass, conn
         | _ ->
             let file = Path.Combine(home, "credentials.txt")
             printfn "Using credentials from \"%s\"" file
             let lines = File.ReadAllLines file
-            defaultArg username lines.[0], defaultArg password lines.[1]
+
+            defaultArg username lines.[0],
+            defaultArg password lines.[1],
+            defaultArg connectionString lines.[2]
 
     { Port = Port.Parse <| getArg "port" "8081"
       LogLevel = getArg "loglevel" "warn" |> LogLevel.FromString
-      ConnectionString = String.Empty
+      ConnectionString = connectionString
       Credentials =
           { Username = username
             Password = password } }
