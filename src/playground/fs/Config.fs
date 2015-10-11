@@ -9,7 +9,8 @@ open Common
 type Config =
     { Port: Port
       Credentials: Credentials;
-      LogLevel: LogLevel}
+      LogLevel: LogLevel;
+      ConnectionString: string}
 
 let private args =
     Environment.GetCommandLineArgs()
@@ -36,6 +37,7 @@ let current home =
 
     { Port = Port.Parse <| getArg "port" "8081"
       LogLevel = getArg "loglevel" "warn" |> LogLevel.FromString
+      ConnectionString = String.Empty
       Credentials =
           { Username = username
             Password = password } }
