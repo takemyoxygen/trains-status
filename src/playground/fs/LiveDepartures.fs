@@ -4,7 +4,7 @@ open System
 open Http
 open FSharp.Data
 
-type private Xml = XmlProvider< "../samples/live-departures.xml" >
+type private Xml = XmlProvider< "samples/live-departures.xml" >
 
 type T =
     { Id : int
@@ -14,12 +14,12 @@ type T =
 
 let private endpoint = "http://webservices.ns.nl/ns-api-avt"
 
-let from station =
-    let xml = Http.get endpoint [ "station", station ]
+let from station creds =
+    let xml = Http.get creds endpoint [ "station", station ]
     let data = Xml.Parse xml
     data.VertrekkendeTreins
     |> Seq.map (fun xml ->
-                    { Id = xml.RitNummer
+                      { Id = xml.RitNummer
                         DepartsAt = xml.VertrekTijd
                         Destination = xml.EindBestemming
                         Stops =

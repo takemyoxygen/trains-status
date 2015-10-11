@@ -54,6 +54,7 @@
     <Compile Include="fs\Json.fs" />
     <Compile Include="fs\Common.fs" />
     <Compile Include="fs\Config.fs" />
+    <Compile Include="fs\Auth.fs" />
     <Compile Include="fs\Http.fs" />
     <Compile Include="fs\TravelOptions.fs" />
     <Compile Include="fs\Status.fs" />
@@ -61,7 +62,6 @@
     <Compile Include="fs\Controller.fs" />
     <Compile Include="fs\LiveDepartures.fs" />
     <None Include="app.fsx" />
-    <None Include="setup.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Data">
@@ -73,7 +73,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>packages\Newtonsoft.Json\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Suave">
       <HintPath>packages\Suave\lib\net40\Suave.dll</HintPath>
