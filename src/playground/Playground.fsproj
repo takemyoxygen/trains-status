@@ -62,7 +62,9 @@
     <Compile Include="fs\Stations.fs" />
     <Compile Include="fs\Controller.fs" />
     <Compile Include="fs\LiveDepartures.fs" />
-    <None Include="app.fsx" />
+    <Compile Include="AssemblyLoader.fsx" />
+    <Compile Include="load.fsx" />
+    <Compile Include="app.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Data">

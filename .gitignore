@@ -162,4 +162,4 @@ bower_components
 node_modules
 .module-cache
 /**/styles/styles.css
-/src/playground/js/app.js
+load.fsx

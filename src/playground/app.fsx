@@ -1,7 +1,7 @@
-#r "packages/Suave/lib/net40/Suave.dll"
+#load "fs/AssemblyLoader.fsx"
+#load "load.fsx"
+
 #r "System.Xml.Linq"
-#r "packages/FSharp.Data/lib/net40/FSharp.Data.dll"
-#r "packages/Newtonsoft.Json/lib/net40/Newtonsoft.Json.dll"
 
 #load "fs/Json.fs"
 #load "fs/Common.fs"
