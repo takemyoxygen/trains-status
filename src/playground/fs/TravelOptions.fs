@@ -85,7 +85,7 @@ let find creds origin destination =
              Legs =
                  option.ReisDeels
                  |> Seq.map (fun leg ->
-                        { TrainId = leg.RitNummer
+                        { TrainId = defaultArg leg.RitNummer 0
                           Status = leg.Status
                           PlannedOutage = leg.GeplandeStoringId
                           UnplannedOutage = leg.OngeplandeStoringId
