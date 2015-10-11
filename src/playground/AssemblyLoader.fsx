@@ -21,12 +21,9 @@ let getAssemblies libFolder =
         Directory.GetDirectories libFolder
         |> List.ofSeq
 
-    match frameworks with
-    | [f] -> allFrom f
-    | _ ->
-        match firstOf frameworks supported with
-        | Some(f) -> allFrom f
-        | None -> failwithf "Can't find subfolders in \"%s\" for supported frameworks %A" libFolder supported
+    match firstOf frameworks supported with
+    | Some(f) -> allFrom f
+    | None -> []
 
 printfn "Getting assemblies to load"
 

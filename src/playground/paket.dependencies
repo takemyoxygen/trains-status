@@ -1,6 +1,6 @@
-    source https://nuget.org/api/v2
-nuget FSharp.Azure.Storage
-    nuget FSharp.Data 
-    nuget FSharp.Compiler.Tools
-    nuget Suave
-    nuget Newtonsoft.Json
+source https://nuget.org/api/v2
+nuget FSharp.Data
+nuget FSharp.Compiler.Tools
+nuget Suave
+nuget Newtonsoft.Json
+nuget WindowsAzure.Storage

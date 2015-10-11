@@ -36,5 +36,6 @@ let getClosest credentials lat lon count =
     |> Seq.map (fun s -> {Name = s.Name; LiveDeparturesUrl = liveDeparturesUrl s})
     |> List.ofSeq
 
-let favouriteStations () =
-    [{Name = "Amsterdam Zuid"}; {Name = "Naarden-Bussum"}; {Name = "Utrecht Centraal"}]
+let favouriteStations config id =
+    Storage.getFavourites config id
+    |> List.map (fun s -> {Name = s})
