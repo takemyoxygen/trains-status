@@ -11,7 +11,7 @@ var Stations = {
             deferred.reject("Geolocation is not supported by this browser.");
         }
     }),
-    loadFavourites: () => $.getJSON("/api/stations/favourite")
+    loadFavourites: (id) => $.getJSON(`/api/user/${id}/favourite`)
 };
 
 export { Stations };

@@ -11,7 +11,7 @@ type T =
       Coordinates: Coordinates;
       Code: string}
 
-type private Xml = XmlProvider< "samples/stations.xml" >
+type private Xml = XmlProvider<"samples/stations.xml">
 
 let all credentials =
     let response = Http.get credentials endpoint []
