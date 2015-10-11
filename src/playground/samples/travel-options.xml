@@ -2,16 +2,16 @@
 
   <ReisMogelijkheid>
     <Melding>
-	    <Id>2012_gn_asn_25feb_4mrt</Id>
-	    <Ernstig>false</Ernstig>
-	    <Text>Let op, werk aan het spoor Assen - Groningen</Text>
-	 </Melding>
+        <Id>2012_gn_asn_25feb_4mrt</Id>
+        <Ernstig>false</Ernstig>
+        <Text>Let op, werk aan het spoor Assen - Groningen</Text>
+     </Melding>
 
-	 <Melding>
-	    <Id>whatever</Id>
-	    <Ernstig>false</Ernstig>
-	    <Text>Ololo test</Text>
-	 </Melding>
+     <Melding>
+        <Id>whatever</Id>
+        <Ernstig>false</Ernstig>
+        <Text>Ololo test</Text>
+     </Melding>
 
     <AantalOverstappen>0</AantalOverstappen>
     <GeplandeReisTijd>0:32</GeplandeReisTijd>
@@ -37,13 +37,15 @@
 
       <Vervoerder>NS</Vervoerder>
       <VervoerType>Sprinter</VervoerType>
+
+      <!-- Apparently, this one also might be empty when a train is replaced by a bus -->
       <RitNummer>5744</RitNummer>
 
 
       <Status>VERTRAAGD</Status>
       <ReisDetails><!--optional-->
-      	<ReisDetail>Trave detaiils</ReisDetail>
-     </ReisDetails> 
+          <ReisDetail>Trave detaiils</ReisDetail>
+     </ReisDetails>
       <GeplandeStoringId>outage-id</GeplandeStoringId> <!--optional-->
       <OngeplandeStoringId>outage-id</OngeplandeStoringId> <!--optional-->
 
@@ -1318,5 +1320,915 @@ x
     </ReisDeel>
 
   </ReisMogelijkheid>
+
+  <ReisMogelijkheid>
+
+
+                        <Melding>
+                            <Id>2015_wp_11okt</Id>
+                            <Ernstig>false</Ernstig>
+                            <Text>Let op, werk aan het spoor Naarden-Bussum - Diemen Zuid</Text>
+                        </Melding>
+
+
+            <AantalOverstappen>1</AantalOverstappen>
+            <GeplandeReisTijd>0:41</GeplandeReisTijd>
+
+                <ActueleReisTijd>0:41</ActueleReisTijd>
+
+
+
+            <Optimaal>false</Optimaal>
+            <GeplandeVertrekTijd>2015-10-11T09:29:00+0200</GeplandeVertrekTijd>
+            <ActueleVertrekTijd>2015-10-11T09:29:00+0200</ActueleVertrekTijd>
+            <GeplandeAankomstTijd>2015-10-11T10:10:00+0200</GeplandeAankomstTijd>
+            <ActueleAankomstTijd>2015-10-11T10:10:00+0200</ActueleAankomstTijd>
+
+
+                 <Status>VOLGENS-PLAN</Status>
+
+
+                 <ReisDeel reisSoort="TRAIN">
+
+
+                        <Vervoerder>NS</Vervoerder>
+                        <VervoerType>Stopbus i.p.v. Trein</VervoerType>
+                        <RitNummer></RitNummer>
+
+
+                              <Status>VOLGENS-PLAN</Status>
+
+
+
+
+                            <GeplandeStoringId>2015_wp_11okt</GeplandeStoringId>
+
+
+
+
+
+                    <ReisStop>
+
+
+                            <Naam>Naarden-Bussum</Naam>
+                            <Tijd>2015-10-11T09:29:00+0200</Tijd>
+
+
+
+
+                                    <Spoor wijziging="false"></Spoor>
+
+
+
+
+
+                    </ReisStop>
+
+
+
+                                <ReisStop>
+                                    <Naam>Weesp</Naam>
+                                    <Tijd>2015-10-11T09:45:00+0200</Tijd>
+
+                                </ReisStop>
+
+                            <ReisStop>
+                                <Naam>Diemen Zuid</Naam>
+                                <Tijd>2015-10-11T09:57:00+0200</Tijd>
+
+
+
+
+                                        <Spoor wijziging="false"></Spoor>
+
+
+                            </ReisStop>
+
+
+
+                </ReisDeel>
+
+                 <ReisDeel reisSoort="TRAIN">
+
+
+                        <Vervoerder>NS</Vervoerder>
+                        <VervoerType>Sprinter</VervoerType>
+                        <RitNummer>704326</RitNummer>
+
+
+                              <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+                    <ReisStop>
+
+
+                            <Naam>Diemen Zuid</Naam>
+                            <Tijd>2015-10-11T10:00:00+0200</Tijd>
+
+
+
+
+                                    <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+                    </ReisStop>
+
+
+
+                                <ReisStop>
+                                    <Naam>Duivendrecht</Naam>
+                                    <Tijd>2015-10-11T10:04:00+0200</Tijd>
+
+                                </ReisStop>
+
+                                <ReisStop>
+                                    <Naam>Amsterdam RAI</Naam>
+                                    <Tijd>2015-10-11T10:07:00+0200</Tijd>
+
+                                </ReisStop>
+
+                            <ReisStop>
+                                <Naam>Amsterdam Zuid</Naam>
+                                <Tijd>2015-10-11T10:10:00+0200</Tijd>
+
+
+
+
+                                        <Spoor wijziging="false">3</Spoor>
+
+
+                            </ReisStop>
+
+
+
+                </ReisDeel>
+
+        </ReisMogelijkheid>
+
+        <ReisMogelijkheid>
+
+            <AantalOverstappen>1</AantalOverstappen>
+            <GeplandeReisTijd>0:46</GeplandeReisTijd>
+
+                <ActueleReisTijd>0:46</ActueleReisTijd>
+
+
+
+            <Optimaal>false</Optimaal>
+            <GeplandeVertrekTijd>2015-10-11T09:33:00+0200</GeplandeVertrekTijd>
+            <ActueleVertrekTijd>2015-10-11T09:33:00+0200</ActueleVertrekTijd>
+            <GeplandeAankomstTijd>2015-10-11T10:19:00+0200</GeplandeAankomstTijd>
+            <ActueleAankomstTijd>2015-10-11T10:19:00+0200</ActueleAankomstTijd>
+
+
+                 <Status>VERTRAAGD</Status>
+
+
+                 <ReisDeel reisSoort="TRAIN">
+
+
+                        <Vervoerder>NS</Vervoerder>
+                        <VervoerType>Sprinter</VervoerType>
+                        <RitNummer>4928</RitNummer>
+
+
+                              <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+                    <ReisStop>
+
+
+                            <Naam>Naarden-Bussum</Naam>
+                            <Tijd>2015-10-11T09:33:00+0200</Tijd>
+
+
+
+
+                                    <Spoor wijziging="false">1</Spoor>
+
+
+
+
+
+                    </ReisStop>
+
+
+
+                                <ReisStop>
+                                    <Naam>Almere Poort</Naam>
+                                    <Tijd>2015-10-11T09:43:00+0200</Tijd>
+
+                                </ReisStop>
+
+                                <ReisStop>
+                                    <Naam>Almere Muziekwijk</Naam>
+                                    <Tijd>2015-10-11T09:47:00+0200</Tijd>
+
+                                </ReisStop>
+
+                            <ReisStop>
+                                <Naam>Almere Centrum</Naam>
+                                <Tijd>2015-10-11T09:50:00+0200</Tijd>
+
+
+
+
+                                        <Spoor wijziging="false">3</Spoor>
+
+
+                            </ReisStop>
+
+
+
+                </ReisDeel>
+
+                 <ReisDeel reisSoort="TRAIN">
+
+
+                        <Vervoerder>NS</Vervoerder>
+                        <VervoerType>Intercity</VervoerType>
+                        <RitNummer>12728</RitNummer>
+
+
+                              <Status>VERTRAAGD</Status>
+
+
+
+
+
+
+
+
+                    <ReisStop>
+
+
+                            <Naam>Almere Centrum</Naam>
+                            <Tijd>2015-10-11T09:57:00+0200</Tijd>
+
+                                <VertrekVertraging>+2 min</VertrekVertraging>
+
+
+
+
+                                    <Spoor wijziging="false">1</Spoor>
+
+
+
+
+
+                    </ReisStop>
+
+
+
+                                <ReisStop>
+                                    <Naam>Duivendrecht</Naam>
+                                    <Tijd>2015-10-11T10:14:00+0200</Tijd>
+
+                                </ReisStop>
+
+                            <ReisStop>
+                                <Naam>Amsterdam Zuid</Naam>
+                                <Tijd>2015-10-11T10:19:00+0200</Tijd>
+
+
+
+
+                                        <Spoor wijziging="false">3</Spoor>
+
+
+                            </ReisStop>
+
+
+
+                </ReisDeel>
+
+        </ReisMogelijkheid>
+
+        <ReisMogelijkheid>
+
+
+                        <Melding>
+                            <Id>2015_wp_11okt</Id>
+                            <Ernstig>false</Ernstig>
+                            <Text>Let op, werk aan het spoor Naarden-Bussum - Diemen Zuid</Text>
+                        </Melding>
+
+
+            <AantalOverstappen>1</AantalOverstappen>
+            <GeplandeReisTijd>0:41</GeplandeReisTijd>
+
+                <ActueleReisTijd>0:41</ActueleReisTijd>
+
+
+
+            <Optimaal>false</Optimaal>
+            <GeplandeVertrekTijd>2015-10-11T09:45:00+0200</GeplandeVertrekTijd>
+            <ActueleVertrekTijd>2015-10-11T09:45:00+0200</ActueleVertrekTijd>
+            <GeplandeAankomstTijd>2015-10-11T10:26:00+0200</GeplandeAankomstTijd>
+            <ActueleAankomstTijd>2015-10-11T10:26:00+0200</ActueleAankomstTijd>
+
+
+                 <Status>VOLGENS-PLAN</Status>
+
+
+                 <ReisDeel reisSoort="TRAIN">
+
+
+                        <Vervoerder>NS</Vervoerder>
+                        <VervoerType>Stopbus i.p.v. Trein</VervoerType>
+                        <RitNummer></RitNummer>
+
+
+                              <Status>VOLGENS-PLAN</Status>
+
+
+
+
+                            <GeplandeStoringId>2015_wp_11okt</GeplandeStoringId>
+
+
+
+
+
+                    <ReisStop>
+
+
+                            <Naam>Naarden-Bussum</Naam>
+                            <Tijd>2015-10-11T09:45:00+0200</Tijd>
+
+
+
+
+                                    <Spoor wijziging="false"></Spoor>
+
+
+
+
+
+                    </ReisStop>
+
+
+
+                                <ReisStop>
+                                    <Naam>Weesp</Naam>
+                                    <Tijd>2015-10-11T10:01:00+0200</Tijd>
+
+                                </ReisStop>
+
+                            <ReisStop>
+                                <Naam>Diemen Zuid</Naam>
+                                <Tijd>2015-10-11T10:13:00+0200</Tijd>
+
+
+
+
+                                        <Spoor wijziging="false"></Spoor>
+
+
+                            </ReisStop>
+
+
+
+                </ReisDeel>
+
+                 <ReisDeel reisSoort="TRAIN">
+
+
+                        <Vervoerder>NS</Vervoerder>
+                        <VervoerType>Sprinter</VervoerType>
+                        <RitNummer>705728</RitNummer>
+
+
+                              <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+                    <ReisStop>
+
+
+                            <Naam>Diemen Zuid</Naam>
+                            <Tijd>2015-10-11T10:16:00+0200</Tijd>
+
+
+
+
+                                    <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+                    </ReisStop>
+
+
+
+                                <ReisStop>
+                                    <Naam>Duivendrecht</Naam>
+                                    <Tijd>2015-10-11T10:20:00+0200</Tijd>
+
+                                </ReisStop>
+
+                                <ReisStop>
+                                    <Naam>Amsterdam RAI</Naam>
+                                    <Tijd>2015-10-11T10:23:00+0200</Tijd>
+
+                                </ReisStop>
+
+                            <ReisStop>
+                                <Naam>Amsterdam Zuid</Naam>
+                                <Tijd>2015-10-11T10:26:00+0200</Tijd>
+
+
+
+
+                                        <Spoor wijziging="false">3</Spoor>
+
+
+                            </ReisStop>
+
+
+
+                </ReisDeel>
+
+        </ReisMogelijkheid>
+
+        <ReisMogelijkheid>
+
+
+                        <Melding>
+                            <Id>2015_wp_11okt</Id>
+                            <Ernstig>false</Ernstig>
+                            <Text>Let op, werk aan het spoor Naarden-Bussum - Diemen Zuid</Text>
+                        </Melding>
+
+
+            <AantalOverstappen>1</AantalOverstappen>
+            <GeplandeReisTijd>0:41</GeplandeReisTijd>
+
+                <ActueleReisTijd>0:41</ActueleReisTijd>
+
+
+
+            <Optimaal>false</Optimaal>
+            <GeplandeVertrekTijd>2015-10-11T09:59:00+0200</GeplandeVertrekTijd>
+            <ActueleVertrekTijd>2015-10-11T09:59:00+0200</ActueleVertrekTijd>
+            <GeplandeAankomstTijd>2015-10-11T10:40:00+0200</GeplandeAankomstTijd>
+            <ActueleAankomstTijd>2015-10-11T10:40:00+0200</ActueleAankomstTijd>
+
+
+                 <Status>VOLGENS-PLAN</Status>
+
+
+                 <ReisDeel reisSoort="TRAIN">
+
+
+                        <Vervoerder>NS</Vervoerder>
+                        <VervoerType>Stopbus i.p.v. Trein</VervoerType>
+                        <RitNummer></RitNummer>
+
+
+                              <Status>VOLGENS-PLAN</Status>
+
+
+
+
+                            <GeplandeStoringId>2015_wp_11okt</GeplandeStoringId>
+
+
+
+
+
+                    <ReisStop>
+
+
+                            <Naam>Naarden-Bussum</Naam>
+                            <Tijd>2015-10-11T09:59:00+0200</Tijd>
+
+
+
+
+                                    <Spoor wijziging="false"></Spoor>
+
+
+
+
+
+                    </ReisStop>
+
+
+
+                                <ReisStop>
+                                    <Naam>Weesp</Naam>
+                                    <Tijd>2015-10-11T10:15:00+0200</Tijd>
+
+                                </ReisStop>
+
+                            <ReisStop>
+                                <Naam>Diemen Zuid</Naam>
+                                <Tijd>2015-10-11T10:27:00+0200</Tijd>
+
+
+
+
+                                        <Spoor wijziging="false"></Spoor>
+
+
+                            </ReisStop>
+
+
+
+                </ReisDeel>
+
+                 <ReisDeel reisSoort="TRAIN">
+
+
+                        <Vervoerder>NS</Vervoerder>
+                        <VervoerType>Sprinter</VervoerType>
+                        <RitNummer>704328</RitNummer>
+
+
+                              <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+                    <ReisStop>
+
+
+                            <Naam>Diemen Zuid</Naam>
+                            <Tijd>2015-10-11T10:30:00+0200</Tijd>
+
+
+
+
+                                    <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+                    </ReisStop>
+
+
+
+                                <ReisStop>
+                                    <Naam>Duivendrecht</Naam>
+                                    <Tijd>2015-10-11T10:34:00+0200</Tijd>
+
+                                </ReisStop>
+
+                                <ReisStop>
+                                    <Naam>Amsterdam RAI</Naam>
+                                    <Tijd>2015-10-11T10:37:00+0200</Tijd>
+
+                                </ReisStop>
+
+                            <ReisStop>
+                                <Naam>Amsterdam Zuid</Naam>
+                                <Tijd>2015-10-11T10:40:00+0200</Tijd>
+
+
+
+
+                                        <Spoor wijziging="false">3</Spoor>
+
+
+                            </ReisStop>
+
+
+
+                </ReisDeel>
+
+        </ReisMogelijkheid>
+
+        <ReisMogelijkheid>
+
+
+                        <Melding>
+                            <Id>2015_wp_11okt</Id>
+                            <Ernstig>false</Ernstig>
+                            <Text>Let op, werk aan het spoor Naarden-Bussum - Diemen Zuid</Text>
+                        </Melding>
+
+
+            <AantalOverstappen>1</AantalOverstappen>
+            <GeplandeReisTijd>0:42</GeplandeReisTijd>
+
+                <ActueleReisTijd>0:42</ActueleReisTijd>
+
+
+
+            <Optimaal>false</Optimaal>
+            <GeplandeVertrekTijd>2015-10-11T10:15:00+0200</GeplandeVertrekTijd>
+            <ActueleVertrekTijd>2015-10-11T10:15:00+0200</ActueleVertrekTijd>
+            <GeplandeAankomstTijd>2015-10-11T10:57:00+0200</GeplandeAankomstTijd>
+            <ActueleAankomstTijd>2015-10-11T10:57:00+0200</ActueleAankomstTijd>
+
+
+                 <Status>VOLGENS-PLAN</Status>
+
+
+                 <ReisDeel reisSoort="TRAIN">
+
+
+                        <Vervoerder>NS</Vervoerder>
+                        <VervoerType>Stopbus i.p.v. Trein</VervoerType>
+                        <RitNummer></RitNummer>
+
+
+                              <Status>VOLGENS-PLAN</Status>
+
+
+
+
+                            <GeplandeStoringId>2015_wp_11okt</GeplandeStoringId>
+
+
+
+
+
+                    <ReisStop>
+
+
+                            <Naam>Naarden-Bussum</Naam>
+                            <Tijd>2015-10-11T10:15:00+0200</Tijd>
+
+
+
+
+                                    <Spoor wijziging="false"></Spoor>
+
+
+
+
+
+                    </ReisStop>
+
+
+
+                                <ReisStop>
+                                    <Naam>Weesp</Naam>
+                                    <Tijd>2015-10-11T10:31:00+0200</Tijd>
+
+                                </ReisStop>
+
+                            <ReisStop>
+                                <Naam>Diemen Zuid</Naam>
+                                <Tijd>2015-10-11T10:43:00+0200</Tijd>
+
+
+
+
+                                        <Spoor wijziging="false"></Spoor>
+
+
+                            </ReisStop>
+
+
+
+                </ReisDeel>
+
+                 <ReisDeel reisSoort="TRAIN">
+
+
+                        <Vervoerder>NS</Vervoerder>
+                        <VervoerType>Sprinter</VervoerType>
+                        <RitNummer>705730</RitNummer>
+
+
+                              <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+                    <ReisStop>
+
+
+                            <Naam>Diemen Zuid</Naam>
+                            <Tijd>2015-10-11T10:46:00+0200</Tijd>
+
+
+
+
+                                    <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+                    </ReisStop>
+
+
+
+                                <ReisStop>
+                                    <Naam>Duivendrecht</Naam>
+                                    <Tijd>2015-10-11T10:50:00+0200</Tijd>
+
+                                </ReisStop>
+
+                                <ReisStop>
+                                    <Naam>Amsterdam RAI</Naam>
+                                    <Tijd>2015-10-11T10:53:00+0200</Tijd>
+
+                                </ReisStop>
+
+                            <ReisStop>
+                                <Naam>Amsterdam Zuid</Naam>
+                                <Tijd>2015-10-11T10:57:00+0200</Tijd>
+
+
+
+
+                                        <Spoor wijziging="false">3</Spoor>
+
+
+                            </ReisStop>
+
+
+
+                </ReisDeel>
+
+        </ReisMogelijkheid>
+
+        <ReisMogelijkheid>
+
+
+                        <Melding>
+                            <Id>2015_wp_11okt</Id>
+                            <Ernstig>false</Ernstig>
+                            <Text>Let op, werk aan het spoor Naarden-Bussum - Diemen Zuid</Text>
+                        </Melding>
+
+
+            <AantalOverstappen>1</AantalOverstappen>
+            <GeplandeReisTijd>0:41</GeplandeReisTijd>
+
+                <ActueleReisTijd>0:41</ActueleReisTijd>
+
+
+
+            <Optimaal>false</Optimaal>
+            <GeplandeVertrekTijd>2015-10-11T10:29:00+0200</GeplandeVertrekTijd>
+            <ActueleVertrekTijd>2015-10-11T10:29:00+0200</ActueleVertrekTijd>
+            <GeplandeAankomstTijd>2015-10-11T11:10:00+0200</GeplandeAankomstTijd>
+            <ActueleAankomstTijd>2015-10-11T11:10:00+0200</ActueleAankomstTijd>
+
+
+                 <Status>VOLGENS-PLAN</Status>
+
+
+                 <ReisDeel reisSoort="TRAIN">
+
+
+                        <Vervoerder>NS</Vervoerder>
+                        <VervoerType>Stopbus i.p.v. Trein</VervoerType>
+                        <RitNummer></RitNummer>
+
+
+                              <Status>VOLGENS-PLAN</Status>
+
+
+
+
+                            <GeplandeStoringId>2015_wp_11okt</GeplandeStoringId>
+
+
+
+
+
+                    <ReisStop>
+
+
+                            <Naam>Naarden-Bussum</Naam>
+                            <Tijd>2015-10-11T10:29:00+0200</Tijd>
+
+
+
+
+                                    <Spoor wijziging="false"></Spoor>
+
+
+
+
+
+                    </ReisStop>
+
+
+
+                                <ReisStop>
+                                    <Naam>Weesp</Naam>
+                                    <Tijd>2015-10-11T10:45:00+0200</Tijd>
+
+                                </ReisStop>
+
+                            <ReisStop>
+                                <Naam>Diemen Zuid</Naam>
+                                <Tijd>2015-10-11T10:57:00+0200</Tijd>
+
+
+
+
+                                        <Spoor wijziging="false"></Spoor>
+
+
+                            </ReisStop>
+
+
+
+                </ReisDeel>
+
+                 <ReisDeel reisSoort="TRAIN">
+
+
+                        <Vervoerder>NS</Vervoerder>
+                        <VervoerType>Sprinter</VervoerType>
+                        <RitNummer>704330</RitNummer>
+
+
+                              <Status>VOLGENS-PLAN</Status>
+
+
+
+
+
+
+
+
+                    <ReisStop>
+
+
+                            <Naam>Diemen Zuid</Naam>
+                            <Tijd>2015-10-11T11:00:00+0200</Tijd>
+
+
+
+
+                                    <Spoor wijziging="false">2</Spoor>
+
+
+
+
+
+                    </ReisStop>
+
+
+
+                                <ReisStop>
+                                    <Naam>Duivendrecht</Naam>
+                                    <Tijd>2015-10-11T11:04:00+0200</Tijd>
+
+                                </ReisStop>
+
+                                <ReisStop>
+                                    <Naam>Amsterdam RAI</Naam>
+                                    <Tijd>2015-10-11T11:07:00+0200</Tijd>
+
+                                </ReisStop>
+
+                            <ReisStop>
+                                <Naam>Amsterdam Zuid</Naam>
+                                <Tijd>2015-10-11T11:10:00+0200</Tijd>
+
+
+
+
+                                        <Spoor wijziging="false">3</Spoor>
+
+
+                            </ReisStop>
+
+
+
+                </ReisDeel>
+
+        </ReisMogelijkheid>
 
 </ReisMogelijkheden>
