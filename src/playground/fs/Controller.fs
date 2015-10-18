@@ -39,3 +39,7 @@ let getClosest credentials lat lon count =
 let favouriteStations config id =
     Storage.getFavourites config id
     |> List.map (fun s -> {Name = s})
+
+let allStations creds =
+    Stations.all creds
+    |> List.map (fun s -> s.Name)
