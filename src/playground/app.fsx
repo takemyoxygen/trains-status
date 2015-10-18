@@ -1,7 +1,7 @@
-#r "packages/Suave/lib/net40/Suave.dll"
+#load "AssemblyLoader.fsx"
+#load "load.fsx"
+
 #r "System.Xml.Linq"
-#r "packages/FSharp.Data/lib/net40/FSharp.Data.dll"
-#r "packages/Newtonsoft.Json/lib/net40/Newtonsoft.Json.dll"
 
 #load "fs/Json.fs"
 #load "fs/Common.fs"
@@ -10,7 +10,9 @@
 #load "fs/TravelOptions.fs"
 #load "fs/Status.fs"
 #load "fs/Stations.fs"
+#load "fs/Storage.fs"
 #load "fs/Controller.fs"
+#load "fs/Auth.fs"
 
 open System
 open Suave
@@ -80,7 +82,8 @@ let app =
                 | Some(s) -> return! Json.asResponse s context
                 | None -> return None
             })
-         GET >>= path "/api/stations/favourite" >>= (Json.asResponse <| Controller.favouriteStations())
+         GET >>= pathScan "/api/user/%s/favourite" (fun id -> Json.asResponse <| Controller.favouriteStations config id)
+         GET >>= path "/api/user/info" >>= Auth.getUserInfo
          GET >>= path "/" >>= file "Index.html"
          GET >>= pathRegex staticContent >>= browse __SOURCE_DIRECTORY__
          OK "Nothing here"]
