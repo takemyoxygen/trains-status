@@ -2,9 +2,10 @@ import React from "react";
 import {Stations} from "stations";
 import $ from "jquery";
 import Rx from "rxjs";
-import Origin from "view/origin"
-import TravelOptions from "view/travel-options"
+import Origin from "view/origin";
+import TravelOptions from "view/travel-options";
 import Auth from "auth";
+import StationsSelector from "view/stations-selector";
 
 class Direction extends React.Component{
     constructor(){
@@ -44,6 +45,30 @@ class Direction extends React.Component{
     )
 };
 
+class AddFavouriteStation extends React.Component{
+    constructor(){
+        super();
+        this.state = {inEditMode: false};
+    }
+
+    onAddStation = () => this.setState({inEditMode: true});
+    onStationSelected = () => this.setState({inEditMode: false});
+    onCancel = () => this.setState({inEditMode: false});
+
+    render(){
+        return this.state.inEditMode
+            ? (
+                <div className="add-favourite-station">
+                    <span>Pick a station:</span>
+                    <StationsSelector onStationSelected={this.onStationSelected} />
+                    <a className="btn btn-primary" onClick={this.onStationSelected}>Ok</a>
+                    <a className="btn btn-default" onClick={this.onCancel}>Cancel</a>
+                </div>
+            )
+            : <a className="btn btn-primary" onClick={this.onAddStation}>Add station</a>;
+    }
+}
+
 class FavouritesStatus extends React.Component{
     constructor(){
       super();
@@ -65,8 +90,9 @@ class FavouritesStatus extends React.Component{
     render = () => (
         <div className="row favourites">
             <ul className="list-group">
-                {this.state.stations.map(s => <Direction origin={this.props.origin} destination={s} />)}
+                {this.state.stations.map((s, i) => <Direction key={i} origin={this.props.origin} destination={s} />)}
             </ul>
+            <AddFavouriteStation />
         </div>)
 };
 
