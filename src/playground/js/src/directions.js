@@ -24,6 +24,12 @@ export default class Directions {
 
     static addFavourite(direction){
         favourites = favourites.concat([direction]);
+        $.ajax({
+            method: "PUT",
+            url: `/api/user/${user.id}/favourite`,
+            dataType: "json",
+            data: JSON.stringify(favourites)
+        });
         subject.onNext(favourites);
     }
 

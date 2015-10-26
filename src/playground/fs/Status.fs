@@ -4,7 +4,7 @@ open System
 
 type StationStatus =
     { Station: string;
-      Time: DateTime;
+      Time: Nullable<DateTime>;
       Delay: string }
 
 type TravelOptionStatus =
@@ -40,14 +40,14 @@ let check creds origin destination =
                     | TravelOptions.Status.Delayed -> "warning"
                     | TravelOptions.Status.Cancelled -> "cancelled"
                     | _ -> "ok"
-                { From = { Station = origin; Time = opt.DepartureTime.Planned; Delay = defaultArg opt.DepartureDelay null };
-                  To = { Station = destination; Time = opt.ArrivalTime.Planned; Delay = defaultArg opt.ArrivalDelay null };
+                { From = { Station = origin; Time = new Nullable<DateTime>(opt.DepartureTime.Planned); Delay = defaultArg opt.DepartureDelay null };
+                  To = { Station = destination; Time = new Nullable<DateTime>(opt.ArrivalTime.Planned); Delay = defaultArg opt.ArrivalDelay null };
                   Status = status
                   Via =
                     opt.Legs
                     |> Seq.skip 1
                     |> Seq.map (fun leg ->
                         let stop = leg.Stops.[0]
-                        { Station = stop.Name; Time = stop.Time; Delay = defaultArg stop.Delay null })
+                        { Station = stop.Name; Time = Option.toNullable stop.Time; Delay = defaultArg stop.Delay null })
                     |> List.ofSeq })
         TravelOptionsStatus { Options = result; Status = status }

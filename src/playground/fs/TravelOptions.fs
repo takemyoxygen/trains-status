@@ -31,7 +31,7 @@ type Estimated<'a> =
 
 type Stop =
     { Name : string
-      Time : DateTime
+      Time : DateTime option
       Delay : string option }
 
 type OutageId = string

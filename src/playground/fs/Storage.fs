@@ -4,16 +4,13 @@ open System
 open Microsoft.WindowsAzure.Storage
 open Microsoft.WindowsAzure.Storage.Table
 
+open Common
 open Config
 
 type UserFavourites(id, origin, favs: string) =
     inherit TableEntity(origin, id)
     new() = UserFavourites(String.Empty, String.Empty, String.Empty)
     member val Favourites = favs with get, set
-
-type Result =
-    | Ok
-    | Error
 
 [<Literal>]
 let private FavouritesTable = "favourites"

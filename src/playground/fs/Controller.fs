@@ -1,6 +1,7 @@
 module Controller
 
 open System
+open Suave
 open Suave.Http.RequestErrors
 
 open Common
@@ -43,3 +44,10 @@ let favouriteStations config id =
 let allStations creds =
     Stations.all creds
     |> List.map (fun s -> {Name = s.Name})
+
+let saveFavourites config user rawFavourites = 
+    let favourites = Json.fromByteArray<Station list> rawFavourites
+                     |> Seq.map (fun s -> s.Name)
+                     |> List.ofSeq
+
+    Storage.saveFavourites config user favourites

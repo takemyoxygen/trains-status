@@ -2231,4 +2231,86 @@ x
 
         </ReisMogelijkheid>
 
+        <ReisMogelijkheid>
+<Melding>
+<Id>prio-73722</Id>
+<Ernstig>true</Ernstig>
+<Text>Let op, verstoring Amersfoort - Almelo</Text>
+</Melding>
+<AantalOverstappen>2</AantalOverstappen>
+<GeplandeReisTijd>2:31</GeplandeReisTijd>
+<ActueleReisTijd>2:31</ActueleReisTijd>
+<Optimaal>false</Optimaal>
+<GeplandeVertrekTijd>2015-10-26T23:36:00+0100</GeplandeVertrekTijd>
+<ActueleVertrekTijd>2015-10-26T23:36:00+0100</ActueleVertrekTijd>
+<GeplandeAankomstTijd>2015-10-27T02:07:00+0100</GeplandeAankomstTijd>
+<ActueleAankomstTijd>2015-10-27T02:07:00+0100</ActueleAankomstTijd>
+<Status>VOLGENS-PLAN</Status>
+<ReisDeel reisSoort="TRAIN">
+<Vervoerder>NS</Vervoerder>
+<VervoerType>Sprinter</VervoerType>
+<RitNummer>5785</RitNummer>
+<Status>VOLGENS-PLAN</Status>
+<ReisStop>
+<Naam>Naarden-Bussum</Naam>
+<Tijd>2015-10-26T23:36:00+0100</Tijd>
+<Spoor wijziging="false">3</Spoor>
+</ReisStop>
+<ReisStop>
+<Naam>Bussum Zuid</Naam>
+<Tijd>2015-10-26T23:39:00+0100</Tijd>
+</ReisStop>
+<ReisStop>
+<Naam>Hilversum Media Park</Naam>
+<Tijd>2015-10-26T23:43:00+0100</Tijd>
+</ReisStop>
+<ReisStop>
+<Naam>Hilversum</Naam>
+<Tijd>2015-10-26T23:46:00+0100</Tijd>
+<Spoor wijziging="false">1</Spoor>
+</ReisStop>
+</ReisDeel>
+<ReisDeel reisSoort="TRAIN">
+<Vervoerder>NS</Vervoerder>
+<VervoerType>Intercity</VervoerType>
+<RitNummer>1587</RitNummer>
+<Status>VOLGENS-PLAN</Status>
+<ReisStop>
+<Naam>Hilversum</Naam>
+<Tijd>2015-10-26T23:52:00+0100</Tijd>
+<Spoor wijziging="false">3</Spoor>
+</ReisStop>
+<ReisStop>
+<Naam>Amersfoort</Naam>
+<Tijd>2015-10-27T00:05:00+0100</Tijd>
+<Spoor wijziging="false">1</Spoor>
+</ReisStop>
+</ReisDeel>
+<ReisDeel reisSoort="TRAIN">
+<Vervoerder>NS</Vervoerder>
+<VervoerType>Snelbus i.p.v. Trein</VervoerType>
+<RitNummer>900997</RitNummer>
+<Status>VOLGENS-PLAN</Status>
+<OngeplandeStoringId>prio-73722</OngeplandeStoringId>
+<ReisStop>
+<Naam>Amersfoort</Naam>
+<Tijd>2015-10-27T00:10:00+0100</Tijd>
+<Spoor wijziging="false"/>
+</ReisStop>
+<ReisStop>
+<Naam>Apeldoorn</Naam>
+<Tijd/>
+</ReisStop>
+<ReisStop>
+<Naam>Deventer</Naam>
+<Tijd/>
+</ReisStop>
+<ReisStop>
+<Naam>Almelo</Naam>
+<Tijd>2015-10-27T02:07:00+0100</Tijd>
+<Spoor wijziging="false"/>
+</ReisStop>
+</ReisDeel>
+</ReisMogelijkheid>
+
 </ReisMogelijkheden>

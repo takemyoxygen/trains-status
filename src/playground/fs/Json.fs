@@ -1,5 +1,6 @@
 module Json
 
+open System.Text
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 open Suave.Http
@@ -15,3 +16,7 @@ let asResponse response =
     toJsonString response
     |> OK
     >>= setMimeType "application/json"
+
+let fromByteArray<'a> bytes =
+    let s = System.Text.Encoding.UTF8.GetString bytes
+    fromJsonString<'a> s
