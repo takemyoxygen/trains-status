@@ -6,7 +6,7 @@ open Suave.Http.RequestErrors
 open Common
 
 type GetStationsResponse = {Name: string; LiveDeparturesUrl: string}
-type FavouriteStation = {Name: string}
+type Station = {Name: string}
 
 let private unescape = Uri.UnescapeDataString
 
@@ -42,4 +42,4 @@ let favouriteStations config id =
 
 let allStations creds =
     Stations.all creds
-    |> List.map (fun s -> s.Name)
+    |> List.map (fun s -> {Name = s.Name})

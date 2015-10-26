@@ -49,10 +49,18 @@ class AddFavouriteStation extends React.Component{
     constructor(){
         super();
         this.state = {inEditMode: false};
+        this.props = {onStationAdded: () => {}};
     }
 
-    onAddStation = () => this.setState({inEditMode: true});
-    onStationSelected = () => this.setState({inEditMode: false});
+    static propTypes = {
+        onStationAdded: React.PropTypes.func
+    }
+
+    onAddStation = () => this.setState({inEditMode: true})
+    onStationSelected = (station) => {
+        this.props.onStationAdded(station);
+        this.setState({inEditMode: false});
+    }
     onCancel = () => this.setState({inEditMode: false});
 
     render(){
@@ -87,12 +95,17 @@ class FavouritesStatus extends React.Component{
                 }
             })
 
+    onStationAdded = (station) => {
+        console.log("Station added:" + station.name);
+        this.setState({stations: this.state.stations.concat([station])});
+    }
+
     render = () => (
         <div className="row favourites">
             <ul className="list-group">
                 {this.state.stations.map((s, i) => <Direction key={i} origin={this.props.origin} destination={s} />)}
             </ul>
-            <AddFavouriteStation />
+            <AddFavouriteStation onStationAdded={this.onStationAdded}/>
         </div>)
 };
 

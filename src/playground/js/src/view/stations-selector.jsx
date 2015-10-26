@@ -19,19 +19,19 @@ export default class StationsSelector extends React.Component{
             .done(stations => this.setState({stations: stations}));
     }
 
-    onSelect = (item) => this.props.onStationSelected(item)
+    onSelect = (_, item) => this.props.onStationSelected(item)
 
     render(){
         return (
             <div className="stations-selector">
                 <Autocomplete
                     items={this.state.stations}
-                    getItemValue={x => x}
+                    getItemValue={x => x.name}
                     onSelect={this.onSelect}
-                    shouldItemRender={(st, val) => st.toLowerCase().indexOf(val.toLowerCase()) >= 0 }
+                    shouldItemRender={(st, val) => st.name.toLowerCase().indexOf(val.toLowerCase()) >= 0 }
                     renderItem={(item, highlighted, style) =>
                         <div className={`station ${highlighted ? "highlighted" : ""}`}>
-                            {item}
+                            {item.name}
                         </div>}/>
             </div>);
     }

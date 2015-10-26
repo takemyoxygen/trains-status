@@ -36,11 +36,6 @@ let assemblies =
     |> Seq.filter (fun (name, _) -> ignore |> List.contains name |> not)
     |> List.ofSeq
 
-assemblies
-|> Seq.iter (fun (name, assemblies) ->
-    printfn "%s:" name
-    assemblies |> Seq.map ((+) "\t") |> Seq.iter (printfn "%s"))
-
 printfn "Generating script..."
 
 let lines =
