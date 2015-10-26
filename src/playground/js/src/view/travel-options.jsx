@@ -8,7 +8,7 @@ class StopStatus extends React.Component{
     render(){
         var delayed = this.props.stop.delay != null;
         return (
-            <span>
+            <span className="stop-status">
                 <span>{this.props.stop.station}</span>
                 <span className={`departure-time ${delayed ? "delayed" : ""}`}>
                     {`(${this.formatDate(this.props.stop.time)}${delayed ? (" " + this.props.stop.delay) : ""})`}
@@ -26,8 +26,8 @@ class Transfers extends React.Component{
 
         return (
             <span>
-                via {this.props.transfers.map(function(s){
-                    return <StopStatus stop={s}/>;
+                via {this.props.transfers.map(function(s, i){
+                    return <StopStatus key={i} stop={s}/>;
                 })}
             </span>
         );
@@ -74,7 +74,7 @@ class TravelOption extends React.Component{
 export default class TravelOptions extends React.Component{
     render = () => (
         <div className="travel-options">
-            {this.props.travelOptions.map(option => <TravelOption option={option} />)}
+            {this.props.travelOptions.map((option, i) => <TravelOption key={i} option={option} />)}
         </div>
     )
 };

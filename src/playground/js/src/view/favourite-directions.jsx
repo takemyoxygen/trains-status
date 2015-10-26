@@ -6,6 +6,7 @@ import Origin from "view/origin";
 import TravelOptions from "view/travel-options";
 import Auth from "auth";
 import StationsSelector from "view/stations-selector";
+import Directions from "directions"
 
 class Direction extends React.Component{
     constructor(){
@@ -56,6 +57,13 @@ class AddFavouriteStation extends React.Component{
         onStationAdded: React.PropTypes.func
     }
 
+    componentDidUpdate(){
+        var node = React.findDOMNode(this.refs.stationSelector);
+        if (node != null) {
+            $(node).find("input[role=combobox]").focus();
+        }
+    }
+
     onAddStation = () => this.setState({inEditMode: true})
     onStationSelected = (station) => {
         this.props.onStationAdded(station);
@@ -68,7 +76,7 @@ class AddFavouriteStation extends React.Component{
             ? (
                 <div className="add-favourite-station">
                     <span>Pick a station:</span>
-                    <StationsSelector onStationSelected={this.onStationSelected} />
+                    <StationsSelector ref="stationSelector" onStationSelected={this.onStationSelected} />
                     <a className="btn btn-primary" onClick={this.onStationSelected}>Ok</a>
                     <a className="btn btn-default" onClick={this.onCancel}>Cancel</a>
                 </div>
@@ -80,32 +88,30 @@ class AddFavouriteStation extends React.Component{
 class FavouritesStatus extends React.Component{
     constructor(){
       super();
-      this.state = {stations: []};
+      this.state = {stations: [], userLoggedIn: false};
     }
 
-    componentDidMount = () =>
-        Auth.currentUser
-            .subscribe(user => {
-                if (user.loggedIn){
-                    Stations
-                        .loadFavourites(user.id)
-                        .done(stations => this.setState({stations: stations}));
-                } else {
-                    this.setState({stations: []});
-                }
-            })
+    componentDidMount() {
+        const directions = Directions
+            .favourites
+            .subscribe(favs => this.setState({stations: favs}));
+        const users = Auth
+            .currentUser
+            .select(user => user.loggedIn)
+            .subscribe(loggedIn => this.setState({userLoggedIn: loggedIn}));
 
-    onStationAdded = (station) => {
-        console.log("Station added:" + station.name);
-        this.setState({stations: this.state.stations.concat([station])});
+        this.subscription = new Rx.CompositeDisposable(directions, users);
     }
+
+    componentWillUnmount = () => this.subscription.dispose()
+    onStationAdded = station => Directions.addFavourite(station)
 
     render = () => (
         <div className="row favourites">
             <ul className="list-group">
                 {this.state.stations.map((s, i) => <Direction key={i} origin={this.props.origin} destination={s} />)}
             </ul>
-            <AddFavouriteStation onStationAdded={this.onStationAdded}/>
+            {this.state.userLoggedIn && <AddFavouriteStation onStationAdded={this.onStationAdded}/>}
         </div>)
 };
 
