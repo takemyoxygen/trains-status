@@ -71,6 +71,7 @@ class AddFavouriteStation extends React.Component{
         this.setState({inEditMode: false});
     }
 
+    onOk = () => this.refs.stationSelector.forceAdd();
     onCancel = () => this.setState({inEditMode: false});
 
     render(){
@@ -83,7 +84,7 @@ class AddFavouriteStation extends React.Component{
                         valid={this.state.valid}
                         canSelectStation={this.props.canAddStation}
                         onStationSelected={this.onStationSelected} />
-                    <a className="btn btn-primary" onClick={this.onStationSelected}>Ok</a>
+                    <a className="btn btn-primary" onClick={this.onOk}>Ok</a>
                     <a className="btn btn-default" onClick={this.onCancel}>Cancel</a>
                 </div>
             )

@@ -5,7 +5,7 @@ import {Stations} from "stations";
 export default class StationsSelector extends React.Component{
     constructor(){
         super();
-        this.state = {stations: [], valid: true};
+        this.state = {stations: [], valid: true, text: ""};
     }
 
     static propTypes = {
@@ -27,7 +27,17 @@ export default class StationsSelector extends React.Component{
         }
     }
 
-    onChange = () => this.setState({valid: true});
+    forceAdd(){
+        const current =
+            this.state.text &&
+            this.state.valid &&
+            this.state.stations.find(station => station.name.toLowerCase() == this.state.text.toLowerCase())
+
+         if (current) this.onSelect(null, current)
+         else this.setState({valid: false});
+    }
+
+    onChange = (_, text) => this.setState({valid: true, text: text});
 
     render(){
         return (
