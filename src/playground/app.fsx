@@ -85,7 +85,7 @@ let app =
                 | None -> return None
             })
          GET >>= pathScan "/api/user/%s/favourite" (Controller.favouriteStations config >> Json.asResponse)
-         PUT >>= pathScan "/api/user/%s/favourite" (fun id -> request (fun req -> 
+         PUT >>= pathScan "/api/user/%s/favourite" (fun id -> request (fun req ->
             match Controller.saveFavourites config id req.rawForm with
             | Ok -> OK "Saved"
             | Error -> INTERNAL_ERROR "Failed"))
