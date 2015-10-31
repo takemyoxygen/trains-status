@@ -50,11 +50,11 @@ class AddFavouriteStation extends React.Component{
     constructor(){
         super();
         this.state = {inEditMode: false};
-        this.props = {onStationAdded: () => {}};
     }
 
     static propTypes = {
-        onStationAdded: React.PropTypes.func
+        onStationAdded: React.PropTypes.func.isRequired,
+        canAddStation: React.PropTypes.func.isRequired
     }
 
     componentDidUpdate(){
@@ -65,10 +65,12 @@ class AddFavouriteStation extends React.Component{
     }
 
     onAddStation = () => this.setState({inEditMode: true})
-    onStationSelected = (station) => {
+
+    onStationSelected = station => {
         this.props.onStationAdded(station);
         this.setState({inEditMode: false});
     }
+
     onCancel = () => this.setState({inEditMode: false});
 
     render(){
@@ -76,7 +78,11 @@ class AddFavouriteStation extends React.Component{
             ? (
                 <div className="add-favourite-station">
                     <span>Pick a station:</span>
-                    <StationsSelector ref="stationSelector" onStationSelected={this.onStationSelected} />
+                    <StationsSelector
+                        ref="stationSelector"
+                        valid={this.state.valid}
+                        canSelectStation={this.props.canAddStation}
+                        onStationSelected={this.onStationSelected} />
                     <a className="btn btn-primary" onClick={this.onStationSelected}>Ok</a>
                     <a className="btn btn-default" onClick={this.onCancel}>Cancel</a>
                 </div>
@@ -105,13 +111,14 @@ class FavouritesStatus extends React.Component{
 
     componentWillUnmount = () => this.subscription.dispose()
     onStationAdded = station => Directions.addFavourite(station)
+    canAddStation = station => !this.state.stations.find(element => element.name.toLowerCase() == station.name.toLowerCase())
 
     render = () => (
         <div className="row favourites">
             <ul className="list-group">
                 {this.state.stations.map((s, i) => <Direction key={i} origin={this.props.origin} destination={s} />)}
             </ul>
-            {this.state.userLoggedIn && <AddFavouriteStation onStationAdded={this.onStationAdded}/>}
+            {this.state.userLoggedIn && <AddFavouriteStation onStationAdded={this.onStationAdded} canAddStation={this.canAddStation}/>}
         </div>)
 };
 
