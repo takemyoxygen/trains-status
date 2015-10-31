@@ -23,6 +23,7 @@ open System.Net
 open Suave.Http
 open Suave.Http.Applicatives
 open Suave.Http.RequestErrors
+open Suave.Http.ServerErrors
 open Suave.Http.Files
 open Suave.Http.Writers
 open Newtonsoft.Json
@@ -70,6 +71,7 @@ let app =
     choose
         [GET >>= pathScan "/api/status/%s/%s" (fun (origin, destination) ->
             Controller.checkStatus config.Credentials origin destination)
+         GET >>= path "/api/stations/all" >>= request (fun _ -> Controller.allStations config.Credentials |> Json.asResponse)
          GET >>= path "/api/stations/nearby" >>= (fun context -> async {
                 let stations = opt {
                     let! lat = context.request.["lat"] |> Option.tryMap Double.TryParse
@@ -82,11 +84,15 @@ let app =
                 | Some(s) -> return! Json.asResponse s context
                 | None -> return None
             })
-         GET >>= pathScan "/api/user/%s/favourite" (fun id -> Json.asResponse <| Controller.favouriteStations config id)
+         GET >>= pathScan "/api/user/%s/favourite" (Controller.favouriteStations config >> Json.asResponse)
+         PUT >>= pathScan "/api/user/%s/favourite" (fun id -> request (fun req -> 
+            match Controller.saveFavourites config id req.rawForm with
+            | Ok -> OK "Saved"
+            | Error -> INTERNAL_ERROR "Failed"))
          GET >>= path "/api/user/info" >>= Auth.getUserInfo
          GET >>= path "/" >>= file "Index.html"
          GET >>= pathRegex staticContent >>= browse __SOURCE_DIRECTORY__
-         OK "Nothing here"]
+         NOT_FOUND "Nothing here"]
      >>= noCache
 
 startWebServer serverConfig app

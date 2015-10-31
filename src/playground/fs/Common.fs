@@ -6,7 +6,11 @@ type Credentials =
 
 type Coordinates =
     { Latitude: double
-      Longitude: double;}
+      Longitude: double }
+
+type Result =
+    | Ok
+    | Error
 
 [<RequireQualifiedAccess>]
 module Option =

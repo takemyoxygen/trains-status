@@ -72,8 +72,6 @@
     <Compile Include="AssemblyLoader.fsx" />
     <Compile Include="load.fsx" />
     <Compile Include="app.fsx" />
-    <None Include="Scripts\load-references.fsx" />
-    <None Include="Scripts\load-project.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Data">

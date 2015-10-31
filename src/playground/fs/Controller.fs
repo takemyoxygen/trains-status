@@ -1,12 +1,13 @@
 module Controller
 
 open System
+open Suave
 open Suave.Http.RequestErrors
 
 open Common
 
 type GetStationsResponse = {Name: string; LiveDeparturesUrl: string}
-type FavouriteStation = {Name: string}
+type Station = {Name: string}
 
 let private unescape = Uri.UnescapeDataString
 
@@ -39,3 +40,14 @@ let getClosest credentials lat lon count =
 let favouriteStations config id =
     Storage.getFavourites config id
     |> List.map (fun s -> {Name = s})
+
+let allStations creds =
+    Stations.all creds
+    |> List.map (fun s -> {Name = s.Name})
+
+let saveFavourites config user rawFavourites = 
+    let favourites = Json.fromByteArray<Station list> rawFavourites
+                     |> Seq.map (fun s -> s.Name)
+                     |> List.ofSeq
+
+    Storage.saveFavourites config user favourites

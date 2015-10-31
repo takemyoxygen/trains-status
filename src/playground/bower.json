@@ -17,6 +17,7 @@
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.5",
     "requirejs": "~2.1.20",
-    "rxjs": "~3.1.1"
+    "rxjs": "~3.1.1",
+    "react-autocomplete": "https://github.com/rackt/react-autocomplete.git#~0.1.4"
   }
 }

@@ -50,10 +50,6 @@ export default class Auth {
     }
 
     static currentUser = replay
-        .do(user => {
-            console.log("New user:");
-            console.dir(user);
-        });
 
     static setCurrentUser(user){
         userSubject.onNext(user);

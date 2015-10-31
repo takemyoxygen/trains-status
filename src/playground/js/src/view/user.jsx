@@ -8,7 +8,6 @@ export default class User extends React.Component{
     constructor(){
         super();
         this.state = {user: {}, initialized: false};
-        Auth.currentUser.subscribe(user => this.setState({user: user, initialized: true}));
     }
 
     componentWillMount(){
@@ -16,7 +15,12 @@ export default class User extends React.Component{
     }
 
     componentDidMount(){
+        this.subscription = Auth.currentUser.subscribe(user => this.setState({user: user, initialized: true}));
         Auth.initialize().then(() => this.renderSignIn());
+    }
+
+    componentWillUnmount(){
+        this.subscription.dispose();
     }
 
     renderSignIn(){

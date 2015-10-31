@@ -15,7 +15,7 @@
         .travel-option-description {
             padding-left: 0px;
 
-            > span {
+            .stop-status{
                 margin-right: 5px;
             }
 
@@ -39,9 +39,18 @@
         background: #E8EEFB;
     }
 
-    .direction {
+    .direction-name {
         cursor: pointer;
         font-size: 1.2em;
+    }
+
+    .remove-direction{
+        text-align: right;
+
+        a {
+            cursor: pointer;
+            color: black;
+        }
     }
 
     .disabled {
@@ -74,4 +83,33 @@
     .username a {
         margin-left: 10px;
     }
+}
+
+.stations-selector {
+    .highlighted {
+        background-color: #E8E8FF;
+    }
+
+    .station {
+        cursor: default;
+    }
+}
+
+.stations-selector.invalid{
+    input[role=combobox] {
+        background-color: rgba(255, 0, 0, 0.24)
+    }
+}
+
+.add-favourite-station {
+
+    .stations-selector {
+        display: inline;
+        margin-left: 10px;
+    }
+
+    a.btn {
+        margin-left: 10px;
+    }
+
 }
