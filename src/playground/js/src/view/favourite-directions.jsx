@@ -36,10 +36,19 @@ class Direction extends React.Component{
             }));
     }
 
+    removeDirection = () => Directions.removeFavourite(this.props.destination)
+
     render = () => (
         <li className={`list-group-item ${this.state.status} ${this.state.disabled ? "hidden": ""}`}>
-            <div className="direction" onClick={this.toggleExpanded}>
-                {this.props.destination.name}
+            <div className="direction row">
+                <div className="col-md-11 direction-name" onClick={this.toggleExpanded}>
+                    {this.props.destination.name}
+                </div>
+                <div className="col-md-1 remove-direction">
+                    <a title="Remove direction" onClick={this.removeDirection}>
+                        <span className="glyphicon glyphicon-remove"/>
+                    </a>
+                </div>
             </div>
             {this.state.expanded ? <TravelOptions travelOptions={this.state.travelOptions} /> : null}
         </li>

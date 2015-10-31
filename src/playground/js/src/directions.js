@@ -18,24 +18,26 @@ const sync = Auth
         subject.onNext(favourites);
     });
 
+function update(favourites){
+    $.ajax({
+        method: "PUT",
+        url: `/api/user/${user.id}/favourite`,
+        data: JSON.stringify(favourites)
+    }).done(_ => subject.onNext(favourites));
+}
+
 export default class Directions {
 
     static favourites = replay;
 
     static addFavourite(direction){
         favourites = favourites.concat([direction]);
-        $.ajax({
-            method: "PUT",
-            url: `/api/user/${user.id}/favourite`,
-            dataType: "json",
-            data: JSON.stringify(favourites)
-        });
-        subject.onNext(favourites);
+        update(favourites);
     }
 
-    static remoteFavourite(direction){
+    static removeFavourite(direction){
         const name = direction.name.toLowerCase();
-        favourites = favourites.map(f => f.name.toLowerCase() != name);
-        subject.onNext(favourites);
+        favourites = favourites.filter(f => f.name.toLowerCase() != name);
+        update(favourites);
     }
 }
