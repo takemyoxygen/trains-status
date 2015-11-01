@@ -13,6 +13,9 @@ let outputDir =
     | None -> getBuildParamOrDefault "output-dir" __SOURCE_DIRECTORY__)
     |> normalize
 
+logfn "Source directory: %s" sourceDir
+logfn "Output directory: %s" outputDir
+
 [<Literal>] 
 let Azure = "azure"
 
@@ -32,22 +35,25 @@ Target "PatchConfig" (fun _ ->
 )
 
 let execAndWait filename args = 
-    let info = new ProcessStartInfo(
-                    WorkingDirectory = sourceDir,
-                    FileName = filename,
-                    Arguments = args)
-    let p =  Process.Start(info)
-    let successful = p.WaitForExit(60000)
+    let successful = 
+        execProcess 
+            (fun info ->
+                info.WorkingDirectory <- sourceDir
+                info.FileName <- filename
+                info.Arguments <- args
+                info.UseShellExecute <- true)
+            (TimeSpan.FromMinutes 1.0)
     
     if not successful then
         failwithf "Failed to execute \"%s %s\"" filename args
 
-let execAndForget filename args = 
-    StartProcess (fun info ->
-        info.FileName <- filename
-        info.WorkingDirectory <- sourceDir
-        info.Arguments <- args
-        info.UseShellExecute <- true)
+/// Starts a process that won't be terminated when FAKE build completes
+let startDetachedProcess filename args = 
+    let info = new ProcessStartInfo(
+                    FileName = filename,
+                    WorkingDirectory = sourceDir,
+                    Arguments = args)
+    Process.Start info |> ignore
 
 Target "RestoreNodePackages" (fun _ -> 
     printfn "Restoring NPM packages"
@@ -91,8 +97,10 @@ Target "Copy" (fun _ ->
 Target "Build" ignore
 
 Target "Watch" (fun _ ->
-    execAndForget babel "js/src --watch --out-dir js/build --modules amd --stage 0"
-    execAndForget autoless "styles styles"
+    if TestDir nodeBin then
+        startDetachedProcess babel "js/src --watch --out-dir js/build --modules amd --stage 0"
+        startDetachedProcess autoless "styles styles"
+    else failwith "\"Watch\" can only be executed from the folder with the source code"
 )
 
 #load "app.fsx"
