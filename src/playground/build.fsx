@@ -31,7 +31,8 @@ Target "PatchConfig" (fun _ ->
     printfn "Patching web.config"
     let config = sourceDir @@ "web.azure.config"
     if (TestFile config) then
-        mv config (sourceDir @@ "web.config")
+        let target = sourceDir @@ "web.config"
+        Rename target config
 )
 
 let exec filename args = 
