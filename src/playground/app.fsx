@@ -1,3 +1,5 @@
+module App
+
 #load "AssemblyLoader.fsx"
 #load "load.fsx"
 
@@ -30,6 +32,7 @@ open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 
 open Common
+open System.Threading
 
 let home = __SOURCE_DIRECTORY__
 
@@ -53,11 +56,14 @@ let noCache =
   >>= setHeader "Pragma" "no-cache"
   >>= setHeader "Expires" "0"
 
+let cancellationTokenSource = new CancellationTokenSource()
+
 let serverConfig =
     { defaultConfig with
         logger = Logging.Loggers.saneDefaultsFor config.LogLevel
         bindings = [ HttpBinding.mk HTTP IPAddress.Loopback config.Port ]
-        mimeTypesMap = mimeTypes }
+        mimeTypesMap = mimeTypes
+        cancellationToken = cancellationTokenSource.Token }
 
 let staticContent  =
     [".js"; ".jsx"; ".css"; ".html"; ".woff"; ".woff2"; ".ttf"]
@@ -95,4 +101,10 @@ let app =
          NOT_FOUND "Nothing here"]
      >>= noCache
 
-startWebServer serverConfig app
+let start () =
+    let startup, server = startWebServerAsync serverConfig app
+    server |> Async.Start
+    startup |> Async.RunSynchronously |> ignore
+    server
+
+let stop () = cancellationTokenSource.Cancel()

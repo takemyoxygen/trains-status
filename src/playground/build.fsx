@@ -13,8 +13,13 @@ let outputDir =
     | None -> getBuildParamOrDefault "output-dir" __SOURCE_DIRECTORY__)
     |> normalize
 
-let azure = "azure"
-let environment = getBuildParamOrDefault "env" "local" |> toLower
+[<Literal>] 
+let Azure = "azure"
+
+[<Literal>] 
+let Local = "local"
+
+let environment = getBuildParamOrDefault "env" Local |> toLower
 
 Target "Start" ignore
 Target "Clean" (fun _ -> CleanDir outputDir)
@@ -37,28 +42,34 @@ let execAndWait filename args =
     if not successful then
         failwithf "Failed to execute \"%s %s\"" filename args
 
+let execAndForget filename args = 
+    StartProcess (fun info ->
+        info.FileName <- filename
+        info.WorkingDirectory <- sourceDir
+        info.Arguments <- args
+        info.UseShellExecute <- true)
 
 Target "RestoreNodePackages" (fun _ -> 
     printfn "Restoring NPM packages"
     execAndWait "npm" "install --production")
 
 let nodeBin = sourceDir @@ "node_modules\\.bin"
+let bower = nodeBin @@ "bower.cmd"
+let babel = nodeBin @@ "babel.cmd"
+let autoless = nodeBin @@ "autoless.cmd"
 
 Target "RestoreBowerPackages" (fun _ ->
     printfn "Restoring Bower packages"
-    let bower = nodeBin @@ "bower.cmd"
     execAndWait bower "install --production"
 )
 
 Target "CompileJs" (fun _ ->
     printfn "Compiling ES6 JavaScript files"
-    let babel = nodeBin @@ "babel.cmd"
     execAndWait babel "js/src --out-dir js/build --modules amd --stage 0"
 )
 
 Target "CompileLess" (fun _ ->
     printfn "Compiling LESS files"
-    let autoless = nodeBin @@ "autoless.cmd"
     execAndWait autoless "--no-watch styles styles"
 )
 
@@ -79,18 +90,27 @@ Target "Copy" (fun _ ->
 
 Target "Default" ignore
 
+Target "Watch" (fun _ ->
+    execAndForget babel "js/src --watch --out-dir js/build --modules amd --stage 0"
+    execAndForget autoless "styles styles"
+)
+
+#load "app.fsx"
+
 Target "Run" (fun _ ->
-    let loglevel = getBuildParamOrDefault "loglevel" "verbose"
-    let info = new ProcessStartInfo(
-                    Arguments = "app.fsx loglevel=" + loglevel,
-                    FileName = "fsi",
-                    WorkingDirectory = sourceDir)
-    Process.Start info |> ignore
+    printfn "Starting Suave server..."
+    App.start() |> ignore
+
+    printfn "Server has been started. Press <Enter> to stop the server."
+    Console.ReadLine() |> ignore
+
+    printfn "Stopping the server..."
+    App.stop()
 )
 
 "Start"
     =?> ("Clean", sourceDir <> outputDir)
-    =?> ("PatchConfig", environment = azure)
+    =?> ("PatchConfig", environment = Azure)
     ==> "RestoreNodePackages"
     ==> "RestoreBowerPackages"
     ==> "CompileJs"
@@ -98,4 +118,4 @@ Target "Run" (fun _ ->
     =?> ("Copy", sourceDir <> outputDir)
     ==> "Default"
 
-RunTargetOrDefault "Default"
+RunTargetOrDefault "Run"
