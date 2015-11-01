@@ -1,6 +1,7 @@
 ﻿#r "packages/FAKE/tools/FakeLib.dll"
 
 open System
+open System.IO
 open Fake
 open Fake.FileUtils
 open System.Diagnostics
@@ -106,11 +107,21 @@ Target "Watch" (fun _ ->
 )
 
 Target "Run" (fun _ ->
+    let username, password, connectionString = 
+        if environment = Azure then
+            environVar "APPSETTING_USERNAME",
+            environVar "APPSETTING_PASSWORD",
+            environVar "APPSETTING_CONNECTION_STRING"
+        else
+            let content = File.ReadAllLines(sourceDir @@ "credentials.txt")
+            content.[0], content.[1], content.[2]
+
+    let app = sourceDir @@ "app.fsx"
     execProcess
         (fun info -> 
             info.FileName <- fsiPath
             info.WorkingDirectory <- sourceDir
-            info.Arguments <- "app.fsx")
+            info.Arguments <- sprintf "%s username=%s password=%s connection-string=%s" app username password connectionString)
         (Timeout.InfiniteTimeSpan)
     |> ignore
 )
