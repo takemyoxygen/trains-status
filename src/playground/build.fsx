@@ -34,7 +34,7 @@ Target "PatchConfig" (fun _ ->
         mv config (sourceDir @@ "web.config")
 )
 
-let execAndWait filename args = 
+let exec filename args = 
     let successful = 
         execProcess 
             (fun info ->
@@ -48,7 +48,7 @@ let execAndWait filename args =
         failwithf "Failed to execute \"%s %s\"" filename args
 
 /// Starts a process that won't be terminated when FAKE build completes
-let startDetachedProcess filename args = 
+let startDetached filename args = 
     let info = new ProcessStartInfo(
                     FileName = filename,
                     WorkingDirectory = sourceDir,
@@ -57,7 +57,7 @@ let startDetachedProcess filename args =
 
 Target "RestoreNodePackages" (fun _ -> 
     printfn "Restoring NPM packages"
-    execAndWait "npm" "install --production")
+    exec "npm" "install --production")
 
 let nodeBin = sourceDir @@ "node_modules\\.bin"
 let bower = nodeBin @@ "bower.cmd"
@@ -66,17 +66,17 @@ let autoless = nodeBin @@ "autoless.cmd"
 
 Target "RestoreBowerPackages" (fun _ ->
     printfn "Restoring Bower packages"
-    execAndWait bower "install --production"
+    exec bower "install --production"
 )
 
 Target "CompileJs" (fun _ ->
     printfn "Compiling ES6 JavaScript files"
-    execAndWait babel "js/src --out-dir js/build --modules amd --stage 0"
+    exec babel "js/src --out-dir js/build --modules amd --stage 0"
 )
 
 Target "CompileLess" (fun _ ->
     printfn "Compiling LESS files"
-    execAndWait autoless "--no-watch styles styles"
+    exec autoless "--no-watch styles styles"
 )
 
 Target "Copy" (fun _ ->
@@ -98,8 +98,8 @@ Target "Build" ignore
 
 Target "Watch" (fun _ ->
     if TestDir nodeBin then
-        startDetachedProcess babel "js/src --watch --out-dir js/build --modules amd --stage 0"
-        startDetachedProcess autoless "styles styles"
+        startDetached babel "js/src --watch --out-dir js/build --modules amd --stage 0"
+        startDetached autoless "styles styles"
     else failwith "\"Watch\" can only be executed from the folder with the source code"
 )
 

@@ -7,7 +7,6 @@ if not exist .paket (
   @echo "Installing Paket"
   mkdir .paket
   curl https://github.com/fsprojects/Paket/releases/download/2.21.0/paket.bootstrapper.exe -L --insecure -o .paket\paket.bootstrapper.exe
-  @echo "Paket Bootstrapper has beend downloaded"
 
   .paket\paket.bootstrapper.exe prerelease
   if errorlevel 1 (
