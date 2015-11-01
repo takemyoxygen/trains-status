@@ -88,7 +88,7 @@ Target "Copy" (fun _ ->
     CopyWithSubfoldersTo outputDir [files]
 )
 
-Target "Default" ignore
+Target "Build" ignore
 
 Target "Watch" (fun _ ->
     execAndForget babel "js/src --watch --out-dir js/build --modules amd --stage 0"
@@ -116,6 +116,6 @@ Target "Run" (fun _ ->
     ==> "CompileJs"
     ==> "CompileLess"
     =?> ("Copy", sourceDir <> outputDir)
-    ==> "Default"
+    ==> "Build"
 
 RunTargetOrDefault "Run"
