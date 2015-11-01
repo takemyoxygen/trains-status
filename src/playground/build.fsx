@@ -4,6 +4,7 @@ open System
 open Fake
 open Fake.FileUtils
 open System.Diagnostics
+open System.Threading
 
 let normalize = toLower >> trimEndChars [|'\\'|]
 let sourceDir = normalize __SOURCE_DIRECTORY__
@@ -104,17 +105,14 @@ Target "Watch" (fun _ ->
     else failwith "\"Watch\" can only be executed from the folder with the source code"
 )
 
-#load "app.fsx"
-
 Target "Run" (fun _ ->
-    printfn "Starting Suave server..."
-    App.start() |> ignore
-
-    printfn "Server has been started. Press <Enter> to stop the server."
-    Console.ReadLine() |> ignore
-
-    printfn "Stopping the server..."
-    App.stop()
+    execProcess
+        (fun info -> 
+            info.FileName <- fsiPath
+            info.WorkingDirectory <- sourceDir
+            info.Arguments <- "app.fsx")
+        (Timeout.InfiniteTimeSpan)
+    |> ignore
 )
 
 "Start"

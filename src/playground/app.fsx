@@ -1,5 +1,3 @@
-module App
-
 #load "AssemblyLoader.fsx"
 #load "load.fsx"
 
@@ -28,83 +26,91 @@ open Suave.Http.RequestErrors
 open Suave.Http.ServerErrors
 open Suave.Http.Files
 open Suave.Http.Writers
-open Newtonsoft.Json
-open Newtonsoft.Json.Serialization
 
 open Common
 open System.Threading
 
-let home = __SOURCE_DIRECTORY__
+let private cancellationTokenSource = new CancellationTokenSource()
 
-printfn "Current folder: %s" home
-Environment.CurrentDirectory <- home
-let config = Config.current home
+let private setup() =
 
-printfn "Starting Suave server on port %i with log level %O" config.Port config.LogLevel
+    let home = __SOURCE_DIRECTORY__
 
-let mimeTypes =
-  defaultMimeTypesMap
-    >=> (function
-            | ".jsx" -> mkMimeType "text/jsx" true
-            | ".woff" -> mkMimeType "application/x-font-woff" false
-            | ".woff2" -> mkMimeType "application/font-woff2" false
-            | ".ttf" -> mkMimeType " application/font-sfnt" false
-            | _ -> None)
+    printfn "Current folder: %s" home
+    Environment.CurrentDirectory <- home
+    let config = Config.current home
 
-let noCache =
-  setHeader "Cache-Control" "no-cache, no-store, must-revalidate"
-  >>= setHeader "Pragma" "no-cache"
-  >>= setHeader "Expires" "0"
+    printfn "Starting Suave server on port %i with log level %O" config.Port config.LogLevel
 
-let cancellationTokenSource = new CancellationTokenSource()
+    let mimeTypes =
+      defaultMimeTypesMap
+        >=> (function
+                | ".jsx" -> mkMimeType "text/jsx" true
+                | ".woff" -> mkMimeType "application/x-font-woff" false
+                | ".woff2" -> mkMimeType "application/font-woff2" false
+                | ".ttf" -> mkMimeType " application/font-sfnt" false
+                | _ -> None)
 
-let serverConfig =
-    { defaultConfig with
-        logger = Logging.Loggers.saneDefaultsFor config.LogLevel
-        bindings = [ HttpBinding.mk HTTP IPAddress.Loopback config.Port ]
-        mimeTypesMap = mimeTypes
-        cancellationToken = cancellationTokenSource.Token }
+    let noCache =
+      setHeader "Cache-Control" "no-cache, no-store, must-revalidate"
+      >>= setHeader "Pragma" "no-cache"
+      >>= setHeader "Expires" "0"
 
-let staticContent  =
-    [".js"; ".jsx"; ".css"; ".html"; ".woff"; ".woff2"; ".ttf"]
-    |> Seq.map (fun s -> s.Replace(".", "\."))
-    |> String.concat "|"
-    |> sprintf "(%s)$"
+    let serverConfig =
+        { defaultConfig with
+            logger = Logging.Loggers.saneDefaultsFor config.LogLevel
+            bindings = [ HttpBinding.mk HTTP IPAddress.Loopback config.Port ]
+            mimeTypesMap = mimeTypes
+            cancellationToken = cancellationTokenSource.Token }
 
-printfn "Static content: \"%s\"" staticContent
+    let staticContent  =
+        [".js"; ".jsx"; ".css"; ".html"; ".woff"; ".woff2"; ".ttf"]
+        |> Seq.map (fun s -> s.Replace(".", "\."))
+        |> String.concat "|"
+        |> sprintf "(%s)$"
 
-let app =
-    choose
-        [GET >>= pathScan "/api/status/%s/%s" (fun (origin, destination) ->
-            Controller.checkStatus config.Credentials origin destination)
-         GET >>= path "/api/stations/all" >>= request (fun _ -> Controller.allStations config.Credentials |> Json.asResponse)
-         GET >>= path "/api/stations/nearby" >>= (fun context -> async {
-                let stations = opt {
-                    let! lat = context.request.["lat"] |> Option.tryMap Double.TryParse
-                    let! lon = context.request.["lon"] |> Option.tryMap Double.TryParse
-                    let! count = context.request.["count"] |> Option.tryMap Int32.TryParse
-                    printfn "Looking for %i stations near %f, %f" count lat lon
-                    return Controller.getClosest config.Credentials lat lon count
-                }
-                match stations with
-                | Some(s) -> return! Json.asResponse s context
-                | None -> return None
-            })
-         GET >>= pathScan "/api/user/%s/favourite" (Controller.favouriteStations config >> Json.asResponse)
-         PUT >>= pathScan "/api/user/%s/favourite" (fun id -> request (fun req ->
-            match Controller.saveFavourites config id req.rawForm with
-            | Ok -> OK "Saved"
-            | Error -> INTERNAL_ERROR "Failed"))
-         GET >>= path "/api/user/info" >>= Auth.getUserInfo
-         GET >>= path "/" >>= file "Index.html"
-         GET >>= pathRegex staticContent >>= browse __SOURCE_DIRECTORY__
-         NOT_FOUND "Nothing here"]
-     >>= noCache
+    printfn "Static content: \"%s\"" staticContent
+
+    let app =
+        choose
+            [GET >>= pathScan "/api/status/%s/%s" (fun (origin, destination) ->
+                Controller.checkStatus config.Credentials origin destination)
+             GET >>= path "/api/stations/all" >>= request (fun _ -> Controller.allStations config.Credentials |> Json.asResponse)
+             GET >>= path "/api/stations/nearby" >>= (fun context -> async {
+                    let stations = opt {
+                        let! lat = context.request.["lat"] |> Option.tryMap Double.TryParse
+                        let! lon = context.request.["lon"] |> Option.tryMap Double.TryParse
+                        let! count = context.request.["count"] |> Option.tryMap Int32.TryParse
+                        printfn "Looking for %i stations near %f, %f" count lat lon
+                        return Controller.getClosest config.Credentials lat lon count
+                    }
+                    match stations with
+                    | Some(s) -> return! Json.asResponse s context
+                    | None -> return None
+                })
+             GET >>= pathScan "/api/user/%s/favourite" (Controller.favouriteStations config >> Json.asResponse)
+             PUT >>= pathScan "/api/user/%s/favourite" (fun id -> request (fun req ->
+                match Controller.saveFavourites config id req.rawForm with
+                | Ok -> OK "Saved"
+                | Error -> INTERNAL_ERROR "Failed"))
+             GET >>= path "/api/user/info" >>= Auth.getUserInfo
+             GET >>= path "/" >>= file "Index.html"
+             GET >>= pathRegex staticContent >>= browse __SOURCE_DIRECTORY__
+             NOT_FOUND "Nothing here"]
+         >>= noCache
+
+    serverConfig, app
 
 let start () =
-    let startup, server = startWebServerAsync serverConfig app
+    let config, app = setup()
+    let startup, server = startWebServerAsync config app
     server |> Async.Start
     startup |> Async.RunSynchronously |> ignore
     server
 
 let stop () = cancellationTokenSource.Cancel()
+
+start()
+
+printfn "Press <Enter> to stop the server"
+Console.ReadLine()

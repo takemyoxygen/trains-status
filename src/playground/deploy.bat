@@ -22,7 +22,6 @@ if not exist paket.lock (
   .paket\paket.exe restore
 )
 
-packages\FSharp.Compiler.Tools\tools\fsi AssemblyLoader.fsx
 packages\FAKE\tools\FAKE.exe build.fsx Build output-dir=%DEPLOYMENT_TARGET% env=azure
 
 popd
