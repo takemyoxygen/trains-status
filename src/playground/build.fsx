@@ -34,6 +34,7 @@ Target "PatchConfig" (fun _ ->
     let config = sourceDir @@ "web.azure.config"
     if (TestFile config) then
         let target = sourceDir @@ "web.config"
+        if TestFile target then DeleteFile target
         Rename target config
 )
 
