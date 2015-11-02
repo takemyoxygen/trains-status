@@ -14,9 +14,9 @@ type Config =
 
 let private args =
     Environment.GetCommandLineArgs()
-    |> Seq.map (fun arg -> arg.Split('='))
-    |> Seq.filter (fun tokens -> tokens.Length = 2)
-    |> Seq.map (fun tokens -> tokens.[0].ToLower(), tokens.[1])
+    |> Seq.map (fun arg -> arg, arg.IndexOf('='))
+    |> Seq.filter (fun (_, i) -> i > 0)
+    |> Seq.map (fun (arg, i) -> arg.Substring(0, i), arg.Substring(i + 1))
     |> Map.ofSeq
 
 let private getArg name defaultValue =
