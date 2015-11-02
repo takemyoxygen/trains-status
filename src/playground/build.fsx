@@ -109,8 +109,8 @@ Target "Watch" (fun _ ->
 Target "Run" (fun _ ->
     let username, password, connectionString = 
         if environment = Azure then
-            environVar "APPSETTING_USERNAME",
-            environVar "APPSETTING_PASSWORD",
+            environVar "APPSETTING_NS_USERNAME",
+            environVar "APPSETTING_NS_PASSWORD",
             environVar "APPSETTING_CONNECTION_STRING"
         else
             let content = File.ReadAllLines(sourceDir @@ "credentials.txt")
