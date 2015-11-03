@@ -39,17 +39,14 @@ Target "PatchConfig" (fun _ ->
 )
 
 let exec filename args = 
-    let successful = 
-        execProcess 
-            (fun info ->
-                info.WorkingDirectory <- sourceDir
-                info.FileName <- filename
-                info.Arguments <- args
-                info.UseShellExecute <- true)
-            (TimeSpan.FromMinutes 1.0)
-    
-    if not successful then
-        failwithf "Failed to execute \"%s %s\"" filename args
+    let info = new ProcessStartInfo(
+                FileName = filename,
+                WorkingDirectory = sourceDir,
+                Arguments = args)
+    let proc = Process.Start info
+
+    if not <| proc.WaitForExit(1000 * 60 * 5) then
+        failwithf "Process \"%s %s\" didn't exit after 5 minutes" filename args
 
 /// Starts a process that won't be terminated when FAKE build completes
 let startDetached filename args = 
