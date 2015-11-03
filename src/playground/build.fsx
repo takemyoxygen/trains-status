@@ -46,7 +46,7 @@ let exec filename args =
                 info.FileName <- filename
                 info.Arguments <- args
                 info.UseShellExecute <- true)
-            (TimeSpan.FromMinutes 1.0)
+            (TimeSpan.FromMinutes 5.0)
     
     if not successful then
         failwithf "Failed to execute \"%s %s\"" filename args
