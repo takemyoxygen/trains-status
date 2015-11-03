@@ -44,9 +44,10 @@ let exec filename args =
                 WorkingDirectory = sourceDir,
                 Arguments = args)
     let proc = Process.Start info
-
+    
     if not <| proc.WaitForExit(1000 * 60 * 5) then
         failwithf "Process \"%s %s\" didn't exit after 5 minutes" filename args
+
 
 /// Starts a process that won't be terminated when FAKE build completes
 let startDetached filename args = 
