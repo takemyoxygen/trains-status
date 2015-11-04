@@ -214,6 +214,8 @@
     <Compile Include="load.fsx" />
     <Compile Include="app.fsx" />
     <None Include="build.fsx" />
+    <None Include="playground.fsx" />
+    <None Include="deploy.bat" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Data">

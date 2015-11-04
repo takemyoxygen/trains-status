@@ -20,8 +20,8 @@ if not exist paket.lock (
   .paket\paket.exe restore
 )
 
-@echo Restoring Node dependencies
-call npm install --production
+REM @echo Restoring Node dependencies
+REM call npm install --production
 
 packages\FAKE\tools\FAKE.exe build.fsx Build output-dir=%DEPLOYMENT_TARGET% env=azure
 

@@ -49,6 +49,34 @@ let exec filename args =
     if not <| proc.WaitForExit(1000 * 60 * 5) then
         failwithf "Process \"%s %s\" didn't exit after 5 minutes" filename args
 
+let execHere filename args =
+    let absoluteFilename = 
+        if Path.GetFileName filename = filename then 
+            match tryFindFileOnPath filename with
+            | Some(f) -> f
+            | None -> failwithf "Failed to find file \"%s\"" filename
+        else filename
+
+    let info = new ProcessStartInfo(
+                FileName = absoluteFilename,
+                WorkingDirectory = sourceDir,
+                Arguments = args,
+                UseShellExecute = false,
+                RedirectStandardOutput = true)
+
+    let proc = Process.Start info
+
+    let rec read() = async {
+        if not proc.HasExited then
+            let! line = proc.StandardOutput.ReadLineAsync() |> Async.AwaitTask
+            printfn "%s" line
+            do! read()
+    }
+
+    read() |> Async.Start
+
+    proc.WaitForExit()
+
 
 /// Starts a process that won't be terminated when FAKE build completes
 let startDetached filename args = 
@@ -60,7 +88,7 @@ let startDetached filename args =
 
 Target "RestoreNodePackages" (fun _ -> 
     printfn "Restoring NPM packages"
-    exec "npm" "install --production")
+    execHere "npm.cmd" "install --production")
 
 let nodeBin = sourceDir @@ "node_modules\\.bin"
 let bower = nodeBin @@ "bower.cmd"
@@ -69,17 +97,17 @@ let autoless = nodeBin @@ "autoless.cmd"
 
 Target "RestoreBowerPackages" (fun _ ->
     printfn "Restoring Bower packages"
-    exec bower "install --production"
+    execHere bower "install --production"
 )
 
 Target "CompileJs" (fun _ ->
     printfn "Compiling ES6 JavaScript files"
-    exec babel "js/src --out-dir js/build --modules amd --stage 0"
+    execHere babel "js/src --out-dir js/build --modules amd --stage 0"
 )
 
 Target "CompileLess" (fun _ ->
     printfn "Compiling LESS files"
-    exec autoless "--no-watch styles styles"
+    execHere autoless "--no-watch styles styles"
 )
 
 Target "Copy" (fun _ ->
@@ -130,6 +158,7 @@ Target "Run" (fun _ ->
 "Start"
     =?> ("Clean", sourceDir <> outputDir)
     =?> ("PatchConfig", environment = Azure)
+    ==> "RestoreNodePackages"
     ==> "RestoreBowerPackages"
     ==> "CompileJs"
     ==> "CompileLess"
