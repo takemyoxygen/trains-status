@@ -93,6 +93,7 @@ Target "Copy" (fun _ ->
         ++ "samples/*.xml"
         ++ "credentials.txt"
         ++ "index.html"
+        ++ "web.config"
         |> SetBaseDir sourceDir
     CopyWithSubfoldersTo outputDir [files]
 )
