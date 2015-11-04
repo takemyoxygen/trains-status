@@ -43,6 +43,7 @@ let exec filename args =
                 FileName = filename,
                 WorkingDirectory = sourceDir,
                 Arguments = args)
+
     let proc = Process.Start info
     
     if not <| proc.WaitForExit(1000 * 60 * 5) then
@@ -128,7 +129,6 @@ Target "Run" (fun _ ->
 "Start"
     =?> ("Clean", sourceDir <> outputDir)
     =?> ("PatchConfig", environment = Azure)
-    ==> "RestoreNodePackages"
     ==> "RestoreBowerPackages"
     ==> "CompileJs"
     ==> "CompileLess"

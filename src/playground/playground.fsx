@@ -1,14 +1,24 @@
-#load "load.fsx"
+#r "System.Management"
 
-#load "fs/Json.fs"
-#load "fs/Common.fs"
-#load "fs/Config.fs"
-#load "fs/Storage.fs"
+open System.Management
+open System.Linq
+open System.Diagnostics
 
-let config = Config.current __SOURCE_DIRECTORY__
+let processes = Process.GetProcesses()
 
-let id = "user-id"
+let nodes = processes
+            |> Seq.filter (fun p -> p.Id = 7756 || p.Id = 6088)
+            |> List.ofSeq
 
-let favs = ["Naarden-Bussum"; "Amsterdam Zuid"; "Utrecht Centraal"; "Amsterdam Centraal"]
 
-let favs' = Storage.getFavourites config id
+let wmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
+let searcher = new ManagementObjectSearcher(wmiQueryString)
+let results = searcher.Get().Cast<ManagementObject>()
+              |> Seq.filter(fun o ->
+                    let pid = int (o.["ProcessId"] :?> System.UInt32)
+                    pid = 7756 || pid = 6088)
+              |> List.ofSeq
+
+
+results.[0].Properties
+
