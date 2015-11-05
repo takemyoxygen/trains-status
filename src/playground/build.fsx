@@ -146,13 +146,16 @@ Target "Run" (fun _ ->
             content.[0], content.[1], content.[2]
 
     let app = sourceDir @@ "app.fsx"
-    execProcess
-        (fun info -> 
-            info.FileName <- fsiPath
-            info.WorkingDirectory <- sourceDir
-            info.Arguments <- sprintf "%s username=%s password=%s connection-string=%s" app username password connectionString)
-        (Timeout.InfiniteTimeSpan)
-    |> ignore
+
+    let arguments = sprintf "%s username=%s password=%s connection-string=%s" app username password connectionString
+    execHere fsiPath arguments
+//    execProcess
+//        (fun info -> 
+//            info.FileName <- fsiPath
+//            info.WorkingDirectory <- sourceDir
+//            info.Arguments <- arguments)
+//        (Timeout.InfiniteTimeSpan)
+//    |> ignore
 )
 
 "Start"
