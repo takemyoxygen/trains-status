@@ -201,7 +201,7 @@ Target "RunLocally" (fun _ ->
     let rec loop() = 
         printfn "Starting the server, type \"r\" to restart or anything else to stop."
         let proc = startServer username password connectionString port
-        let input = System.Console.ReadKey()
+        let input = Console.ReadKey(true)
         proc.Kill()
         if input.KeyChar = 'r' then loop()
 
