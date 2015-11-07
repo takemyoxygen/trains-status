@@ -9,7 +9,7 @@ open System.Threading
 
 let normalize = toLower >> trimEndChars [|'\\'|]
 let sourceDir = normalize __SOURCE_DIRECTORY__
-let outputDir = 
+let outputDir =
     (match environVarOrNone "DEPLOYMENT_TARGET" with
     | Some(dir) -> dir
     | None -> getBuildParamOrDefault "output-dir" __SOURCE_DIRECTORY__)
@@ -18,10 +18,10 @@ let outputDir =
 logfn "Source directory: %s" sourceDir
 logfn "Output directory: %s" outputDir
 
-[<Literal>] 
+[<Literal>]
 let Azure = "azure"
 
-[<Literal>] 
+[<Literal>]
 let Local = "local"
 
 let environment = getBuildParamOrDefault "env" Local |> toLower
@@ -38,20 +38,20 @@ Target "PatchConfig" (fun _ ->
         Rename target config
 )
 
-let exec filename args = 
+let exec filename args =
     let info = new ProcessStartInfo(
                 FileName = filename,
                 WorkingDirectory = sourceDir,
                 Arguments = args)
 
     let proc = Process.Start info
-    
+
     if not <| proc.WaitForExit(1000 * 60 * 5) then
         failwithf "Process \"%s %s\" didn't exit after 5 minutes" filename args
 
 let execHere filename args =
-    let absoluteFilename = 
-        if Path.GetFileName filename = filename then 
+    let absoluteFilename =
+        if Path.GetFileName filename = filename then
             match tryFindFileOnPath filename with
             | Some(f) -> f
             | None -> failwithf "Failed to find file \"%s\"" filename
@@ -79,14 +79,14 @@ let execHere filename args =
 
 
 /// Starts a process that won't be terminated when FAKE build completes
-let startDetached filename args = 
+let startDetached filename args =
     let info = new ProcessStartInfo(
                     FileName = filename,
                     WorkingDirectory = sourceDir,
                     Arguments = args)
     Process.Start info |> ignore
 
-Target "RestoreNodePackages" (fun _ -> 
+Target "RestoreNodePackages" (fun _ ->
     printfn "Restoring NPM packages"
     execHere "npm.cmd" "install --production")
 
@@ -111,7 +111,7 @@ Target "CompileLess" (fun _ ->
 )
 
 Target "Copy" (fun _ ->
-    let files = 
+    let files =
         !! "packages/**/*.*"
         ++ "bower_components/**/*.*"
         ++ "*.fsx"
@@ -136,7 +136,7 @@ Target "Watch" (fun _ ->
 )
 
 Target "Run" (fun _ ->
-    let username, password, connectionString = 
+    let username, password, connectionString =
         if environment = Azure then
             environVar "APPSETTING_NS_USERNAME",
             environVar "APPSETTING_NS_PASSWORD",
@@ -147,10 +147,11 @@ Target "Run" (fun _ ->
 
     let app = sourceDir @@ "app.fsx"
 
-    let arguments = sprintf "%s username=%s password=%s connection-string=%s" app username password connectionString
+    let port = getBuildParamOrDefault "port" "8082"
+    let arguments = sprintf "%s username=%s password=%s connection-string=%s port=%s" app username password connectionString port
     execHere fsiPath arguments
 //    execProcess
-//        (fun info -> 
+//        (fun info ->
 //            info.FileName <- fsiPath
 //            info.WorkingDirectory <- sourceDir
 //            info.Arguments <- arguments)
