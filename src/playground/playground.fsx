@@ -3,22 +3,31 @@
 open System.Management
 open System.Linq
 open System.Diagnostics
+open System.IO
 
 let processes = Process.GetProcesses()
 
-let nodes = processes
-            |> Seq.filter (fun p -> p.Id = 7756 || p.Id = 6088)
-            |> List.ofSeq
+let findNodeJsProcesses (folder: string) =
+    let folderLowercase = folder.ToLower()
+
+    let wmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
+    use searcher = new ManagementObjectSearcher(wmiQueryString)
+
+    let pids = 
+        searcher.Get().Cast<ManagementObject>()
+        |> Seq.filter (fun wmi -> 
+            Path.GetFileName(string wmi.["ExecutablePath"]).ToLower() = "node.exe")
+        |> Seq.filter (fun wmi ->
+            (string wmi.["CommandLine"]).ToLower().Contains folderLowercase)
+        |> Seq.map (fun wmi -> wmi.["ProcessId"] :?> uint32 |> int)
+        |> List.ofSeq
+
+    if pids.IsEmpty then []
+    else
+        Process.GetProcesses()
+        |> Seq.filter (fun p -> pids |> List.contains p.Id)
+        |> List.ofSeq
 
 
-let wmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
-let searcher = new ManagementObjectSearcher(wmiQueryString)
-let results = searcher.Get().Cast<ManagementObject>()
-              |> Seq.filter(fun o ->
-                    let pid = int (o.["ProcessId"] :?> System.UInt32)
-                    pid = 7756 || pid = 6088)
-              |> List.ofSeq
 
-
-results.[0].Properties
-
+findNodeJsProcesses __SOURCE_DIRECTORY__

@@ -1,4 +1,5 @@
 ﻿#r "packages/FAKE/tools/FakeLib.dll"
+#r "System.Management"
 
 open System
 open System.IO
@@ -6,6 +7,7 @@ open Fake
 open Fake.FileUtils
 open System.Diagnostics
 open System.Threading
+open System.Management
 
 let normalize = toLower >> trimEndChars [|'\\'|]
 let sourceDir = normalize __SOURCE_DIRECTORY__
@@ -38,18 +40,7 @@ Target "PatchConfig" (fun _ ->
         Rename target config
 )
 
-let exec filename args =
-    let info = new ProcessStartInfo(
-                FileName = filename,
-                WorkingDirectory = sourceDir,
-                Arguments = args)
-
-    let proc = Process.Start info
-
-    if not <| proc.WaitForExit(1000 * 60 * 5) then
-        failwithf "Process \"%s %s\" didn't exit after 5 minutes" filename args
-
-let execHere filename args =
+let startProcess filename args embed =
     let absoluteFilename =
         if Path.GetFileName filename = filename then
             match tryFindFileOnPath filename with
@@ -61,30 +52,38 @@ let execHere filename args =
                 FileName = absoluteFilename,
                 WorkingDirectory = sourceDir,
                 Arguments = args,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true)
+                UseShellExecute = not embed,
+                RedirectStandardOutput = embed,
+                RedirectStandardError = embed)
 
-    let proc = Process.Start info
+    let proc = new Process(StartInfo = info)
+    start proc
 
-    let rec read() = async {
-        if not proc.HasExited then
-            let! line = proc.StandardOutput.ReadLineAsync() |> Async.AwaitTask
-            printfn "%s" line
-            do! read()
-    }
+    if embed then
+        let rec read() = async {
+            if not proc.HasExited then
+                let! line = proc.StandardOutput.ReadLineAsync() |> Async.AwaitTask
+                printfn "%s" line
+                do! read()
+        }
 
-    let rec readError() = async {
-        if not proc.HasExited then
-            let! line = proc.StandardError.ReadLineAsync() |> Async.AwaitTask
-            Console.Error.WriteLine line
-            do! readError()
-    }
+        let rec readError() = async {
+            if not proc.HasExited then
+                let! line = proc.StandardError.ReadLineAsync() |> Async.AwaitTask
+                Console.Error.WriteLine line
+                do! readError()
+        }
 
-    read() |> Async.Start
-    readError() |> Async.Start
+        read() |> Async.Start
+        readError() |> Async.Start
 
-    proc.WaitForExit()
+    proc
+
+let waitForExit (p: Process) = p.WaitForExit()
+
+let exec filename args =
+    startProcess filename args true
+    |> waitForExit
 
 
 /// Starts a process that won't be terminated when FAKE build completes
@@ -93,11 +92,16 @@ let startDetached filename args =
                     FileName = filename,
                     WorkingDirectory = sourceDir,
                     Arguments = args)
-    Process.Start info |> ignore
+    let proc = Process.Start info
+
+    startedProcesses.Add(proc.Id, proc.StartTime) |> ignore
+
+    printfn "Process %i has been started" proc.Id
+
 
 Target "RestoreNodePackages" (fun _ ->
     printfn "Restoring NPM packages"
-    execHere "npm.cmd" "install --production")
+    exec "npm.cmd" "install --production")
 
 let nodeBin = sourceDir @@ "node_modules\\.bin"
 let bower = nodeBin @@ "bower.cmd"
@@ -106,17 +110,17 @@ let autoless = nodeBin @@ "autoless.cmd"
 
 Target "RestoreBowerPackages" (fun _ ->
     printfn "Restoring Bower packages"
-    execHere bower "install --production"
+    exec bower "install --production"
 )
 
 Target "CompileJs" (fun _ ->
     printfn "Compiling ES6 JavaScript files"
-    execHere babel "js/src --out-dir js/build --modules amd --stage 0"
+    exec babel "js/src --out-dir js/build --modules amd --stage 0"
 )
 
 Target "CompileLess" (fun _ ->
     printfn "Compiling LESS files"
-    execHere autoless "--no-watch styles styles"
+    exec autoless "--no-watch styles styles"
 )
 
 Target "Copy" (fun _ ->
@@ -137,36 +141,74 @@ Target "Copy" (fun _ ->
 
 Target "Build" ignore
 
+let findNodeJsProcesses (folder: string) =
+    let folderLowercase = folder.ToLower()
+
+    let wmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
+    use searcher = new ManagementObjectSearcher(wmiQueryString)
+    let pids = 
+        searcher.Get()
+        |> Seq.cast<ManagementObject>
+        |> Seq.filter (fun wmi -> 
+            Path.GetFileName(string wmi.["ExecutablePath"]).ToLower() = "node.exe")
+        |> Seq.filter (fun wmi ->
+            (string wmi.["CommandLine"]).ToLower().Contains folderLowercase)
+        |> Seq.map (fun wmi -> wmi.["ProcessId"] :?> uint32 |> int)
+        |> List.ofSeq
+
+    if pids.IsEmpty then []
+    else
+        Process.GetProcesses()
+        |> Seq.filter (fun p -> pids |> List.contains p.Id)
+        |> List.ofSeq
+
 Target "Watch" (fun _ ->
     if TestDir nodeBin then
-        startDetached babel "js/src --watch --out-dir js/build --modules amd --stage 0"
-        startDetached autoless "styles styles"
-    else failwith "\"Watch\" can only be executed from the folder with the source code"
-)
+        startProcess babel "js/src --watch --out-dir js/build --modules amd --stage 0" false |> ignore
+        startProcess autoless "styles styles" false |> ignore
+        ActivateFinalTarget "TerminateWatchers"
+    else failwith "\"Watch\" can only be executed from the folder with the source code")
 
-Target "Run" (fun _ ->
+FinalTarget "TerminateWatchers" (fun _ -> 
+    findNodeJsProcesses sourceDir
+    |> Seq.iter (fun p -> 
+        logfn "Trying to kill process %i" p.Id
+        p.Kill()))
+
+let startServer username password connectionString port =
+    let script = sourceDir @@ "app.fsx"
+    let arguments = sprintf "%s username=%s password=%s connection-string=%s port=%s" script username password connectionString port
+    startProcess fsiPath arguments true
+
+Target "RunOnAzure" (fun _ ->
     let username, password, connectionString =
-        if environment = Azure then
-            environVar "APPSETTING_NS_USERNAME",
-            environVar "APPSETTING_NS_PASSWORD",
-            environVar "APPSETTING_CONNECTION_STRING"
-        else
-            let content = File.ReadAllLines(sourceDir @@ "credentials.txt")
-            content.[0], content.[1], content.[2]
+        environVar "APPSETTING_NS_USERNAME",
+        environVar "APPSETTING_NS_PASSWORD",
+        environVar "APPSETTING_CONNECTION_STRING"
+    let port = getBuildParam "port"
 
-    let app = sourceDir @@ "app.fsx"
-
-    let port = getBuildParamOrDefault "port" "8082"
-    let arguments = sprintf "%s username=%s password=%s connection-string=%s port=%s" app username password connectionString port
-    execHere fsiPath arguments
-//    execProcess
-//        (fun info ->
-//            info.FileName <- fsiPath
-//            info.WorkingDirectory <- sourceDir
-//            info.Arguments <- arguments)
-//        (Timeout.InfiniteTimeSpan)
-//    |> ignore
+    if isNullOrEmpty port then failwith "No port configured"
+    else startServer username password connectionString port |> waitForExit
 )
+
+Target "RunLocally" (fun _ ->
+    let username, password, connectionString =
+        let content = File.ReadAllLines(sourceDir @@ "credentials.txt")
+        content.[0], content.[1], content.[2]
+
+    let port = getBuildParamOrDefault "port" "8081"
+    
+    let rec loop() = 
+        printfn "Starting the server, type \"r\" to restart or anything else to stop."
+        let proc = startServer username password connectionString port
+        let input = System.Console.ReadKey()
+        proc.Kill()
+        if input.KeyChar = 'r' then loop()
+
+    loop()
+)
+
+Target "Run" DoNothing
 
 "Start"
     =?> ("Clean", sourceDir <> outputDir)
@@ -177,5 +219,11 @@ Target "Run" (fun _ ->
     ==> "CompileLess"
     =?> ("Copy", sourceDir <> outputDir)
     ==> "Build"
+
+"Start"
+    =?> ("RunOnAzure", environment = Azure)
+    =?> ("Watch", environment = Local)
+    =?> ("RunLocally", environment = Local)
+    ==> "Run"
 
 RunTargetOrDefault "Run"
