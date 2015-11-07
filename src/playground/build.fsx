@@ -62,7 +62,8 @@ let execHere filename args =
                 WorkingDirectory = sourceDir,
                 Arguments = args,
                 UseShellExecute = false,
-                RedirectStandardOutput = true)
+                RedirectStandardOutput = true,
+                RedirectStandardError = true)
 
     let proc = Process.Start info
 
@@ -73,7 +74,15 @@ let execHere filename args =
             do! read()
     }
 
+    let rec readError() = async {
+        if not proc.HasExited then
+            let! line = proc.StandardError.ReadLineAsync() |> Async.AwaitTask
+            Console.Error.WriteLine line
+            do! readError()
+    }
+
     read() |> Async.Start
+    readError() |> Async.Start
 
     proc.WaitForExit()
 
