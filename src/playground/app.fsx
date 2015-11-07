@@ -103,14 +103,7 @@ let private setup() =
 
 let start () =
     let config, app = setup()
-    let startup, server = startWebServerAsync config app
-    server |> Async.Start
-    startup |> Async.RunSynchronously |> ignore
-    server
-
-let stop () = cancellationTokenSource.Cancel()
+    printfn "Starting Suave server..."
+    startWebServer config app
 
 start()
-
-printfn "Press <Enter> to stop the server"
-Console.ReadLine()
