@@ -25,16 +25,15 @@ const sortedFavourites = Rx.Observable
         replay,
         Stations.origin,
         (favs, origin) => {
-            console.log("Sorting fav directions");
-            for (var i = 0; i < favs.length; i++){
-                if (favs[i].name.toLowerCase() === origin.name.toLowerCase()){
-                    const clone = favs.slice(0);
-                    clone.splice(i, 1);
-                    clone.push(favs[i]);
-                    return clone;
-                }
-            }
-            return favs;
+            const clone = favs.slice(0);
+            const originLower = origin.name.toLowerCase();
+            const isOrigin = s => s.name.toLowerCase() == originLower;
+            const defaultSort = (a, b) => a.name > b.name ? 1 : -1;
+
+            return clone.sort((a, b) =>
+                isOrigin(a) ? 1 :
+                isOrigin(b) ? -1 :
+                defaultSort(a, b));
         });
 
 function update(favourites){
