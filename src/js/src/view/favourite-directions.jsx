@@ -1,5 +1,5 @@
 import React from "react";
-import {Stations} from "stations";
+import Stations from "stations";
 import $ from "jquery";
 import Rx from "rxjs";
 import Origin from "view/origin";
@@ -15,8 +15,9 @@ class Direction extends React.Component{
     }
 
     componentDidMount(){
-        this.originSubscription = this.props.origin
-            .filter(s => s != null)
+        this.originSubscription = Stations
+            .origin
+            .do(station => console.log("Origin has changed to " + station.name))
             .subscribe(origin => {
                 if (origin.name == this.props.destination.name){
                     this.setState({status: "same-as-origin"});
@@ -126,7 +127,7 @@ class FavouritesStatus extends React.Component{
     render = () => (
         <div className="row favourites">
             <ul className="list-group">
-                {this.state.stations.map((s, i) => <Direction key={`${i}-${s.name}`} origin={this.props.origin} destination={s} />)}
+                {this.state.stations.map((s, i) => <Direction key={`${i}-${s.name}`} destination={s} />)}
             </ul>
             {this.state.userLoggedIn && <AddFavouriteStation onStationAdded={this.onStationAdded} canAddStation={this.canAddStation}/>}
         </div>)
@@ -135,14 +136,12 @@ class FavouritesStatus extends React.Component{
 export default class DirectionsStatus extends React.Component{
     constructor(){
         super();
-        this.state = {origin: new Rx.BehaviorSubject(null)}
+        this.state = {origin: Stations.origin};
     }
-
-    onOriginChanged = origin => this.state.origin.onNext(origin)
 
     render = () => (
         <div>
-          <Origin onStationSelected={this.onOriginChanged}/>
+          <Origin />
           <FavouritesStatus origin={this.state.origin}/>
         </div>);
  };

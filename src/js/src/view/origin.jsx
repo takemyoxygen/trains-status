@@ -1,5 +1,5 @@
 import React from "react";
-import {Stations} from "stations";
+import Stations from "stations";
 
 export default class Origin extends React.Component{
     constructor(){
@@ -7,22 +7,21 @@ export default class Origin extends React.Component{
         this.state = {station: "loading closest station...", available: false};
     }
 
-    componentDidMount = () => Stations
-        .loadNearby()
-        .done(stations => {
-            if (stations.length && stations.length > 0){
-                var origin = stations[0];
+    componentDidMount(){
+        this.subscription = Stations
+            .origin
+            .subscribe(station => {
                 this.setState({
-                    station: origin.name,
-                    liveDepartures: origin.liveDeparturesUrl,
+                    station: station.name,
+                    liveDepartures: station.liveDeparturesUrl,
                     available: true
                 });
+            });
+    }
 
-                if (typeof this.props.onStationSelected === "function"){
-                    this.props.onStationSelected(origin);
-                }
-            }
-        })
+    componentWillUnmount(){
+        this.subscription.dispose();
+    }
 
     render(){
         var disabled = this.state.available ? "" : "disabled";

@@ -1,6 +1,6 @@
 import React from "react";
 import Autocomplete from "react-autocomplete";
-import {Stations} from "stations";
+import Stations from "stations";
 
 export default class StationsSelector extends React.Component{
     constructor(){
