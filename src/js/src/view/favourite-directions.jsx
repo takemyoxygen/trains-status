@@ -19,7 +19,7 @@ class Direction extends React.Component{
             .filter(s => s != null)
             .subscribe(origin => {
                 if (origin.name == this.props.destination.name){
-                    this.setState({status: "disabled"});
+                    this.setState({status: "same-as-origin"});
                 } else {
                     this.checkStatus(origin);
                 }
