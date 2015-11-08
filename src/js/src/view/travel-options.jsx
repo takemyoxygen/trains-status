@@ -3,7 +3,8 @@ import React from "react";
 class StopStatus extends React.Component{
     formatDate(s){
         var date = new Date(s);
-        return date.getHours() + ":" + date.getMinutes();
+        let format = x => x < 10 ? "0" + x : x;
+        return format(date.getHours()) + ":" + format(date.getMinutes());
     }
     render(){
         var delayed = this.props.stop.delay != null;
