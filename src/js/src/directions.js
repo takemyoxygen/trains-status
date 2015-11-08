@@ -1,5 +1,6 @@
 import Auth from "auth"
 import Rx from "rxjs"
+import Stations from "stations"
 
 let user = null;
 let favourites = [];
@@ -7,6 +8,7 @@ let favourites = [];
 const subject = new Rx.Subject();
 const replay = subject.replay(null, 1);
 const connection = replay.connect();
+
 const sync = Auth
     .currentUser
     .do(u => user = u)
@@ -18,6 +20,23 @@ const sync = Auth
         subject.onNext(favourites);
     });
 
+const sortedFavourites = Rx.Observable
+    .combineLatest(
+        replay,
+        Stations.origin,
+        (favs, origin) => {
+            console.log("Sorting fav directions");
+            for (var i = 0; i < favs.length; i++){
+                if (favs[i].name.toLowerCase() === origin.name.toLowerCase()){
+                    const clone = favs.slice(0);
+                    clone.splice(i, 1);
+                    clone.push(favs[i]);
+                    return clone;
+                }
+            }
+            return favs;
+        });
+
 function update(favourites){
     $.ajax({
         method: "PUT",
@@ -28,7 +47,7 @@ function update(favourites){
 
 export default class Directions {
 
-    static favourites = replay;
+    static favourites = sortedFavourites
 
     static addFavourite(direction){
         favourites = favourites.concat([direction]);
