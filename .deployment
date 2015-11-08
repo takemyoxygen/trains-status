@@ -1,2 +1,2 @@
 [config]
-command = src\Playground\deploy.bat
+command = src\deploy.bat
