@@ -10,7 +10,8 @@ export default class StationsSelector extends React.Component{
 
     static propTypes = {
         onStationSelected: React.PropTypes.func.isRequired,
-        canSelectStation: React.PropTypes.func.isRequired
+        canSelectStation: React.PropTypes.func.isRequired,
+        currentStation: React.PropTypes.object
     }
 
     componentDidMount(){
@@ -47,6 +48,7 @@ export default class StationsSelector extends React.Component{
                     getItemValue={x => x.name}
                     onSelect={this.onSelect}
                     onChange={this.onChange}
+                    initialValue={this.props.currentStation ? this.props.currentStation.name : ""}
                     shouldItemRender={(st, val) => st.name.toLowerCase().indexOf(val.toLowerCase()) >= 0 }
                     renderItem={(item, highlighted, style) =>
                         <div className={`station ${highlighted ? "highlighted" : ""}`}>

@@ -13,7 +13,7 @@ export default class Origin extends React.Component{
             .origin
             .subscribe(station => {
                 this.setState({
-                    station: station.name,
+                    station: station,
                     liveDepartures: station.liveDeparturesUrl,
                     available: true
                 });
@@ -35,7 +35,6 @@ export default class Origin extends React.Component{
     onCancel = () => this.setState({inEditMode: false});
     onOk = () => {
         this.refs.stationsSelector.forceAdd();
-        this.setState({inEditMode: false})
     };
 
     render(){
@@ -47,6 +46,7 @@ export default class Origin extends React.Component{
                         <div className="change-origin">
                             <span>New origin:</span>
                             <StationsSelector
+                                currentStation={this.state.station}
                                 ref="stationsSelector"
                                 canSelectStation={() => true}
                                 onStationSelected={this.onStationSelected} />
@@ -57,7 +57,7 @@ export default class Origin extends React.Component{
                     : (
                         <div className="origin">
                             Origin:
-                            <span className="station-name">{this.state.station}</span>
+                            <span className="station-name">{this.state.station.name}</span>
                             {this.state.available && (
                                 <div className="origin-buttons">
                                     <a className={`btn btn-default btn-sm edit-icon ${disabled}`} title="Change" onClick={this.toEditMode}>
