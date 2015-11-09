@@ -32,17 +32,31 @@ export default class Origin extends React.Component{
         this.setState({inEditMode: false});
     }
 
+    onCancel = () => this.setState({inEditMode: false});
+    onOk = () => {
+        this.refs.stationsSelector.forceAdd();
+        this.setState({inEditMode: false})
+    };
+
     render(){
         var disabled = this.state.available ? "" : "disabled";
         return (
-            <h3 className="origin">
+            <h3>
                 {this.state.inEditMode
                     ? (
-                        <StationsSelector canSelectStation={() => true} onStationSelected={this.onStationSelected} />
+                        <div className="change-origin">
+                            <span>New origin:</span>
+                            <StationsSelector
+                                ref="stationsSelector"
+                                canSelectStation={() => true}
+                                onStationSelected={this.onStationSelected} />
+                            <a className="btn btn-primary" onClick={this.onOk}>Ok</a>
+                            <a className="btn btn-default" onClick={this.onCancel}>Cancel</a>
+                        </div>
                     )
                     : (
-                        <div>
-                            Departure:
+                        <div className="origin">
+                            Origin:
                             <span className="station-name">{this.state.station}</span>
                             {this.state.available && (
                                 <div className="origin-buttons">
