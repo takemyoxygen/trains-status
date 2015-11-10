@@ -6,8 +6,8 @@ open Suave.Http.RequestErrors
 
 open Common
 
-type GetStationsResponse = {Name: string; LiveDeparturesUrl: string}
-type Station = {Name: string}
+type StationResponse = {Name: string; LiveDeparturesUrl: string; Code: string}
+type StationName = {Name: string}
 
 let private unescape = Uri.UnescapeDataString
 
@@ -16,8 +16,12 @@ let checkStatus creds origin destination =
     | Status.NoOptionsFound(orig, dest) -> NOT_FOUND <| sprintf "No travel options found between %s  and  %s" orig dest
     | Status.TravelOptionsStatus(status) -> Json.asResponse status
 
+
 let private liveDeparturesUrl (station: Stations.T) =
     sprintf "http://www.ns.nl/actuele-vertrektijden/avt?station=%s" (station.Code.ToLower())
+
+let private toStationResponse (station: Stations.T) =
+    {Name = station.Name; Code = station.Code; LiveDeparturesUrl = liveDeparturesUrl station}
 
 let getClosest credentials lat lon count =
     let distance coord1 coord2 =
@@ -34,19 +38,22 @@ let getClosest credentials lat lon count =
     Stations.all credentials
     |> Seq.sortBy (fun st -> distance origin st.Coordinates)
     |> Seq.take count
-    |> Seq.map (fun s -> {Name = s.Name; LiveDeparturesUrl = liveDeparturesUrl s})
+    |> Seq.map toStationResponse
     |> List.ofSeq
 
 let favouriteStations config id =
-    Storage.getFavourites config id
-    |> List.map (fun s -> {Name = s})
+    let favs = Storage.getFavourites config id
+    Stations.all config.Credentials
+    |> Seq.filter (fun st -> favs |> List.contains st.Name)
+    |> Seq.map toStationResponse
+    |> List.ofSeq
 
 let allStations creds =
     Stations.all creds
-    |> List.map (fun s -> {Name = s.Name})
+    |> List.map toStationResponse
 
 let saveFavourites config user rawFavourites = 
-    let favourites = Json.fromByteArray<Station list> rawFavourites
+    let favourites = Json.fromByteArray<StationName list> rawFavourites
                      |> Seq.map (fun s -> s.Name)
                      |> List.ofSeq
 

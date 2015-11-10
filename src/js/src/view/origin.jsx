@@ -1,6 +1,7 @@
 import React from "react";
 import Stations from "stations";
 import StationsSelector from "view/stations-selector";
+import $ from "jquery";
 
 export default class Origin extends React.Component{
     constructor(){
@@ -18,6 +19,10 @@ export default class Origin extends React.Component{
                     available: true
                 });
             });
+    }
+
+    componentDidUpdate(){
+        const element = $(React.findDOMNode(this)).find("input[role=combobox]").focus();
     }
 
     componentWillUnmount(){

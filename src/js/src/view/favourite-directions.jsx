@@ -27,6 +27,10 @@ class Direction extends React.Component{
             });
     }
 
+    componentWillUnmount() {
+        this.originSubscription.dispose();
+    }
+
     toggleExpanded = () => this.setState({expanded: !this.state.expanded})
 
     checkStatus(origin){
