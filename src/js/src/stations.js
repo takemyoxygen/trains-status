@@ -20,6 +20,8 @@ let pendingLoadingClosest = true;
 const originsStream = Rx.Observable
     .create(
         observer => {
+            const garbage = new Rx.CompositeDisposable();
+
             if (pendingLoadingClosest){
                 pendingLoadingClosest = false;
 
@@ -29,6 +31,8 @@ const originsStream = Rx.Observable
                         originOverridden = true;
                         overridesWatcher.dispose();
                     });
+
+                garbage.add(overridesWatcher);
 
                 loadNearbyStations()
                     .then(
@@ -45,12 +49,8 @@ const originsStream = Rx.Observable
                         });
             }
 
-            const subjectSubscription = replay.subscribe(observer);
-
-            return () => {
-                subjectSubscription.dispose();
-                overridesWatcher.dispose();
-            };
+            garbage.add(replay.subscribe(observer));
+            return garbage;
         }
     );
 
