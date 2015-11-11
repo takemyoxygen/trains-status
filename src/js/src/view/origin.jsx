@@ -21,10 +21,6 @@ export default class Origin extends React.Component{
             });
     }
 
-    componentDidUpdate(){
-        const element = $(React.findDOMNode(this)).find("input[role=combobox]").focus();
-    }
-
     componentWillUnmount(){
         this.subscription.dispose();
     }
@@ -38,9 +34,6 @@ export default class Origin extends React.Component{
     }
 
     onCancel = () => this.setState({inEditMode: false});
-    onOk = () => {
-        this.refs.stationsSelector.forceAdd();
-    };
 
     render(){
         var disabled = this.state.available ? "" : "disabled";
@@ -54,9 +47,9 @@ export default class Origin extends React.Component{
                                 currentStation={this.state.station}
                                 ref="stationsSelector"
                                 canSelectStation={() => true}
-                                onStationSelected={this.onStationSelected} />
-                            <a className="btn btn-primary" onClick={this.onOk}>Ok</a>
-                            <a className="btn btn-default" onClick={this.onCancel}>Cancel</a>
+                                autofocus="true"
+                                onStationSelected={this.onStationSelected}
+                                onCancel={this.onCancel}/>
                         </div>
                     )
                     : (

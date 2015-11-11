@@ -11,13 +11,23 @@ export default class StationsSelector extends React.Component{
     static propTypes = {
         onStationSelected: React.PropTypes.func.isRequired,
         canSelectStation: React.PropTypes.func.isRequired,
-        currentStation: React.PropTypes.object
+        onCancel: React.PropTypes.func,
+        currentStation: React.PropTypes.object,
+        autofocus: React.PropTypes.bool
     }
 
     componentDidMount(){
         Stations
             .loadAll()
             .done(stations => this.setState({stations: stations}));
+    }
+
+    componentDidUpdate(){
+        if (this.props.autofocus){
+            $(React.findDOMNode(this))
+                .find("input[role=combobox]")
+                .focus();
+        }
     }
 
     onSelect = (_, item) => {
@@ -28,7 +38,7 @@ export default class StationsSelector extends React.Component{
         }
     }
 
-    forceAdd(){
+    onOk = () => {
         const current =
             this.state.text &&
             this.state.valid &&
@@ -54,6 +64,8 @@ export default class StationsSelector extends React.Component{
                         <div className={`station ${highlighted ? "highlighted" : ""}`}>
                             {item.name}
                         </div>}/>
+                <a className="btn btn-primary" onClick={this.onOk}>Ok</a>
+                <a className="btn btn-default" onClick={this.props.onCancel && this.props.onCancel}>Cancel</a>
             </div>);
     }
 }

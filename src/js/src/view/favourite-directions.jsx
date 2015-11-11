@@ -71,13 +71,6 @@ class AddFavouriteStation extends React.Component{
         canAddStation: React.PropTypes.func.isRequired
     }
 
-    componentDidUpdate(){
-        var node = React.findDOMNode(this.refs.stationSelector);
-        if (node != null) {
-            $(node).find("input[role=combobox]").focus();
-        }
-    }
-
     onAddStation = () => this.setState({inEditMode: true})
 
     onStationSelected = station => {
@@ -85,7 +78,6 @@ class AddFavouriteStation extends React.Component{
         this.setState({inEditMode: false});
     }
 
-    onOk = () => this.refs.stationSelector.forceAdd();
     onCancel = () => this.setState({inEditMode: false});
 
     render(){
@@ -96,10 +88,10 @@ class AddFavouriteStation extends React.Component{
                     <StationsSelector
                         ref="stationSelector"
                         valid={this.state.valid}
+                        autofocus="true"
                         canSelectStation={this.props.canAddStation}
-                        onStationSelected={this.onStationSelected} />
-                    <a className="btn btn-primary" onClick={this.onOk}>Ok</a>
-                    <a className="btn btn-default" onClick={this.onCancel}>Cancel</a>
+                        onStationSelected={this.onStationSelected}
+                        onCancel={this.onCancel} />
                 </div>
             )
             : <a className="btn btn-primary" onClick={this.onAddStation}>Add station</a>;
