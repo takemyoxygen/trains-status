@@ -5,6 +5,13 @@ open Suave
 open Suave.Http.RequestErrors
 
 open Common
+open Config
+open Suave.Http
+open Suave.Http.Applicatives
+open Suave.Types
+open Suave.Http.ServerErrors
+open Suave.Http.Successful
+open Suave.Http.Files
 
 type StationResponse = {Name: string; LiveDeparturesUrl: string; Code: string}
 type StationName = {Name: string}
@@ -16,7 +23,6 @@ let checkStatus creds origin destination =
     | Status.NoOptionsFound(orig, dest) -> NOT_FOUND <| sprintf "No travel options found between %s  and  %s" orig dest
     | Status.TravelOptionsStatus(status) -> Json.asResponse status
 
-
 let private liveDeparturesUrl (station: Stations.T) =
     sprintf "http://www.ns.nl/actuele-vertrektijden/avt?station=%s" (station.Code.ToLower())
 
@@ -24,29 +30,12 @@ let private toStationResponse (station: Stations.T) =
     {Name = station.Name; Code = station.Code; LiveDeparturesUrl = liveDeparturesUrl station}
 
 let getClosest credentials lat lon count =
-    let distance coord1 coord2 =
-        let toRad x =  x * (Math.PI / 180.0)
-        let haversin x = pown (sin <| x / 2.0) 2
-
-        let r = 6371000.0
-        let φ1, φ2 = toRad coord1.Latitude, toRad coord2.Latitude
-        let λ1, λ2 = toRad coord1.Longitude, toRad coord2.Longitude
-
-        2.0 * r * ((haversin(φ2 - φ1) + cos(φ1) * cos(φ2) * haversin(λ2 - λ1)) |> sqrt |> asin)
-
-    let origin = {Latitude = lat; Longitude = lon}
-    Stations.all credentials
-    |> Seq.sortBy (fun st -> distance origin st.Coordinates)
-    |> Seq.take count
-    |> Seq.map toStationResponse
-    |> List.ofSeq
+    Stations.getClosest credentials {Latitude = lat; Longitude = lon} count
+    |> List.map toStationResponse
 
 let favouriteStations config id =
-    let favs = Storage.getFavourites config id
-    Stations.all config.Credentials
-    |> Seq.filter (fun st -> favs |> List.contains st.Name)
-    |> Seq.map toStationResponse
-    |> List.ofSeq
+    Stations.favouriteDirections config id
+    |> List.map toStationResponse
 
 let allStations creds =
     Stations.all creds
@@ -58,3 +47,54 @@ let saveFavourites config user rawFavourites =
                      |> List.ofSeq
 
     Storage.saveFavourites config user favourites
+
+let stations config = 
+    choose
+        [GET >>= path "/api/stations/all" >>= request (fun _ -> allStations config.Credentials |> Json.asResponse)
+         GET >>= path "/api/stations/nearby" >>= (fun context -> async {
+            let stations = opt {
+                let! lat = context.request.["lat"] |> Option.tryMap Double.TryParse
+                let! lon = context.request.["lon"] |> Option.tryMap Double.TryParse
+                let! count = context.request.["count"] |> Option.tryMap Int32.TryParse
+                printfn "Looking for %i stations near %f, %f" count lat lon
+                return getClosest config.Credentials lat lon count
+            }
+            match stations with
+            | Some(s) -> return! Json.asResponse s context
+            | None -> return None
+        })]
+
+let status config =
+    GET >>= pathScan 
+                "/api/status/%s/%s" 
+                (fun (origin, destination) -> checkStatus config.Credentials origin destination)
+
+let user config =
+    choose
+        [GET >>= pathScan "/api/user/%s/favourite" (favouriteStations config >> Json.asResponse)
+         PUT >>= pathScan "/api/user/%s/favourite" (fun id -> request (fun req ->
+                match saveFavourites config id req.rawForm with
+                | Ok -> OK "Saved"
+                | Error -> INTERNAL_ERROR "Failed"))
+         GET >>= path "/api/user/info" >>= Auth.getUserInfo ]
+
+let content =
+    let staticContent  =
+        [".js"; ".jsx"; ".css"; ".html"; ".woff"; ".woff2"; ".ttf"]
+        |> Seq.map (fun s -> s.Replace(".", "\."))
+        |> String.concat "|"
+        |> sprintf "(%s)$"
+
+    choose
+        [GET >>= path "/" >>= file "Index.html"
+         GET >>= pathRegex staticContent >>= browseHome]
+
+let notfound = NOT_FOUND "Nothing here"
+
+let webParts config = 
+    choose 
+        [ stations config;
+          user config;
+          status config;
+          content
+          notfound ]

@@ -4,7 +4,6 @@ open FSharp.Data
 open Newtonsoft.Json.Linq
 
 open Suave.Types
-open Suave.Http.Successful
 open Suave.Http.RequestErrors
 
 type UserInfo =
