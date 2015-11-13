@@ -48,6 +48,20 @@ let saveFavourites config user rawFavourites =
 
     Storage.saveFavourites config user favourites
 
+let userInfo context = 
+    let claims = async {
+            match context.request.["token"] with
+            | Some(token) -> return! Auth.getClaims token
+            | None -> return None 
+    }
+
+    async {
+        let! claims = claims
+        match claims with
+        | Some(c) -> return! Json.asResponse c context
+        | None -> return! BAD_REQUEST "Invalid authentication token" context
+    }
+
 let stations config = 
     choose
         [GET >>= path "/api/stations/all" >>= request (fun _ -> allStations config.Credentials |> Json.asResponse)
@@ -76,7 +90,7 @@ let user config =
                 match saveFavourites config id req.rawForm with
                 | Ok -> OK "Saved"
                 | Error -> INTERNAL_ERROR "Failed"))
-         GET >>= path "/api/user/info" >>= Auth.getUserInfo ]
+         GET >>= path "/api/user/info" >>= userInfo]
 
 let content =
     let staticContent  =

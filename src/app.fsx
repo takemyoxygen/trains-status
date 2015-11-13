@@ -22,7 +22,6 @@ open System.Net
 open Suave.Http
 open Suave.Http.Writers
 
-open Common
 open System.Threading
 
 let private cancellationTokenSource = new CancellationTokenSource()
