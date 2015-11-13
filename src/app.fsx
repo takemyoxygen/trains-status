@@ -1,4 +1,4 @@
-#load "AssemblyLoader.fsx"
+#load "generate-references.fsx"
 #load "load.fsx"
 
 #r "System.Xml.Linq"

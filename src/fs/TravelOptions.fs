@@ -2,7 +2,6 @@ module TravelOptions
 
 open System
 open FSharp.Data
-open Http
 
 type private Xml = XmlProvider< "samples/travel-options.xml" >
 
