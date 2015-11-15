@@ -18,10 +18,25 @@ type StationName = {Name: string}
 
 let private unescape = Uri.UnescapeDataString
 
+let asyncResponse (result: Async<'a>) (createWebPart: 'a -> WebPart) context =
+    async.Bind(result, fun res -> createWebPart res context)
+
+let asyncJsonResponse (result: Async<'a>) = asyncResponse result Json.asResponse
+
 let checkStatus creds origin destination =
-    match Status.check creds (unescape origin) (unescape destination) with
-    | Status.NoOptionsFound(orig, dest) -> NOT_FOUND <| sprintf "No travel options found between %s  and  %s" orig dest
-    | Status.TravelOptionsStatus(status) -> Json.asResponse status
+    asyncResponse
+        (Status.check creds (unescape origin) (unescape destination))
+        (fun result -> 
+            match result with
+            | Status.NoOptionsFound(orig, dest) -> NOT_FOUND <| sprintf "No travel options found between %s  and  %s" orig dest
+            | Status.TravelOptionsStatus(status) -> Json.asResponse status)
+
+// async {
+//    let! results = Status.check creds (unescape origin) (unescape destination)
+//    match result with
+//    | Status.NoOptionsFound(orig, dest) -> NOT_FOUND <| sprintf "No travel options found between %s  and  %s" orig dest
+//    | Status.TravelOptionsStatus(status) -> Json.asResponse status
+//}
 
 let private liveDeparturesUrl (station: Stations.T) =
     sprintf "http://www.ns.nl/actuele-vertrektijden/avt?station=%s" (station.Code.ToLower())
