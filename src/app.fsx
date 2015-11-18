@@ -4,6 +4,7 @@
 #r "System.Xml.Linq"
 
 #load "fs/Json.fs"
+#load "fs/Async.fs"
 #load "fs/Common.fs"
 #load "fs/Config.fs"
 #load "fs/Http.fs"

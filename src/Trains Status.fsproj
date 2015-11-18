@@ -200,6 +200,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="fs\Json.fs" />
+    <Compile Include="fs\Async.fs" />
     <Compile Include="fs\Common.fs" />
     <Compile Include="fs\Config.fs" />
     <Compile Include="fs\Storage.fs" />

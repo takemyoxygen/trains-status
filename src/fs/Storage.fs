@@ -19,18 +19,22 @@ let private tableClientFrom config =
     let account = CloudStorageAccount.Parse config.ConnectionString
     account.CreateCloudTableClient().GetTableReference(FavouritesTable)
 
-let getFavourites config id =
+let getFavourites config id = async {
     let table = tableClientFrom config
     let query = (new TableQuery<UserFavourites>()).Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id))
     printfn "Loading favourite stations for %s from Azure..." id
-    let favs = table.ExecuteQuery query |> Seq.tryHead
-    match favs with
-    | Some(favs) -> favs.Favourites |> Json.fromJsonString<string list>
-    | None -> []
+    let! result = table.ExecuteQuerySegmentedAsync(query, null) |> Async.AwaitTask
+    if result.Results.Count > 0 then 
+        return result.Results.[0].Favourites |> Json.fromJsonString<string list>
+    else
+        return []
+}
 
-let saveFavourites config id (favourites: string list) =
+let saveFavourites config id (favourites: string list) = async {
     let table = tableClientFrom config
     let favs = new UserFavourites(id, "google", Json.toJsonString favourites)
-    let result = favs |> TableOperation.InsertOrReplace |> table.Execute
-    if result.HttpStatusCode >= 200 && result.HttpStatusCode < 300 then Ok
-    else Error
+    let! result = favs |> TableOperation.InsertOrReplace |> table.ExecuteAsync |> Async.AwaitTask
+    if result.HttpStatusCode >= 200 && result.HttpStatusCode < 300 then 
+        return Ok
+    else return Error
+}

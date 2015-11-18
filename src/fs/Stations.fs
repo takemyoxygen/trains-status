@@ -48,7 +48,7 @@ let private downloader = MailboxProcessor<Credentials * AsyncReplyChannel<T list
     loop None)
 
 let all credentials =
-    downloader.PostAndReply(fun channel -> credentials, channel)
+    downloader.PostAndAsyncReply(fun channel -> credentials, channel)
 
 let getClosest credentials origin count =
     let distance coord1 coord2 =
@@ -60,14 +60,20 @@ let getClosest credentials origin count =
         let λ1, λ2 = toRad coord1.Longitude, toRad coord2.Longitude
 
         2.0 * r * ((haversin(φ2 - φ1) + cos(φ1) * cos(φ2) * haversin(λ2 - λ1)) |> sqrt |> asin)
+    async {
+        let! stations = all credentials
+        return 
+            stations
+            |> Seq.sortBy (fun st -> distance origin st.Coordinates)
+            |> Seq.take count
+            |> List.ofSeq
+    }
 
-    all credentials
-    |> Seq.sortBy (fun st -> distance origin st.Coordinates)
-    |> Seq.take count
-    |> List.ofSeq
-
-let favouriteDirections config id =
-    let favs = Storage.getFavourites config id
-    all config.Credentials
-    |> Seq.filter (fun st -> favs |> List.contains st.Name)
-    |> List.ofSeq
+let favouriteDirections config id = async {
+    let! favs = Storage.getFavourites config id
+    let! stations = all config.Credentials
+    return
+        stations
+        |> Seq.filter (fun st -> favs |> List.contains st.Name)
+        |> List.ofSeq
+}
