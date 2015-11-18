@@ -2,7 +2,6 @@ module TravelOptions
 
 open System
 open FSharp.Data
-open Http
 
 type private Xml = XmlProvider< "samples/travel-options.xml" >
 
@@ -62,49 +61,51 @@ type T =
 
 let private endpoint = "http://webservices.ns.nl/ns-api-treinplanner"
 
-let find creds origin destination =
-    let xml =
-        Http.get creds endpoint [ "fromStation", origin;
+let find creds origin destination = async {
+    let! xml =
+        Http.getAsync creds endpoint [ "fromStation", origin;
                                   "toStation", destination;
                                   "previousAdvices", "0" ]
 
     let data = Xml.Parse xml
-    data.ReisMogelijkheids
-    |> Seq.map (fun option ->
-           { Outages =
-                 option.Meldings
-                 |> Seq.map (fun outage ->
-                        { Id = outage.Id
-                          Severe = outage.Ernstig
-                          Text = outage.Text })
-                 |> List.ofSeq
-             Transfers = option.AantalOverstappen
-             Duration =
-                 { Planned = option.GeplandeReisTijd.TimeOfDay
-                   Actual = option.ActueleReisTijd |> Option.map (fun dt -> dt.TimeOfDay) }
-             Legs =
-                 option.ReisDeels
-                 |> Seq.map (fun leg ->
-                        { TrainId = defaultArg leg.RitNummer 0
-                          Status = leg.Status
-                          PlannedOutage = leg.GeplandeStoringId
-                          UnplannedOutage = leg.OngeplandeStoringId
-                          Stops =
-                              leg.ReisStops
-                              |> Seq.map (fun stop ->
-                                     { Name = stop.Naam
-                                       Time = stop.Tijd
-                                       Delay = stop.VertrekVertraging })
-                              |> List.ofSeq })
-                 |> List.ofSeq
-             DepartureTime =
-                 { Planned = option.GeplandeVertrekTijd
-                   Actual = Some option.ActueleVertrekTijd }
-             ArrivalTime =
-                 { Planned = option.GeplandeAankomstTijd
-                   Actual = Some option.ActueleAankomstTijd }
-             DepartureDelay = option.VertrekVertraging
-             ArrivalDelay = option.AankomstVertraging
-             IsOptimal = option.Optimaal
-             Status = Status.fromString option.Status })
-    |> List.ofSeq
+    return
+        data.ReisMogelijkheids
+        |> Seq.map (fun option ->
+               { Outages =
+                     option.Meldings
+                     |> Seq.map (fun outage ->
+                            { Id = outage.Id
+                              Severe = outage.Ernstig
+                              Text = outage.Text })
+                     |> List.ofSeq
+                 Transfers = option.AantalOverstappen
+                 Duration =
+                     { Planned = option.GeplandeReisTijd.TimeOfDay
+                       Actual = option.ActueleReisTijd |> Option.map (fun dt -> dt.TimeOfDay) }
+                 Legs =
+                     option.ReisDeels
+                     |> Seq.map (fun leg ->
+                            { TrainId = defaultArg leg.RitNummer 0
+                              Status = leg.Status
+                              PlannedOutage = leg.GeplandeStoringId
+                              UnplannedOutage = leg.OngeplandeStoringId
+                              Stops =
+                                  leg.ReisStops
+                                  |> Seq.map (fun stop ->
+                                         { Name = stop.Naam
+                                           Time = stop.Tijd
+                                           Delay = stop.VertrekVertraging })
+                                  |> List.ofSeq })
+                     |> List.ofSeq
+                 DepartureTime =
+                     { Planned = option.GeplandeVertrekTijd
+                       Actual = Some option.ActueleVertrekTijd }
+                 ArrivalTime =
+                     { Planned = option.GeplandeAankomstTijd
+                       Actual = Some option.ActueleAankomstTijd }
+                 DepartureDelay = option.VertrekVertraging
+                 ArrivalDelay = option.AankomstVertraging
+                 IsOptimal = option.Optimaal
+                 Status = Status.fromString option.Status })
+        |> List.ofSeq
+}

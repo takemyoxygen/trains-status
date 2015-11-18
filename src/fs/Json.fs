@@ -1,6 +1,5 @@
 module Json
 
-open System.Text
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 open Suave.Http

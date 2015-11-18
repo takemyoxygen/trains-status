@@ -200,6 +200,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="fs\Json.fs" />
+    <Compile Include="fs\Async.fs" />
     <Compile Include="fs\Common.fs" />
     <Compile Include="fs\Config.fs" />
     <Compile Include="fs\Storage.fs" />
@@ -210,11 +211,10 @@
     <Compile Include="fs\Stations.fs" />
     <Compile Include="fs\Controller.fs" />
     <Compile Include="fs\LiveDepartures.fs" />
-    <Compile Include="AssemblyLoader.fsx" />
-    <Compile Include="load.fsx" />
-    <Compile Include="app.fsx" />
-    <Compile Include="build.fsx" />
-    <Compile Include="playground.fsx" />
+    <None Include="generate-references.fsx" />
+    <None Include="app.fsx" />
+    <None Include="build.fsx" />
+    <None Include="playground.fsx" />
     <None Include="deploy.bat" />
   </ItemGroup>
   <ItemGroup>
