@@ -4,10 +4,6 @@ type Credentials =
     { Username : string
       Password : string }
 
-type Coordinates =
-    { Latitude: double
-      Longitude: double }
-
 type Result =
     | Ok
     | Error

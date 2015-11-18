@@ -27,9 +27,10 @@ let private hasDelays (opt: TravelOptions.T) =
     opt.Status = TravelOptions.Status.Cancelled ||
     opt.Status = TravelOptions.Status.Delayed
 
-let check creds origin destination =
-    match TravelOptions.find creds origin destination with
-    | [] -> NoOptionsFound(origin, destination)
+let check creds origin destination = async {
+    let! options = TravelOptions.find creds origin destination
+    match options with
+    | [] -> return NoOptionsFound(origin, destination)
     | options ->
         let status = if options |> List.exists hasDelays then "warning" else "ok"
         let result =
@@ -50,4 +51,5 @@ let check creds origin destination =
                         let stop = leg.Stops.[0]
                         { Station = stop.Name; Time = Option.toNullable stop.Time; Delay = defaultArg stop.Delay null })
                     |> List.ofSeq })
-        TravelOptionsStatus { Options = result; Status = status }
+        return TravelOptionsStatus { Options = result; Status = status }
+}
