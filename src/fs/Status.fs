@@ -2,54 +2,84 @@ module Status
 
 open System
 
-type StationStatus =
+/// Significant stop on the route: origin, destination or a stop when train change is required
+type StopInfo =
     { Station: string;
-      Time: Nullable<DateTime>;
-      Delay: string }
+      Time: DateTime option;
+      Delay: string option}
 
-type TravelOptionStatus =
-    { From: StationStatus;
-      To: StationStatus;
-      Via: StationStatus list;
-      Status: string } // ok, warning, cancelled
+type TravelOptionStatus = 
+    | Ok
+    | Delayed
+    | Cancelled
 
-type TravelOptionsList =
-    { Options: TravelOptionStatus list;
-      Status: string} // warning or ok
+/// Particular travel option including departure/arrival time and transfers
+type TravelOption =
+    { From: StopInfo;
+      To: StopInfo;
+      Via: StopInfo list;
+      Status: TravelOptionStatus;
+      Warnings: string list; }
 
-type TravelOptionsStatusCheckResult =
-    | NoOptionsFound of origin: string * destination: string
-    | TravelOptionsStatus of TravelOptionsList
+type DirectionStatus =
+    | Ok
+    | Warning
 
-let private hasDelays (opt: TravelOptions.T) =
-    opt.ArrivalDelay.IsSome ||
-    opt.DepartureDelay.IsSome ||
-    opt.Status = TravelOptions.Status.Cancelled ||
-    opt.Status = TravelOptions.Status.Delayed
+/// All travel options from an origin to a destination
+type Direction = 
+    { Options: TravelOption list;
+      Status: DirectionStatus }
+
+// TODO check if API returns consistent statuses
+// Maybe it would make sense to check for delays manually (departure delay, arrival delay, delays on stops along the route)
+let private travelOptionStatus (opt: TravelOptions.T) =
+    match opt.Status with
+    | TravelOptions.Status.Delayed -> Delayed
+    | TravelOptions.Status.Cancelled -> Cancelled
+    | _ -> TravelOptionStatus.Ok
+
+let private directionStatus (options: TravelOption list) = 
+    if options |> List.exists(fun opt -> opt.Status <> TravelOptionStatus.Ok) then DirectionStatus.Ok
+    else DirectionStatus.Warning
+
+let private travelOptionFrom origin destination (opt: TravelOptions.T) = 
+    let outages = 
+        let legOutages = 
+            opt.Legs
+            |> Seq.collect (fun leg -> [leg.PlannedOutage; leg.UnplannedOutage])
+            |> Seq.filter Option.isSome
+            |> Seq.map Option.get
+            |> List.ofSeq
+
+        // TODO currentou outages is a list of outage IDs, but there should be a way to get outage text by ID
+        (opt.Outages |> List.map (fun out -> out.Id)) @ legOutages
+
+    { From = 
+        { Station = origin; 
+            Time = Some opt.DepartureTime.Planned; 
+            Delay = opt.DepartureDelay };
+      To = 
+        { Station = destination; 
+            Time = Some opt.ArrivalTime.Planned; 
+            Delay =  opt.ArrivalDelay };
+      Status = travelOptionStatus opt
+      Warnings = outages
+      Via =
+        opt.Legs
+        |> Seq.skip 1
+        |> Seq.map (fun leg ->
+            let stop = leg.Stops.[0]
+            { Station = stop.Name; 
+                Time = stop.Time; 
+                Delay = stop.Delay})
+        |> List.ofSeq }
 
 let check creds origin destination = async {
     let! options = TravelOptions.find creds origin destination
-    match options with
-    | [] -> return NoOptionsFound(origin, destination)
-    | options ->
-        let status = if options |> List.exists hasDelays then "warning" else "ok"
-        let result =
-            options
-            |> List.map(fun opt ->
-                let status =
-                    match opt.Status with
-                    | TravelOptions.Status.Delayed -> "warning"
-                    | TravelOptions.Status.Cancelled -> "cancelled"
-                    | _ -> "ok"
-                { From = { Station = origin; Time = new Nullable<DateTime>(opt.DepartureTime.Planned); Delay = defaultArg opt.DepartureDelay null };
-                  To = { Station = destination; Time = new Nullable<DateTime>(opt.ArrivalTime.Planned); Delay = defaultArg opt.ArrivalDelay null };
-                  Status = status
-                  Via =
-                    opt.Legs
-                    |> Seq.skip 1
-                    |> Seq.map (fun leg ->
-                        let stop = leg.Stops.[0]
-                        { Station = stop.Name; Time = Option.toNullable stop.Time; Delay = defaultArg stop.Delay null })
-                    |> List.ofSeq })
-        return TravelOptionsStatus { Options = result; Status = status }
+    return 
+        match options with
+        | [] -> None
+        | options ->
+            let result = options |> List.map(travelOptionFrom origin destination)
+            Some { Options = result; Status = directionStatus result }
 }

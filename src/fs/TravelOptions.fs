@@ -64,8 +64,8 @@ let private endpoint = "http://webservices.ns.nl/ns-api-treinplanner"
 let find creds origin destination = async {
     let! xml =
         Http.getAsync creds endpoint [ "fromStation", origin;
-                                  "toStation", destination;
-                                  "previousAdvices", "0" ]
+                                       "toStation", destination;
+                                       "previousAdvices", "0" ]
 
     let data = Xml.Parse xml
     return
