@@ -4,7 +4,6 @@ open System.Collections.Generic
 
 open FSharp.Data
 open Common
-// Url: http://webservices.ns.nl/ns-api-storingen?actual=true
 
 type T = {
     Id : string;
