@@ -2,10 +2,11 @@ open System
 open System.IO
 
 let script = "load.fsx"
-let ignore = ["FSharp.Core"]
+let exclude = ["FSharp.Core"]
 let home = __SOURCE_DIRECTORY__
 let packagesFolder = Path.Combine(home, "packages")
 let packages = Directory.GetDirectories(packagesFolder)
+let targetFile = Path.Combine(home, script)
 
 let getAssemblies libFolder =
     let allFrom folder = Directory.EnumerateFiles(folder, "*.dll") |> List.ofSeq
@@ -26,26 +27,35 @@ let getAssemblies libFolder =
     | Some(f) -> allFrom f
     | None -> []
 
-printfn "Getting assemblies to load"
+let shouldRegenerate = 
+    (not <| File.Exists targetFile) ||
+    (Directory.GetLastWriteTime packagesFolder >= File.GetLastWriteTime targetFile)
 
-let assemblies =
-    packages
-    |> Seq.map (fun p ->
-        Path.GetFileName p, Path.Combine(p, "lib"))
-    |> Seq.filter (fun (name, path) -> Directory.Exists path)
-    |> Seq.map (fun (name, path) -> name, getAssemblies path)
-    |> Seq.filter (fun (name, _) -> ignore |> List.contains name |> not)
-    |> List.ofSeq
+if shouldRegenerate then
 
-printfn "Generating script..."
+    printfn "Getting assemblies to load"
 
-let lines =
-    assemblies
-    |> Seq.collect snd
-    |> Seq.collect (fun path ->
-        [ sprintf "#I @\"%s\"" (Path.GetDirectoryName path);
-          sprintf "#r @\"%s\"" path;
-          String.Empty])
-    |> Array.ofSeq
+    let assemblies =
+        packages
+        |> Seq.map (fun p -> Path.GetFileName p, Path.Combine(p, "lib"))
+        |> Seq.filter (snd >> Directory.Exists)
+        |> Seq.map (fun (name, path) -> name, getAssemblies path)
+        |> Seq.filter (fun (name, _) -> exclude |> List.contains name |> not)
+        |> List.ofSeq
 
-File.WriteAllLines(Path.Combine(home, script), lines)
+    printfn "Generating script..."
+
+    let lines =
+        assemblies
+        |> Seq.collect snd
+        |> Seq.collect (fun path ->
+            [ sprintf "#I @\"%s\"" (Path.GetDirectoryName path);
+              sprintf "#r @\"%s\"" path;
+              String.Empty])
+        |> Array.ofSeq
+
+
+    File.WriteAllLines(targetFile, lines)
+
+else
+    printfn "Load script generation skipped, nothing has changed since last generation"
