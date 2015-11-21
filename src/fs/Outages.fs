@@ -1,5 +1,6 @@
 module Outages
 
+open System
 open System.Collections.Generic
 
 open FSharp.Data
@@ -21,29 +22,29 @@ let generateMessage outage =
 
 type private Xml = XmlProvider< "samples/outages.xml" >
 
-let actual creds = 
-    async { 
+let actual creds =
+    async {
         let! data = Xml.AsyncLoad("samples/outages.xml")
 //        let! response = Http.getAsync creds "http://webservices.ns.nl/ns-api-storingen" ["actual", "true"]
 //        let data' = Xml.Parse response
-        let planned = 
-            data.Gepland.Storings 
-            |> Seq.map (fun st -> 
+        let planned =
+            data.Gepland.Storings
+            |> Seq.map (fun st ->
                 { Id = st.Id
                   Advice = st.Advies
                   Message = st.Bericht
                   Reason = st.Oorzaak
                   Delay = st.Vertraging })
-        
-        let unplanned = 
+
+        let unplanned =
             data.Ongepland.Storings
-            |> Seq.map (fun st -> 
+            |> Seq.map (fun st ->
                 { Id = st.Id
                   Advice = st.Advies
                   Message = st.Bericht
                   Reason = st.Oorzaak
                   Delay = st.Vertraging })
-        
+
         return Seq.append planned unplanned |> List.ofSeq
     }
 
@@ -66,9 +67,14 @@ let private outages = MailboxProcessor.Start(fun agent ->
         | Get(id, creds, replyChannel) ->
             match tryFind id cache with
             | Some(message) -> replyChannel.Reply(Some message)
-            | _ -> 
+            | _ ->
                 let! all = actual creds
-                all |> List.iter (fun out -> cache.[out.Id] <- generateMessage out)
+                
+                all
+                |> Seq.map (fun out -> out.Id, generateMessage out)
+                |> Seq.filter (snd >> String.IsNullOrEmpty >> not)
+                |> Seq.iter (fun (id, message) -> cache.[id] <- message)
+
                 replyChannel.Reply <| tryFind id cache
         do! loop cache
     }
@@ -78,4 +84,3 @@ let private outages = MailboxProcessor.Start(fun agent ->
 let knownOutage id message = outages.Post <| Update(id, message)
 
 let getMessageFor creds id = outages.PostAndAsyncReply(fun channel -> Get(id, creds, channel))
-
