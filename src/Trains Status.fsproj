@@ -206,6 +206,7 @@
     <Compile Include="fs\Storage.fs" />
     <Compile Include="fs\Auth.fs" />
     <Compile Include="fs\Http.fs" />
+    <Compile Include="fs\Outages.fs" />
     <Compile Include="fs\TravelOptions.fs" />
     <Compile Include="fs\Status.fs" />
     <Compile Include="fs\Stations.fs" />

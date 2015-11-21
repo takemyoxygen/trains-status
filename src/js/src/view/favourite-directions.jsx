@@ -36,7 +36,7 @@ class Direction extends React.Component{
     checkStatus(origin){
         $.getJSON(`/api/status/${origin.name}/${this.props.destination.name}`)
             .done(response => this.setState({
-                status: response.status,
+                status: response.status.toLowerCase(),
                 travelOptions: response.options
             }));
     }
@@ -88,7 +88,7 @@ class AddFavouriteStation extends React.Component{
                     <StationsSelector
                         ref="stationSelector"
                         valid={this.state.valid}
-                        autofocus="true"
+                        autofocus={true}
                         canSelectStation={this.props.canAddStation}
                         onStationSelected={this.onStationSelected}
                         onCancel={this.onCancel} />

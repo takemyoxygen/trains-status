@@ -1,33 +1,17 @@
-#r "System.Management"
+#r "System.Xml.Linq"
 
-open System.Management
-open System.Linq
-open System.Diagnostics
-open System.IO
+#load "load.fsx"
 
-let processes = Process.GetProcesses()
+#load "fs/Json.fs"
+#load "fs/Async.fs"
+#load "fs/Common.fs"
+#load "fs/Config.fs"
+#load "fs/Http.fs"
+#load "fs/Outages.fs"
+#load "fs/TravelOptions.fs"
+#load "fs/Status.fs"
 
-let findNodeJsProcesses (folder: string) =
-    let folderLowercase = folder.ToLower()
+open Common
 
-    let wmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
-    use searcher = new ManagementObjectSearcher(wmiQueryString)
-
-    let pids = 
-        searcher.Get().Cast<ManagementObject>()
-        |> Seq.filter (fun wmi -> 
-            Path.GetFileName(string wmi.["ExecutablePath"]).ToLower() = "node.exe")
-        |> Seq.filter (fun wmi ->
-            (string wmi.["CommandLine"]).ToLower().Contains folderLowercase)
-        |> Seq.map (fun wmi -> wmi.["ProcessId"] :?> uint32 |> int)
-        |> List.ofSeq
-
-    if pids.IsEmpty then []
-    else
-        Process.GetProcesses()
-        |> Seq.filter (fun p -> pids |> List.contains p.Id)
-        |> List.ofSeq
-
-
-
-findNodeJsProcesses __SOURCE_DIRECTORY__
+let creds = {Username = "username"; Password = "password"}
+let result = Status.check creds "foo" "bar" |> Async.RunSynchronously |> Option.get

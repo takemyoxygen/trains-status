@@ -4,7 +4,6 @@ open System
 open Suave
 open Suave.Http.RequestErrors
 
-
 open Common
 open Config
 open Suave.Http
@@ -29,8 +28,8 @@ let checkStatus creds origin destination =
         (Status.check creds (unescape origin) (unescape destination))
         (fun result ->
             match result with
-            | Status.NoOptionsFound(orig, dest) -> NOT_FOUND <| sprintf "No travel options found between %s  and  %s" orig dest
-            | Status.TravelOptionsStatus(status) -> Json.asResponse status)
+            | None -> NOT_FOUND <| sprintf "No travel options found between %s  and  %s" origin destination
+            | Some(status) -> Json.asResponse status)
 
 let private liveDeparturesUrl (station: Stations.T) =
     sprintf "http://www.ns.nl/actuele-vertrektijden/avt?station=%s" (station.Code.ToLower())
