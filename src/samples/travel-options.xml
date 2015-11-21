@@ -46,7 +46,7 @@
       <ReisDetails><!--optional-->
           <ReisDetail>Trave detaiils</ReisDetail>
      </ReisDetails>
-      <GeplandeStoringId>outage-id</GeplandeStoringId> <!--optional-->
+      <GeplandeStoringId>prio-75117</GeplandeStoringId> <!--optional-->
       <OngeplandeStoringId>outage-id</OngeplandeStoringId> <!--optional-->
 
 

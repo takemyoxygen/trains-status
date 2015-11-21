@@ -15,14 +15,55 @@
 			    
 				
 				
-					<Bericht><![CDATA[Tussen Schiphol en Nijmegen rijden minder Intercity's door een eerdere verstoring.Houdt u rekening met een extra reistijd van 15 - 30 min.Het is nog niet bekend hoe lang dit duurt.]]></Bericht>
+					<Bericht><![CDATA[Tussen Schiphol en Nijmegen rijden minder Intercity's door een eerdere verstoring.
+Houdt u rekening met een extra reistijd van 15 - 30 min.
+Het is nog niet bekend hoe lang dit duurt.]]></Bericht>
 			    
 				
 					<Datum>2015-11-21T11:36:00+0100</Datum>
 			    
 				
 			</Storing>
+
+			<Storing>
+<id>test-outage</id>
+<Traject>Schiphol-Nijmegen</Traject>
+<Reden>eerdere verstoring</Reden>
+<Datum>2015-11-21T11:36:00+0100</Datum>
+</Storing>
 		
+    <Storing>
+				<id>2015_amf_dv_21_22nov</id>
+			    
+					<Traject>Amersfoort-Deventer</Traject>
+			    
+			    
+					<Periode>in de nacht van vrijdag 20 op zaterdag 21 november vanaf 01.00 uur tot en met zondag 22 november</Periode>
+			    
+			    
+			    
+					<Advies>U kunt gebruikmaken van de overige treinen en de bussen reis op zaterdag 21 en zondag 22 november tussen Amersfoort en Deventer via Zwolle tot zaterdag 21 november 13.00 uur rijden er bussen tussen Amersfoort en Deventer vanaf zaterdag 21 november 13.00 tot en met zondag 22 november rijden er bussen tussen Amersfoort en Apeldoorn</Advies>
+			    
+			    
+					<Bericht><![CDATA[
+        <p>
+            <b>Wanneer: in de nacht van vrijdag 20 op zaterdag 21 november vanaf 01.00 uur tot en met zondag 22 november</b>
+            <br/>
+            <b>Oorzaak: door werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de overige treinen en de bussen</b>
+            <br/>	reis op zaterdag 21 en zondag 22 november tussen Amersfoort en Deventer via Zwolle<br/>	tot zaterdag 21 november 13.00 uur rijden er bussen tussen Amersfoort en Deventer<br/>	vanaf zaterdag 21 november 13.00 tot en met zondag 22 november rijden er bussen tussen Amersfoort en Apeldoorn<br/><br/><b>Extra Reistijd: een half uur tot een uur</b><br/></p>
+    ]]></Bericht>
+			    
+			    
+					<Oorzaak>door werkzaamheden</Oorzaak>
+			    
+			    
+					<Vertraging>een half uur tot een uur</Vertraging>
+			    
+			</Storing>
+		
+    
 	</Ongepland>
 	<Gepland>
 		
@@ -67,24 +108,9 @@
 			    
 			    
 			    
-					<Advies>U kunt gebruikmaken van de bussen of de overige treinen er rijden geen treinen tussen Maastricht en Visé tussen Maastricht en Visé kunt u gebruikmaken van de NS- en Veolia-busssen</Advies>
 			    
 			    
-					<Bericht><![CDATA[
-        <p>
-            <b>Wanneer: vrijdag 20 op zaterdag 21 november vanaf 22.50 uur tot 06.50 uur en zaterdag 21 op zondag 22 november vanaf 23.40 uur tot 07.40 uur</b>
-            <br/>
-            <b>Oorzaak: door geplande werkzaamheden</b>
-            <br/>
-            <b>Advies: U kunt gebruikmaken van de bussen of de overige treinen</b>
-            <br/>	er rijden geen treinen tussen Maastricht en Visé<br/>	tussen Maastricht en Visé kunt u gebruikmaken van de NS- en Veolia-busssen<br/><br/><b>Extra Reistijd: een kwartier tot een half uur</b><br/></p>
-    ]]></Bericht>
-			    
-			    
-					<Oorzaak>door geplande werkzaamheden</Oorzaak>
-			    
-			    
-					<Vertraging>een kwartier tot een half uur</Vertraging>
+					
 			    
 			</Storing>
 		

@@ -107,10 +107,11 @@ let private handleOutages options =
 
 let find creds origin destination = 
     async { 
-        let! xml = Http.getAsync creds endpoint [ "fromStation", origin
-                                                  "toStation", destination
-                                                  "previousAdvices", "0" ]
-        let data = Xml.Parse xml
+//        let! xml = Http.getAsync creds endpoint [ "fromStation", origin
+//                                                  "toStation", destination
+//                                                  "previousAdvices", "0" ]
+//        let data = Xml.Parse xml
+        let! data = Xml.AsyncLoad "samples/travel-options.xml"
         let options = 
             data.ReisMogelijkheids
             |> Seq.map createTravelOption

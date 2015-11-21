@@ -8,6 +8,7 @@
 #load "fs/Common.fs"
 #load "fs/Config.fs"
 #load "fs/Http.fs"
+#load "fs/Outages.fs"
 #load "fs/TravelOptions.fs"
 #load "fs/Status.fs"
 #load "fs/Storage.fs"

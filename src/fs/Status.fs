@@ -42,8 +42,8 @@ let private directionStatus (options: TravelOption list) =
     if options |> List.exists(fun opt -> opt.Status <> TravelOptionStatus.Ok) then DirectionStatus.Warning
     else DirectionStatus.Ok
 
-let private travelOptionFrom origin destination (opt: TravelOptions.T) =
-    let outages =
+let private travelOptionFrom origin destination creds (opt: TravelOptions.T) = async {
+    let! outages =
         let legOutages =
             opt.Legs
             |> Seq.collect (fun leg -> [leg.PlannedOutage; leg.UnplannedOutage])
@@ -51,35 +51,43 @@ let private travelOptionFrom origin destination (opt: TravelOptions.T) =
             |> Seq.map Option.get
             |> List.ofSeq
 
-        // TODO currentou outages is a list of outage IDs, but there should be a way to get outage text by ID
-        (opt.Outages |> List.map (fun out -> out.Id)) @ legOutages
+        (opt.Outages |> List.map (fun out -> out.Id)) 
+        @ legOutages
+        |> List.map (Outages.getMessageFor creds)
+        |> Async.Parallel // only for simplicity; will be sequentialized by underlying MailboxProcessor in Outages.fs
+        |> Async.map (Seq.filter Option.isSome >> Seq.map Option.get >> List.ofSeq)
 
-    { From =
-        { Station = origin;
-            Time = Some opt.DepartureTime.Planned;
-            Delay = opt.DepartureDelay };
-      To =
-        { Station = destination;
-            Time = Some opt.ArrivalTime.Planned;
-            Delay =  opt.ArrivalDelay };
-      Status = travelOptionStatus opt
-      Warnings = outages
-      Via =
-        opt.Legs
-        |> Seq.skip 1
-        |> Seq.map (fun leg ->
-            let stop = leg.Stops.[0]
-            { Station = stop.Name;
-                Time = stop.Time;
-                Delay = stop.Delay})
-        |> List.ofSeq }
+    return
+        { From =
+            { Station = origin;
+                Time = Some opt.DepartureTime.Planned;
+                Delay = opt.DepartureDelay };
+          To =
+            { Station = destination;
+                Time = Some opt.ArrivalTime.Planned;
+                Delay =  opt.ArrivalDelay };
+          Status = travelOptionStatus opt
+          Warnings = outages
+          Via =
+            opt.Legs
+            |> Seq.skip 1
+            |> Seq.map (fun leg ->
+                let stop = leg.Stops.[0]
+                { Station = stop.Name;
+                    Time = stop.Time;
+                    Delay = stop.Delay})
+            |> List.ofSeq }
+}
 
 let check creds origin destination = async {
     let! options = TravelOptions.find creds origin destination
-    return
-        match options with
-        | [] -> None
-        | options ->
-            let result = options |> List.map(travelOptionFrom origin destination)
-            Some { Options = result; Status = directionStatus result }
+    match options with
+    | [] -> return None
+    | options ->
+        return!
+            options 
+            |> Seq.map(travelOptionFrom origin destination creds)
+            |> Async.Parallel
+            |> Async.map List.ofArray
+            |> Async.map (fun options -> Some { Options = options; Status = directionStatus options })
 }
