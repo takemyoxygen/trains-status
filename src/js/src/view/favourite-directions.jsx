@@ -123,7 +123,7 @@ class FavouritesStatus extends React.Component{
     render = () => (
         <div className="row favourites">
             <ul className="list-group">
-                {this.state.stations.map((s, i) => <Direction key={`${i}-${s.name}`} destination={s} />)}
+                {this.state.stations.map(s => <Direction key={`${s.name}`} destination={s} />)}
             </ul>
             {this.state.userLoggedIn && <AddFavouriteStation onStationAdded={this.onStationAdded} canAddStation={this.canAddStation}/>}
         </div>)
