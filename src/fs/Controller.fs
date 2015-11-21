@@ -102,7 +102,7 @@ let user config =
 
 let content =
     let staticContent  =
-        [".js"; ".jsx"; ".css"; ".html"; ".woff"; ".woff2"; ".ttf"]
+        [".js"; ".jsx"; ".css"; ".html"; ".woff"; ".woff2"; ".ttf"; ".ico"]
         |> Seq.map (fun s -> s.Replace(".", "\."))
         |> String.concat "|"
         |> sprintf "(%s)$"

@@ -4,7 +4,8 @@ open System.IO
 let script = "load.fsx"
 let ignore = ["FSharp.Core"]
 let home = __SOURCE_DIRECTORY__
-let packages = Directory.GetDirectories(Path.Combine(home, "packages"))
+let packagesFolder = Path.Combine(home, "packages")
+let packages = Directory.GetDirectories(packagesFolder)
 
 let getAssemblies libFolder =
     let allFrom folder = Directory.EnumerateFiles(folder, "*.dll") |> List.ofSeq
