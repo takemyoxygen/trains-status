@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+ 
+
+<Storingen>
+	<Ongepland>
+		
+			<Storing>
+				<id>prio-75117</id>
+			    
+					<Traject>Schiphol-Nijmegen</Traject>
+			    
+				
+					<Reden>eerdere verstoring</Reden>
+			    
+				
+				
+					<Bericht><![CDATA[Tussen Schiphol en Nijmegen rijden minder Intercity's door een eerdere verstoring.Houdt u rekening met een extra reistijd van 15 - 30 min.Het is nog niet bekend hoe lang dit duurt.]]></Bericht>
+			    
+				
+					<Datum>2015-11-21T11:36:00+0100</Datum>
+			    
+				
+			</Storing>
+		
+	</Ongepland>
+	<Gepland>
+		
+			<Storing>
+				<id>2015_zl_wdn_6nov_18dec</id>
+			    
+					<Traject>Zwolle-Wierden</Traject>
+			    
+			    
+					<Periode>van maandag tot en met vrijdag vanaf 20.30 uur, tot en met vrijdag 18 december</Periode>
+			    
+			    
+			    
+					<Advies>U kunt gebruikmaken van de omreisroute of de bussen doorgaande reizigers tussen Zwolle en Wierden adviseren wij om te reizen via Deventer tussen Zwolle en Wierden rijden bussen in Heino vertrekt de bus vanaf de OV-halte aan de Zwolseweg; van/naar het station rijdt een beltaxi</Advies>
+			    
+			    
+					<Bericht><![CDATA[
+        <p>
+            <b>Wanneer: van maandag tot en met vrijdag vanaf 20.30 uur, tot en met vrijdag 18 december</b>
+            <br/>
+            <b>Oorzaak: door werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de omreisroute of de bussen</b>
+            <br/>	doorgaande reizigers tussen Zwolle en Wierden adviseren wij om te reizen via Deventer<br/>	tussen Zwolle en Wierden rijden bussen<br/>	in Heino vertrekt de bus vanaf de OV-halte aan de Zwolseweg; van/naar het station rijdt een beltaxi<br/><br/><b>Extra Reistijd: een kwartier tot een half uur</b><br/></p>
+    ]]></Bericht>
+			    
+			    
+					<Oorzaak>door werkzaamheden</Oorzaak>
+			    
+			    
+					<Vertraging>een kwartier tot een half uur</Vertraging>
+			    
+			</Storing>
+		
+			<Storing>
+				<id>2015_mt_fvs_20_21nov</id>
+			    
+					<Traject>Maastricht-Visé</Traject>
+			    
+			    
+					<Periode>vrijdag 20 op zaterdag 21 november vanaf 22.50 uur tot 06.50 uur en zaterdag 21 op zondag 22 november vanaf 23.40 uur tot 07.40 uur</Periode>
+			    
+			    
+			    
+					<Advies>U kunt gebruikmaken van de bussen of de overige treinen er rijden geen treinen tussen Maastricht en Visé tussen Maastricht en Visé kunt u gebruikmaken van de NS- en Veolia-busssen</Advies>
+			    
+			    
+					<Bericht><![CDATA[
+        <p>
+            <b>Wanneer: vrijdag 20 op zaterdag 21 november vanaf 22.50 uur tot 06.50 uur en zaterdag 21 op zondag 22 november vanaf 23.40 uur tot 07.40 uur</b>
+            <br/>
+            <b>Oorzaak: door geplande werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de bussen of de overige treinen</b>
+            <br/>	er rijden geen treinen tussen Maastricht en Visé<br/>	tussen Maastricht en Visé kunt u gebruikmaken van de NS- en Veolia-busssen<br/><br/><b>Extra Reistijd: een kwartier tot een half uur</b><br/></p>
+    ]]></Bericht>
+			    
+			    
+					<Oorzaak>door geplande werkzaamheden</Oorzaak>
+			    
+			    
+					<Vertraging>een kwartier tot een half uur</Vertraging>
+			    
+			</Storing>
+		
+			<Storing>
+				<id>2015_amf_dv_21_22nov</id>
+			    
+					<Traject>Amersfoort-Deventer</Traject>
+			    
+			    
+					<Periode>in de nacht van vrijdag 20 op zaterdag 21 november vanaf 01.00 uur tot en met zondag 22 november</Periode>
+			    
+			    
+			    
+					<Advies>U kunt gebruikmaken van de overige treinen en de bussen reis op zaterdag 21 en zondag 22 november tussen Amersfoort en Deventer via Zwolle tot zaterdag 21 november 13.00 uur rijden er bussen tussen Amersfoort en Deventer vanaf zaterdag 21 november 13.00 tot en met zondag 22 november rijden er bussen tussen Amersfoort en Apeldoorn</Advies>
+			    
+			    
+					<Bericht><![CDATA[
+        <p>
+            <b>Wanneer: in de nacht van vrijdag 20 op zaterdag 21 november vanaf 01.00 uur tot en met zondag 22 november</b>
+            <br/>
+            <b>Oorzaak: door werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de overige treinen en de bussen</b>
+            <br/>	reis op zaterdag 21 en zondag 22 november tussen Amersfoort en Deventer via Zwolle<br/>	tot zaterdag 21 november 13.00 uur rijden er bussen tussen Amersfoort en Deventer<br/>	vanaf zaterdag 21 november 13.00 tot en met zondag 22 november rijden er bussen tussen Amersfoort en Apeldoorn<br/><br/><b>Extra Reistijd: een half uur tot een uur</b><br/></p>
+    ]]></Bericht>
+			    
+			    
+					<Oorzaak>door werkzaamheden</Oorzaak>
+			    
+			    
+					<Vertraging>een half uur tot een uur</Vertraging>
+			    
+			</Storing>
+		
+			<Storing>
+				<id>2015_ht_ut_21_22nov</id>
+			    
+					<Traject>'s-Hertogenbosch-Utrecht Centraal</Traject>
+			    
+			    
+					<Periode>in de nacht van vrijdag 20 op zaterdag 21 november vanaf 01.30 uur tot en met zondag 22 november</Periode>
+			    
+			    
+			    
+					<Advies>U kunt gebruikmaken van de bus Sprinters en Intercity's rijden niet tussen 's-Hertogenbosch en Zaltbommel; er rijden NS-bussen Nachtnettreinen in de nacht van vrijdag op zaterdag en van zaterdag op zondag rijden niet tussen 's-Hertogenbosch en Utrecht Centraal; U kunt gebruikmaken van de NS-bussen</Advies>
+			    
+			    
+					<Bericht><![CDATA[
+        <p>
+            <b>Wanneer: in de nacht van vrijdag 20 op zaterdag 21 november vanaf 01.30 uur tot en met zondag 22 november</b>
+            <br/>
+            <b>Oorzaak: door werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de bus</b>
+            <br/>	Sprinters en Intercity's rijden niet tussen 's-Hertogenbosch en Zaltbommel; er rijden NS-bussen<br/>	Nachtnettreinen in de nacht van vrijdag op zaterdag en van zaterdag op zondag rijden niet tussen 's-Hertogenbosch en Utrecht Centraal; U kunt gebruikmaken van de NS-bussen<br/><br/><b>Extra Reistijd: een half uur</b><br/></p>
+    ]]></Bericht>
+			    
+			    
+					<Oorzaak>door werkzaamheden</Oorzaak>
+			    
+			    
+					<Vertraging>een half uur</Vertraging>
+			    
+			</Storing>
+		
+			<Storing>
+				<id>2015_apd_zp_21nov</id>
+			    
+					<Traject>Apeldoorn-Zutphen</Traject>
+			    
+			    
+					<Periode>zaterdag 21 november tot 13.30 uur</Periode>
+			    
+			    
+			    
+					<Advies>U kunt gebruikmaken van de overige treinen en de bussen tussen Apeldoorn en Klarenbeek kunt u reizen met de bus</Advies>
+			    
+			    
+					<Bericht><![CDATA[
+        <p>
+            <b>Wanneer: zaterdag 21 november tot 13.30 uur</b>
+            <br/>
+            <b>Oorzaak: door werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de overige treinen en de bussen</b>
+            <br/>	tussen Apeldoorn en Klarenbeek kunt u reizen met de bus<br/><br/><b>Extra Reistijd: een kwartier tot een half uur</b><br/></p>
+    ]]></Bericht>
+			    
+			    
+					<Oorzaak>door werkzaamheden</Oorzaak>
+			    
+			    
+					<Vertraging>een kwartier tot een half uur</Vertraging>
+			    
+			</Storing>
+		
+			<Storing>
+				<id>2015_pmo_zd_21nov</id>
+			    
+					<Traject>Purmerend Overwhere-Zaandam</Traject>
+			    
+			    
+					<Periode>zaterdag 21 november tot 18.15 uur</Periode>
+			    
+			    
+			    
+					<Advies>U kunt gebruikmaken van de bussen er rijden geen treinen tussen Purmerend Overwhere en Zaandam; maak gebruik van de Snel- en stopbussen</Advies>
+			    
+			    
+					<Bericht><![CDATA[
+        <p>
+            <b>Wanneer: zaterdag 21 november tot 18.15 uur</b>
+            <br/>
+            <b>Oorzaak: door werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de bussen</b>
+            <br/>	er rijden geen treinen tussen Purmerend Overwhere en Zaandam; maak gebruik van de Snel- en stopbussen<br/><br/><b>Extra Reistijd: een kwartier tot een half uur</b><br/></p>
+    ]]></Bericht>
+			    
+			    
+					<Oorzaak>door werkzaamheden</Oorzaak>
+			    
+			    
+					<Vertraging>een kwartier tot een half uur</Vertraging>
+			    
+			</Storing>
+		
+			<Storing>
+				<id>2015_gvc_gd_ut_21_22nov</id>
+			    
+					<Traject>Den Haag Centraal-Gouda-Utrecht Centraal</Traject>
+			    
+			    
+					<Periode>zaterdag 21 en zondag 22 november tot 14.45 uur</Periode>
+			    
+			    
+			    
+					<Advies>U kunt gebruikmaken van de bussen of de overige treinen er rijden minder treinen tussen Den Haag Centraal en Gouda Intercity's van Den Haag Centraal (vertrek -.09 en -.39) naar Gouda en Utrecht Centraal rijden niet; maak gebruik van de overige Intercity's Intercity's van Utrecht Centraal (vertrek -.14 en -.44) naar Gouda en Den Haag Centraal rijden niet; maak gebruik van de overige Intercity's Sprinters tussen Den Haag Centraal en Gouda rijden in een aangepaste dienstregeling en stoppen niet in Den Haag Ypenburg; maak gebruik van de NS-bus van Zoetermeer naar Den Haag Ypenburg</Advies>
+			    
+			    
+					<Bericht><![CDATA[
+        <p>
+            <b>Wanneer: zaterdag 21 en zondag 22 november tot 14.45 uur</b>
+            <br/>
+            <b>Oorzaak: door beperkt spoorgebruik</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de bussen of de overige treinen</b>
+            <br/>	er rijden minder treinen tussen Den Haag Centraal en Gouda<br/>	Intercity's van Den Haag Centraal (vertrek -.09 en -.39) naar Gouda en Utrecht Centraal rijden niet; maak gebruik van de overige Intercity's<br/>	Intercity's van Utrecht Centraal (vertrek -.14 en -.44) naar Gouda en Den Haag Centraal rijden niet; maak gebruik van de overige Intercity's<br/>	Sprinters tussen Den Haag Centraal en Gouda rijden in een aangepaste dienstregeling en stoppen niet in Den Haag Ypenburg; maak gebruik van de NS-bus van Zoetermeer naar Den Haag Ypenburg<br/><br/><b>Extra Reistijd: een kwartier tot een half uur</b><br/></p>
+    ]]></Bericht>
+			    
+			    
+					<Oorzaak>door beperkt spoorgebruik</Oorzaak>
+			    
+			    
+					<Vertraging>een kwartier tot een half uur</Vertraging>
+			    
+			</Storing>
+		
+			<Storing>
+				<id>2015_utg_hlm_21_22nov</id>
+			    
+					<Traject>Uitgeest-Haarlem</Traject>
+			    
+			    
+					<Periode>zaterdag 21 en zondag 22 november</Periode>
+			    
+			    
+			    
+					<Advies>U kunt gebruikmaken van de omreisroute of de bussen tussen Uitgeest en Beverwijk rijden stopbussen doorgaande reizigers tussen Alkmaar, Uitgeest en Haarlem kunnen omreizen via Amsterdam Sloterdijk</Advies>
+			    
+			    
+					<Bericht><![CDATA[
+        <p>
+            <b>Wanneer: zaterdag 21 en zondag 22 november</b>
+            <br/>
+            <b>Oorzaak: door werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de omreisroute of de bussen</b>
+            <br/>	tussen Uitgeest en Beverwijk rijden stopbussen<br/>	doorgaande reizigers tussen Alkmaar, Uitgeest en Haarlem kunnen omreizen via Amsterdam Sloterdijk<br/><br/><b>Extra Reistijd: een kwartier</b><br/></p>
+    ]]></Bericht>
+			    
+			    
+					<Oorzaak>door werkzaamheden</Oorzaak>
+			    
+			    
+					<Vertraging>een kwartier</Vertraging>
+			    
+			</Storing>
+		
+			<Storing>
+				<id>2015_ut_utm_21_22nov</id>
+			    
+					<Traject>Utrecht Centraal-Utrecht Maliebaan</Traject>
+			    
+			    
+					<Periode>zaterdag 21 en zondag 22 november</Periode>
+			    
+			    
+			    
+					<Advies>U kunt gebruikmaken van de bussen de Sprinters van Utrecht Centraal naar het Spoorwegmuseum rijden niet; u kunt gebruikmaken van U-OV buslijn 8 richting Wilhelminapark, deze vertrekt vanaf bushalte Utrecht Centraal aan de centrumzijde en uitstappen bij bushalte Maliebaan de Sprinters van het Spoorwegmuseum naar Utrecht Centraal rijden niet; u kunt gebruikmaken van U-OV buslijn 8 richting Lunetten via Diakonessenhuis en uitstappen bij bushalte Utrecht Centraal centrumzijde</Advies>
+			    
+			    
+					<Bericht><![CDATA[
+        <p>
+            <b>Wanneer: zaterdag 21 en zondag 22 november</b>
+            <br/>
+            <b>Oorzaak: door werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de bussen</b>
+            <br/>	de Sprinters van Utrecht Centraal naar het Spoorwegmuseum rijden niet; u kunt gebruikmaken van U-OV buslijn 8 richting Wilhelminapark, deze vertrekt vanaf bushalte Utrecht Centraal aan de centrumzijde en uitstappen bij bushalte Maliebaan<br/>	de Sprinters van het Spoorwegmuseum naar Utrecht Centraal rijden niet; u kunt gebruikmaken van U-OV buslijn 8 richting Lunetten via Diakonessenhuis en uitstappen bij bushalte Utrecht Centraal centrumzijde<br/><br/><b>Extra Reistijd: geen extra reistijd</b><br/></p>
+    ]]></Bericht>
+			    
+			    
+					<Oorzaak>door werkzaamheden</Oorzaak>
+			    
+			    
+					<Vertraging>geen extra reistijd</Vertraging>
+			    
+			</Storing>
+		
+			<Storing>
+				<id>2015_ICBER_asd_berlin_21_22nov</id>
+			    
+					<Traject>Amsterdam C-Hannover Hbf-Berlin Südkreuz</Traject>
+			    
+			    
+					<Periode>zaterdag 21 en zondag 22 november</Periode>
+			    
+			    
+			    
+					<Advies>U kunt gebruikmaken van de gewijzigde dienstregeling InterCity Berlijn rijdt tussen Amsterdam Centraal en Deventer via een andere route en stopt niet in Hilversum, Amersfoort en Apeldoorn de treinen van Nederland naar Duitsland vertrekken een kwartier eerder dan gebruikelijk vanuit Amsterdam Centraal en stoppen extra in Almere Centrum en Zwolle de treinen van Duitsland naar Nederland stoppen extra in Almere Centrum en komen ongeveer een kwartier later aan in Amsterdam Centraal uitzondering: IC Berlijn 245 vertrekt op 21 november om 04.58 uur uit Amsterdam Centraal en stopt binnen Nederland alleen in Deventer, Almelo en Hengelo</Advies>
+			    
+			    
+					<Bericht><![CDATA[
+        <p>
+            <b>Wanneer: zaterdag 21 en zondag 22 november</b>
+            <br/>
+            <b>Oorzaak: door werkzaamheden</b>
+            <br/>
+            <b>Advies: U kunt gebruikmaken van de gewijzigde dienstregeling</b>
+            <br/>	InterCity Berlijn rijdt tussen Amsterdam Centraal en Deventer via een andere route en stopt niet in Hilversum, Amersfoort en Apeldoorn<br/>	de treinen van Nederland naar Duitsland vertrekken een kwartier eerder dan gebruikelijk vanuit Amsterdam Centraal en stoppen extra in Almere Centrum en Zwolle<br/>	de treinen van Duitsland naar Nederland stoppen extra in Almere Centrum en komen ongeveer een kwartier later aan in Amsterdam Centraal<br/>	uitzondering: IC Berlijn 245 vertrekt op 21 november om 04.58 uur uit Amsterdam Centraal en stopt binnen Nederland alleen in Deventer, Almelo en Hengelo<br/><br/><b>Extra Reistijd: een kwartier tot een half uur</b><br/></p>
+    ]]></Bericht>
+			    
+			    
+					<Oorzaak>door werkzaamheden</Oorzaak>
+			    
+			    
+					<Vertraging>een kwartier tot een half uur</Vertraging>
+			    
+			</Storing>
+		
+			<Storing>
+				<id>2015_gvc_rtd_21_22nov</id>
+			    
+					<Traject>Den Haag Centraal-Rotterdam Centraal</Traject>
+			    
+			    
+					<Periode>zaterdag 21 en zondag 22 november tussen 09.00 en 15.00 uur</Periode>
+			    
+			    
+			    
+					<Advies>Ga vanaf Den Haag Centraal eerder op reis Intercity's tussen Den Haag Centraal en Venlo rijden niet tussen Den Haag Centraal en Den Haag HS; maak gebruik van de Sprinter</Advies>
+			    
+			    
+					<Bericht><![CDATA[
+        <p>
+            <b>Wanneer: zaterdag 21 en zondag 22 november tussen 09.00 en 15.00 uur</b>
+            <br/>
+            <b>Oorzaak: door beperkt spoorgebruik</b>
+            <br/>
+            <b>Advies: Ga vanaf Den Haag Centraal eerder op reis</b>
+            <br/>	Intercity's tussen Den Haag Centraal en Venlo rijden niet tussen Den Haag Centraal en Den Haag HS; maak gebruik van de Sprinter<br/><br/><b>Extra Reistijd: een kwartier</b><br/></p>
+    ]]></Bericht>
+			    
+			    
+					<Oorzaak>door beperkt spoorgebruik</Oorzaak>
+			    
+			    
+					<Vertraging>een kwartier</Vertraging>
+			    
+			</Storing>
+		
+	</Gepland>
+</Storingen>
