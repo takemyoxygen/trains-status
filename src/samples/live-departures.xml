@@ -1,207 +1,104 @@
 <ActueleVertrekTijden>
-
-	<VertrekkendeTrein>
-		<RitNummer>5846</RitNummer>
-		<VertrekTijd>2015-07-05T14:40:00+0200</VertrekTijd>
-
-
-		<EindBestemming>Hoofddorp</EindBestemming>
-		<TreinSoort>Sprinter</TreinSoort>
-
-			<RouteTekst>Weesp, Amsterdam C., Schiphol</RouteTekst>
-
-
-			<Vervoerder>NS</Vervoerder>
-
-		<VertrekSpoor wijziging="false">2</VertrekSpoor>
-
-
-	</VertrekkendeTrein>
-
-	<VertrekkendeTrein>
-		<RitNummer>5851</RitNummer>
-		<VertrekTijd>2015-07-05T14:51:00+0200</VertrekTijd>
-
-
-		<EindBestemming>Amersfoort</EindBestemming>
-		<TreinSoort>Sprinter</TreinSoort>
-
-			<RouteTekst>Hilversum, Baarn</RouteTekst>
-
-
-			<Vervoerder>NS</Vervoerder>
-
-		<VertrekSpoor wijziging="false">3</VertrekSpoor>
-
-
-	</VertrekkendeTrein>
-
-	<VertrekkendeTrein>
-		<RitNummer>5748</RitNummer>
-		<VertrekTijd>2015-07-05T14:54:00+0200</VertrekTijd>
-
-
-		<EindBestemming>Den Haag Centraal</EindBestemming>
-		<TreinSoort>Sprinter</TreinSoort>
-
-			<RouteTekst>Weesp, Duivendrecht, Schiphol</RouteTekst>
-
-
-			<Vervoerder>NS</Vervoerder>
-
-		<VertrekSpoor wijziging="false">2</VertrekSpoor>
-
-
-	</VertrekkendeTrein>
-
-	<VertrekkendeTrein>
-		<RitNummer>4949</RitNummer>
-		<VertrekTijd>2015-07-05T14:57:00+0200</VertrekTijd>
-
-
-		<EindBestemming>Utrecht Centraal</EindBestemming>
-		<TreinSoort>Sprinter</TreinSoort>
-
-			<RouteTekst>Hilversum, Overvecht</RouteTekst>
-
-
-			<Vervoerder>NS</Vervoerder>
-
-		<VertrekSpoor wijziging="false">3</VertrekSpoor>
-
-			<ReisTip>Stopt niet in Bussum Zuid  en Hilversum Media Park</ReisTip>
-
-
-	</VertrekkendeTrein>
-
-	<VertrekkendeTrein>
-		<RitNummer>5751</RitNummer>
-		<VertrekTijd>2015-07-05T15:06:00+0200</VertrekTijd>
-
-
-		<EindBestemming>Utrecht Centraal</EindBestemming>
-		<TreinSoort>Sprinter</TreinSoort>
-
-			<RouteTekst>Hilversum, Overvecht</RouteTekst>
-
-
-			<Vervoerder>NS</Vervoerder>
-
-		<VertrekSpoor wijziging="false">3</VertrekSpoor>
-
-
-	</VertrekkendeTrein>
-
-	<VertrekkendeTrein>
-		<RitNummer>5848</RitNummer>
-		<VertrekTijd>2015-07-05T15:10:00+0200</VertrekTijd>
-
-
-		<EindBestemming>Hoofddorp</EindBestemming>
-		<TreinSoort>Sprinter</TreinSoort>
-
-			<RouteTekst>Weesp, Amsterdam C., Schiphol</RouteTekst>
-
-
-			<Vervoerder>NS</Vervoerder>
-
-		<VertrekSpoor wijziging="false">2</VertrekSpoor>
-
-
-	</VertrekkendeTrein>
-
-	<VertrekkendeTrein>
-		<RitNummer>5853</RitNummer>
-		<VertrekTijd>2015-07-05T15:21:00+0200</VertrekTijd>
-
-
-		<EindBestemming>Amersfoort</EindBestemming>
-		<TreinSoort>Sprinter</TreinSoort>
-
-			<RouteTekst>Hilversum, Baarn</RouteTekst>
-
-
-			<Vervoerder>NS</Vervoerder>
-
-		<VertrekSpoor wijziging="false">3</VertrekSpoor>
-
-
-	</VertrekkendeTrein>
-
-	<VertrekkendeTrein>
-		<RitNummer>5750</RitNummer>
-		<VertrekTijd>2015-07-05T15:24:00+0200</VertrekTijd>
-
-
-		<EindBestemming>Den Haag Centraal</EindBestemming>
-		<TreinSoort>Sprinter</TreinSoort>
-
-			<RouteTekst>Weesp, Duivendrecht, Schiphol</RouteTekst>
-
-
-			<Vervoerder>NS</Vervoerder>
-
-		<VertrekSpoor wijziging="false">2</VertrekSpoor>
-
-
-	</VertrekkendeTrein>
-
-	<VertrekkendeTrein>
-		<RitNummer>4952</RitNummer>
-		<VertrekTijd>2015-07-05T15:33:00+0200</VertrekTijd>
-
-
-		<EindBestemming>Almere Oostvaarders</EindBestemming>
-		<TreinSoort>Sprinter</TreinSoort>
-
-			<RouteTekst>Almere C.</RouteTekst>
-
-
-			<Vervoerder>NS</Vervoerder>
-
-		<VertrekSpoor wijziging="false">1</VertrekSpoor>
-
-
-	</VertrekkendeTrein>
-
-	<VertrekkendeTrein>
-		<RitNummer>5753</RitNummer>
-		<VertrekTijd>2015-07-05T15:36:00+0200</VertrekTijd>
-
-
-		<EindBestemming>Utrecht Centraal</EindBestemming>
-		<TreinSoort>Sprinter</TreinSoort>
-
-			<RouteTekst>Hilversum, Overvecht</RouteTekst>
-
-
-			<Vervoerder>NS</Vervoerder>
-
-		<VertrekSpoor wijziging="false">3</VertrekSpoor>
-
-
-	</VertrekkendeTrein>
-
-	<VertrekkendeTrein>
-		<RitNummer>5850</RitNummer>
-		<VertrekTijd>2015-07-05T15:40:00+0200</VertrekTijd>
-
-			<VertrekVertraging>PT4M</VertrekVertraging>
-
-
-			<VertrekVertragingTekst>+4 min</VertrekVertragingTekst>
-
-		<EindBestemming>Hoofddorp</EindBestemming>
-		<TreinSoort>Sprinter</TreinSoort>
-
-			<RouteTekst>Weesp, Amsterdam C., Schiphol</RouteTekst>
-
-
-			<Vervoerder>NS</Vervoerder>
-
-		<VertrekSpoor wijziging="false">2</VertrekSpoor>
-
-
-	</VertrekkendeTrein>
-
+  <VertrekkendeTrein>
+    <RitNummer>5846</RitNummer>
+    <VertrekTijd>2015-07-05T14:40:00+0200</VertrekTijd>
+    <EindBestemming>Hoofddorp</EindBestemming>
+    <TreinSoort>Sprinter</TreinSoort>
+    <RouteTekst>Weesp, Amsterdam C., Schiphol</RouteTekst>
+    <Vervoerder>NS</Vervoerder>
+    <VertrekSpoor wijziging="false">2</VertrekSpoor>
+  </VertrekkendeTrein>
+  <VertrekkendeTrein>
+    <RitNummer>5851</RitNummer>
+    <VertrekTijd>2015-07-05T14:51:00+0200</VertrekTijd>
+    <EindBestemming>Amersfoort</EindBestemming>
+    <TreinSoort>Sprinter</TreinSoort>
+    <RouteTekst>Hilversum, Baarn</RouteTekst>
+    <Vervoerder>NS</Vervoerder>
+    <VertrekSpoor wijziging="false">3</VertrekSpoor>
+  </VertrekkendeTrein>
+  <VertrekkendeTrein>
+    <RitNummer>5748</RitNummer>
+    <VertrekTijd>2015-07-05T14:54:00+0200</VertrekTijd>
+    <EindBestemming>Den Haag Centraal</EindBestemming>
+    <TreinSoort>Sprinter</TreinSoort>
+    <RouteTekst>Weesp, Duivendrecht, Schiphol</RouteTekst>
+    <Vervoerder>NS</Vervoerder>
+    <VertrekSpoor wijziging="false">2</VertrekSpoor>
+  </VertrekkendeTrein>
+  <VertrekkendeTrein>
+    <RitNummer>4949</RitNummer>
+    <VertrekTijd>2015-07-05T14:57:00+0200</VertrekTijd>
+    <EindBestemming>Utrecht Centraal</EindBestemming>
+    <TreinSoort>Sprinter</TreinSoort>
+    <RouteTekst>Hilversum, Overvecht</RouteTekst>
+    <Vervoerder>NS</Vervoerder>
+    <VertrekSpoor wijziging="false">3</VertrekSpoor>
+    <ReisTip>Stopt niet in Bussum Zuid  en Hilversum Media Park</ReisTip>
+  </VertrekkendeTrein>
+  <VertrekkendeTrein>
+    <RitNummer>5751</RitNummer>
+    <VertrekTijd>2015-07-05T15:06:00+0200</VertrekTijd>
+    <EindBestemming>Utrecht Centraal</EindBestemming>
+    <TreinSoort>Sprinter</TreinSoort>
+    <RouteTekst>Hilversum, Overvecht</RouteTekst>
+    <Vervoerder>NS</Vervoerder>
+    <VertrekSpoor wijziging="false">3</VertrekSpoor>
+  </VertrekkendeTrein>
+  <VertrekkendeTrein>
+    <RitNummer>5848</RitNummer>
+    <VertrekTijd>2015-07-05T15:10:00+0200</VertrekTijd>
+    <EindBestemming>Hoofddorp</EindBestemming>
+    <TreinSoort>Sprinter</TreinSoort>
+    <RouteTekst>Weesp, Amsterdam C., Schiphol</RouteTekst>
+    <Vervoerder>NS</Vervoerder>
+    <VertrekSpoor wijziging="false">2</VertrekSpoor>
+  </VertrekkendeTrein>
+  <VertrekkendeTrein>
+    <RitNummer>5853</RitNummer>
+    <VertrekTijd>2015-07-05T15:21:00+0200</VertrekTijd>
+    <EindBestemming>Amersfoort</EindBestemming>
+    <TreinSoort>Sprinter</TreinSoort>
+    <RouteTekst>Hilversum, Baarn</RouteTekst>
+    <Vervoerder>NS</Vervoerder>
+    <VertrekSpoor wijziging="false">3</VertrekSpoor>
+  </VertrekkendeTrein>
+  <VertrekkendeTrein>
+    <RitNummer>5750</RitNummer>
+    <VertrekTijd>2015-07-05T15:24:00+0200</VertrekTijd>
+    <EindBestemming>Den Haag Centraal</EindBestemming>
+    <TreinSoort>Sprinter</TreinSoort>
+    <RouteTekst>Weesp, Duivendrecht, Schiphol</RouteTekst>
+    <Vervoerder>NS</Vervoerder>
+    <VertrekSpoor wijziging="false">2</VertrekSpoor>
+  </VertrekkendeTrein>
+  <VertrekkendeTrein>
+    <RitNummer>4952</RitNummer>
+    <VertrekTijd>2015-07-05T15:33:00+0200</VertrekTijd>
+    <EindBestemming>Almere Oostvaarders</EindBestemming>
+    <TreinSoort>Sprinter</TreinSoort>
+    <RouteTekst>Almere C.</RouteTekst>
+    <Vervoerder>NS</Vervoerder>
+    <VertrekSpoor wijziging="false">1</VertrekSpoor>
+  </VertrekkendeTrein>
+  <VertrekkendeTrein>
+    <RitNummer>5753</RitNummer>
+    <VertrekTijd>2015-07-05T15:36:00+0200</VertrekTijd>
+    <EindBestemming>Utrecht Centraal</EindBestemming>
+    <TreinSoort>Sprinter</TreinSoort>
+    <RouteTekst>Hilversum, Overvecht</RouteTekst>
+    <Vervoerder>NS</Vervoerder>
+    <VertrekSpoor wijziging="false">3</VertrekSpoor>
+  </VertrekkendeTrein>
+  <VertrekkendeTrein>
+    <RitNummer>5850</RitNummer>
+    <VertrekTijd>2015-07-05T15:40:00+0200</VertrekTijd>
+    <VertrekVertraging>PT4M</VertrekVertraging>
+    <VertrekVertragingTekst>+4 min</VertrekVertragingTekst>
+    <EindBestemming>Hoofddorp</EindBestemming>
+    <TreinSoort>Sprinter</TreinSoort>
+    <RouteTekst>Weesp, Amsterdam C., Schiphol</RouteTekst>
+    <Vervoerder>NS</Vervoerder>
+    <VertrekSpoor wijziging="false">2</VertrekSpoor>
+  </VertrekkendeTrein>
 </ActueleVertrekTijden>
