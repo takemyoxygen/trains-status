@@ -88,7 +88,7 @@ class AddFavouriteStation extends React.Component{
                     <StationsSelector
                         ref="stationSelector"
                         valid={this.state.valid}
-                        autofocus="true"
+                        autofocus={true}
                         canSelectStation={this.props.canAddStation}
                         onStationSelected={this.onStationSelected}
                         onCancel={this.onCancel} />

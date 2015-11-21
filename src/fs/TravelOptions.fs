@@ -5,7 +5,7 @@ open FSharp.Data
 
 type private Xml = XmlProvider< "samples/travel-options.xml" >
 
-type Status = 
+type Status =
     | AccordingToPlan
     | Amended
     | Delayed
@@ -14,8 +14,8 @@ type Status =
     | Cancelled
     | PlanChanged
     | Unknown
-    static member fromString = 
-        function 
+    static member fromString =
+        function
         | "VOLGENS-PLAN" -> Status.AccordingToPlan
         | "GEWIJZIGD" -> Status.Amended
         | "VERTRAAGD" -> Status.Delayed
@@ -25,30 +25,30 @@ type Status =
         | "PLAN-GEWIJZIGD" -> Status.PlanChanged
         | _ -> Status.Unknown
 
-type Estimated<'a> = 
+type Estimated<'a> =
     { Planned : 'a
       Actual : 'a option }
 
-type Stop = 
+type Stop =
     { Name : string
       Time : DateTime option
       Delay : string option }
 
 type OutageId = string
 
-type Outage = 
+type Outage =
     { Id : OutageId
       Severe : bool
       Text : string }
 
-type TravelLeg = 
+type TravelLeg =
     { TrainId : int
       Stops : Stop list
       Status : string
       PlannedOutage : OutageId option
       UnplannedOutage : OutageId option }
 
-type T = 
+type T =
     { Outages : Outage list
       Transfers : int
       Duration : Estimated<TimeSpan>
@@ -62,37 +62,37 @@ type T =
 
 let private endpoint = "http://webservices.ns.nl/ns-api-treinplanner"
 
-let private createTravelOption (option : Xml.ReisMogelijkheid) = 
-    { Outages = 
+let private createTravelOption (option : Xml.ReisMogelijkheid) =
+    { Outages =
           option.Meldings
-          |> Seq.map (fun outage -> 
+          |> Seq.map (fun outage ->
                  { Id = outage.Id
                    Severe = outage.Ernstig
                    Text = outage.Text })
           |> List.ofSeq
       Transfers = option.AantalOverstappen
-      Duration = 
+      Duration =
           { Planned = option.GeplandeReisTijd.TimeOfDay
             Actual = option.ActueleReisTijd |> Option.map (fun dt -> dt.TimeOfDay) }
-      Legs = 
+      Legs =
           option.ReisDeels
-          |> Seq.map (fun leg -> 
+          |> Seq.map (fun leg ->
                  { TrainId = defaultArg leg.RitNummer 0
                    Status = leg.Status
                    PlannedOutage = leg.GeplandeStoringId
                    UnplannedOutage = leg.OngeplandeStoringId
-                   Stops = 
+                   Stops =
                        leg.ReisStops
-                       |> Seq.map (fun stop -> 
+                       |> Seq.map (fun stop ->
                               { Name = stop.Naam
                                 Time = stop.Tijd
                                 Delay = stop.VertrekVertraging })
                        |> List.ofSeq })
           |> List.ofSeq
-      DepartureTime = 
+      DepartureTime =
           { Planned = option.GeplandeVertrekTijd
             Actual = Some option.ActueleVertrekTijd }
-      ArrivalTime = 
+      ArrivalTime =
           { Planned = option.GeplandeAankomstTijd
             Actual = Some option.ActueleAankomstTijd }
       DepartureDelay = option.VertrekVertraging
@@ -105,14 +105,13 @@ let private handleOutages options =
     |> Seq.collect (fun opt -> opt.Outages)
     |> Seq.iter (fun outage -> Outages.knownOutage outage.Id outage.Text) 
 
-let find creds origin destination = 
-    async { 
-//        let! xml = Http.getAsync creds endpoint [ "fromStation", origin
-//                                                  "toStation", destination
-//                                                  "previousAdvices", "0" ]
-//        let data = Xml.Parse xml
-        let! data = Xml.AsyncLoad "samples/travel-options.xml"
-        let options = 
+let find creds origin destination =
+    async {
+        let! xml = Http.getAsync creds endpoint [ "fromStation", origin
+                                                  "toStation", destination
+                                                  "previousAdvices", "0" ]
+        let data = Xml.Parse xml
+        let options =
             data.ReisMogelijkheids
             |> Seq.map createTravelOption
             |> List.ofSeq

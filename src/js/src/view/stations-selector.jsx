@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import Autocomplete from "react-autocomplete";
 import Stations from "stations";
 
@@ -24,7 +25,7 @@ export default class StationsSelector extends React.Component{
 
     componentDidUpdate(){
         if (this.props.autofocus){
-            $(React.findDOMNode(this))
+            $(ReactDOM.findDOMNode(this))
                 .find("input[role=combobox]")
                 .focus();
         }

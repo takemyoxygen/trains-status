@@ -24,9 +24,8 @@ type private Xml = XmlProvider< "samples/outages.xml" >
 
 let actual creds =
     async {
-        let! data = Xml.AsyncLoad("samples/outages.xml")
-//        let! response = Http.getAsync creds "http://webservices.ns.nl/ns-api-storingen" ["actual", "true"]
-//        let data' = Xml.Parse response
+        let! response = Http.getAsync creds "http://webservices.ns.nl/ns-api-storingen" ["actual", "true"]
+        let data = Xml.Parse response
         let planned =
             data.Gepland.Storings
             |> Seq.map (fun st ->
@@ -69,7 +68,7 @@ let private outages = MailboxProcessor.Start(fun agent ->
             | Some(message) -> replyChannel.Reply(Some message)
             | _ ->
                 let! all = actual creds
-                
+
                 all
                 |> Seq.map (fun out -> out.Id, generateMessage out)
                 |> Seq.filter (snd >> String.IsNullOrEmpty >> not)
