@@ -36,7 +36,7 @@ class Direction extends React.Component{
     checkStatus(origin){
         $.getJSON(`/api/status/${origin.name}/${this.props.destination.name}`)
             .done(response => this.setState({
-                status: response.status,
+                status: response.status.toLowerCase(),
                 travelOptions: response.options
             }));
     }

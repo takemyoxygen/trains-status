@@ -38,11 +38,11 @@ class Transfers extends React.Component{
 class TravelOptionStatus extends React.Component{
     render(){
         var iconType;
-        switch (this.props.status) {
+        switch (this.props.status.toLowerCase()) {
             case "ok":
                 iconType = "glyphicon-ok";
                 break;
-            case "warning":
+            case "delayed":
                 iconType = "glyphicon-warning-sign";
                 break;
             case "cancelled":
