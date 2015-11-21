@@ -9,9 +9,9 @@ type StopInfo =
       Delay: string option}
 
 type TravelOptionStatus = 
-    | Ok
-    | Delayed
-    | Cancelled
+    | Ok = 0
+    | Delayed = 1
+    | Cancelled = 2
 
 /// Particular travel option including departure/arrival time and transfers
 type TravelOption =
@@ -22,8 +22,8 @@ type TravelOption =
       Warnings: string list; }
 
 type DirectionStatus =
-    | Ok
-    | Warning
+    | Ok = 0
+    | Warning = 1
 
 /// All travel options from an origin to a destination
 type Direction = 
@@ -34,8 +34,8 @@ type Direction =
 // Maybe it would make sense to check for delays manually (departure delay, arrival delay, delays on stops along the route)
 let private travelOptionStatus (opt: TravelOptions.T) =
     match opt.Status with
-    | TravelOptions.Status.Delayed -> Delayed
-    | TravelOptions.Status.Cancelled -> Cancelled
+    | TravelOptions.Status.Delayed -> TravelOptionStatus.Delayed
+    | TravelOptions.Status.Cancelled -> TravelOptionStatus.Cancelled
     | _ -> TravelOptionStatus.Ok
 
 let private directionStatus (options: TravelOption list) = 
