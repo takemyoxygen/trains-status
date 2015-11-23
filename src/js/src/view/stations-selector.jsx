@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Autocomplete from "react-autocomplete";
 import Stations from "stations";
+import Select from "react-select";
 
 export default class StationsSelector extends React.Component{
     constructor(){
@@ -52,19 +53,13 @@ export default class StationsSelector extends React.Component{
     onChange = (_, text) => this.setState({valid: true, text: text});
 
     render(){
+        var items = [
+            {key: "k1", value: "v1"},
+            {key: "k2", value: "v2"}
+        ];
         return (
             <div className={`stations-selector ${this.state.valid ? "valid" : "invalid"}`}>
-                <Autocomplete
-                    items={this.state.stations}
-                    getItemValue={x => x.name}
-                    onSelect={this.onSelect}
-                    onChange={this.onChange}
-                    initialValue={this.props.currentStation ? this.props.currentStation.name : ""}
-                    shouldItemRender={(st, val) => st.name.toLowerCase().indexOf(val.toLowerCase()) >= 0 }
-                    renderItem={(item, highlighted, style) =>
-                        <div className={`station ${highlighted ? "highlighted" : ""}`}>
-                            {item.name}
-                        </div>}/>
+                <Select name="some-select" options={items} value="please select something..." autofocus clearable simpleValue />
                 <a className="btn btn-primary" onClick={this.onOk}>Ok</a>
                 <a className="btn btn-default" onClick={this.props.onCancel && this.props.onCancel}>Cancel</a>
             </div>);
