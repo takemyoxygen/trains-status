@@ -19,6 +19,10 @@
     "rxjs": "~3.1.1",
     "react-autocomplete": "https://github.com/rackt/react-autocomplete.git#~0.1.4",
     "react": "~0.14.3",
-    "react-bootstrap": "~0.28.1"
+    "react-bootstrap": "~0.28.1",
+    "react-select": "https://github.com/JedWatson/react-select.git#1.0.0-beta5"
+  },
+  "resolutions": {
+    "react-select": "1.0.0-beta5"
   }
 }

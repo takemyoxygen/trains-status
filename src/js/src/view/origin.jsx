@@ -45,9 +45,7 @@ export default class Origin extends React.Component{
                             <span>New origin:</span>
                             <StationsSelector
                                 currentStation={this.state.station}
-                                ref="stationsSelector"
                                 canSelectStation={() => true}
-                                autofocus={true}
                                 onStationSelected={this.onStationSelected}
                                 onCancel={this.onCancel}/>
                         </div>
