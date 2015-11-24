@@ -95,24 +95,18 @@
     }
 }
 
-.stations-selector {
-    .highlighted {
-        background-color: #E8E8FF;
-    }
+.stations-selector{
+    display: inline;
 
-    .station {
-        cursor: default;
-    }
-
-    > div > div {
-        z-index: 999;
+    .stations-dropdown{
+        width: 250px;
+        display: inline-block;
+        vertical-align: bottom;
     }
 }
 
-.stations-selector.invalid{
-    input[role=combobox] {
-        background-color: rgba(255, 0, 0, 0.24)
-    }
+.stations-selector.invalid .Select-value{
+    background-color: rgba(255, 0, 0, 0.24)
 }
 
 .add-favourite-station {
@@ -125,11 +119,6 @@
         margin-left: 10px;
     }
 }
-
-.stations-selector{
-    display: inline;
-}
-
 
 .change-origin{
     font-size: 0.8em;
