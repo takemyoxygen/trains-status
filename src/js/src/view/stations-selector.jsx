@@ -15,7 +15,6 @@ export default class StationsSelector extends React.Component{
         canSelectStation: React.PropTypes.func.isRequired,
         onCancel: React.PropTypes.func,
         currentStation: React.PropTypes.object,
-        autofocus: React.PropTypes.bool
     }
 
     componentDidMount(){
