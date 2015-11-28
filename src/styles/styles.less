@@ -1,15 +1,98 @@
+@border-color: #969696;
+@footer-height: 40px;
+@accent-background-color: #6f5499;
+
+html, body, .container, .content-wrapper,  {
+    height: 100%;
+}
+
+.main-content {
+    min-height: 100%;
+    margin-bottom: -@footer-height;
+}
+
+.main-content:after {
+    content: "";
+    display: block;
+    height: @footer-height;
+}
+
+.header {
+
+    background: @accent-background-color;
+    color: white;
+    padding: 0 28px 20px 20px;
+
+    h1 {
+        display: inline-block;
+        margin-left: 27px;
+    }
+
+    .logo {
+        height: 50px;
+        margin: -12px 10px 0 4px;
+    }
+
+    .user {
+
+        float: right;
+        margin: 22px 28px 0 0;
+
+        .sign-in {
+            margin-top: 6px;
+        }
+
+        .username {
+
+            margin-top: 12px;
+
+            a {
+                margin-left: 10px;
+            }
+        }
+
+        a {
+            color: white;
+        }
+    }
+}
+
+.footer {
+    height: @footer-height;
+    padding: 8px 22px 0 22px;
+    border: 1px solid @border-color;
+    background: @accent-background-color;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: white;
+
+    a {
+        color: white;
+        text-decoration: underline;
+
+        &:hover {
+            color: lighten(@accent-background-color, 30%);
+        }
+    }
+
+    .copyright {
+        float: right;
+    }
+}
+
 .travel-options {
 
-    padding: 10px 15px 0 15px;
+    padding: 20px 15px 0 15px;
     color: lighten(black, 30%);
     margin-bottom: 0;
 
     .delayed {
-        color: red
+        color: #DA0808;
+        font-weight: bold;
     }
 
     .travel-option {
-        border-top: 1px solid lighten(grey, 20%);
+        border-top: 1px solid @border-color;
         padding: 10px 0 10px 0;
 
         .travel-option-description {
@@ -17,22 +100,49 @@
 
             .stop-status{
                 margin-right: 5px;
+
+                &:after {
+                    content: ",";
+                }
+
+                &:last-child:after {
+                    content: "";
+                }
             }
 
             .departure-time {
                 margin-left: 3px;
             }
         }
+
+        .travel-option-status {
+            display: inline-block;
+            margin: 0 25px 0 8px;
+        }
     }
 }
 
 .favourites {
+
+    &.row{
+        margin: 0 0 40px 0;
+    }
+
+    .list-group-item {
+        border-color: @border-color;
+        padding: 20px 15px;
+    }
+
+    .list-group-item.expanded {
+        padding-bottom: 5px;
+    }
+
     .ok {
-        background: #E0FFE1;
+        background: #66FFCC;
     }
 
     .warning {
-        background: #FFF7B8;
+        background: #FFFF66;
     }
 
     .loading {
@@ -41,7 +151,7 @@
 
     .direction-name {
         cursor: pointer;
-        font-size: 1.2em;
+        font-size: 1.3em;
     }
 
     a {
@@ -54,6 +164,10 @@
 
     .remove-direction{
         text-align: right;
+
+        a {
+            margin-right: 10px;
+        }
     }
 
     .same-as-origin {
@@ -66,9 +180,23 @@
             pointer-events: none;
         }
     }
+
+    .direction-status {
+        display: inline-block;
+        margin: 0 20px 0 5px;
+        font-size: 1.2em;
+
+        .glyphicon {
+            vertical-align: middle;
+            padding-bottom: 3px;
+        }
+    }
 }
 
 .origin {
+
+    padding-left: 20px;
+
     .station-name {
         font-weight: bold;
         margin-left: 5px;
@@ -82,16 +210,6 @@
             margin-left: 10px;
             margin-top: -4px;
         }
-    }
-}
-
-.user {
-
-    float: right;
-    margin-right: -15px;
-
-    .username a {
-        margin-left: 10px;
     }
 }
 

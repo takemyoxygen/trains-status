@@ -52,15 +52,15 @@ export default class Origin extends React.Component{
                     )
                     : (
                         <div className="origin">
-                            Origin:
+                            From    :
                             <span className="station-name">{this.state.station.name}</span>
                             {this.state.available && (
                                 <div className="origin-buttons">
-                                    <a className={`btn btn-default btn-sm edit-icon ${disabled}`} title="Change" onClick={this.toEditMode}>
-                                        <span className="glyphicon glyphicon-edit"></span>
+                                    <a className={`btn btn-default edit-icon ${disabled}`} onClick={this.toEditMode}>
+                                        Change
                                     </a>
-                                    <a target="_blank" href={this.state.liveDepartures} title="See all departures" className={`btn btn-default btn-sm ${disabled}`}>
-                                        <span className="glyphicon glyphicon-eye-open"></span>
+                                    <a target="_blank" href={this.state.liveDepartures} className={`btn btn-default ${disabled}`}>
+                                        Open on NS.nl
                                     </a>
                                 </div>)}
                         </div>)}
