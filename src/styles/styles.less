@@ -19,7 +19,7 @@ html, body, .container, .content-wrapper,  {
 
 .footer {
     height: @footer-height;
-    padding: 8px 0 0 22px;
+    padding: 8px 22px 0 22px;
     border: 1px solid @border-color;
     background: @accent-background-color;
     border-top-left-radius: 5px;
@@ -33,6 +33,10 @@ html, body, .container, .content-wrapper,  {
         &:hover {
             color: lighten(@accent-background-color, 30%);
         }
+    }
+
+    .copyright {
+        float: right;
     }
 }
 
@@ -101,11 +105,11 @@ html, body, .container, .content-wrapper,  {
     }
 }
 
-.favourites.row{
-    margin: 0px;
-}
-
 .favourites {
+
+    &.row{
+        margin: 0 0 40px 0;
+    }
 
     .list-group-item {
         border-color: @border-color;
