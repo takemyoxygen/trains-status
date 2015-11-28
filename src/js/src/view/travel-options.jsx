@@ -41,20 +41,24 @@ class TravelOptionStatus extends React.Component{
         var iconType;
         switch (this.props.status.toLowerCase()) {
             case "ok":
-                iconType = "glyphicon-ok";
+                iconType = "ok";
                 break;
             case "delayed":
-                iconType = "glyphicon-time";
+                iconType = "time";
                 break;
             case "cancelled":
-                iconType = "glyphicon-remove";
+                iconType = "remove";
                 break;
             default:
-                iconType = "glyphicon-question-sign";
+                iconType = "question-sign";
                 break;
         }
 
-        return <span className={`glyphicon ${iconType}`}></span>
+        return (
+            <div className="travel-option-status">
+                <Glyphicon glyph={iconType}/>
+            </div>
+        )
     }
 };
 
@@ -65,8 +69,10 @@ class TravelOption extends React.Component{
         const warning = warningText && <Tooltip id={`tooltip-${this.props.option.to.station}`}>{warningText}</Tooltip>;
 
         return (
-            <div className="row travel-option">
-                <div className="travel-option-description col-md-11">
+            <div className="travel-option row">
+                <div className="travel-option-description">
+                    <TravelOptionStatus status={this.props.option.status}/>
+
                     <span>from <StopStatus stop={this.props.option.from}/></span>
                     <span>to <StopStatus stop={this.props.option.to}/></span>
                     <Transfers transfers={this.props.option.via} />
@@ -77,9 +83,6 @@ class TravelOption extends React.Component{
                             </a>
                         </OverlayTrigger>
                     )}
-                </div>
-                <div className="status col-md-1">
-                    <TravelOptionStatus status={this.props.option.status}/>
                 </div>
             </div>
         )
