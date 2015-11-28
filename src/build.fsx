@@ -136,6 +136,7 @@ Target "Copy" (fun _ ->
         ++ "index.html"
         ++ "web.config"
         ++ "favicon.ico"
+        ++ "img/*.*"
         |> SetBaseDir sourceDir
     CopyWithSubfoldersTo outputDir [files]
 )
