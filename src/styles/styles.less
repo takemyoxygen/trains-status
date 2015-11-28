@@ -1,11 +1,14 @@
+@border-color: #969696;
+
 .header {
     h1 {
         display: inline-block;
+        margin-left: 27px;
     }
 
     .logo {
         height: 50px;
-        margin: -25px 10px 0 0;
+        margin: -12px 10px 0 4px;
     }
 
     .user {
@@ -32,16 +35,17 @@
 
 .travel-options {
 
-    padding: 10px 15px 0 15px;
+    padding: 20px 15px 0 15px;
     color: lighten(black, 30%);
     margin-bottom: 0;
 
     .delayed {
-        color: red
+        color: #DA0808;
+        font-weight: bold;
     }
 
     .travel-option {
-        border-top: 1px solid lighten(grey, 20%);
+        border-top: 1px solid @border-color;
         padding: 10px 0 10px 0;
 
         .travel-option-description {
@@ -63,12 +67,22 @@
 }
 
 .favourites {
+
+    .list-group-item {
+        border-color: @border-color;
+        padding: 20px 15px;
+    }
+
+    .list-group-item.expanded {
+        padding-bottom: 5px;
+    }
+
     .ok {
-        background: #E0FFE1;
+        background: #66FFCC;
     }
 
     .warning {
-        background: #FFF7B8;
+        background: #FFFF66;
     }
 
     .loading {

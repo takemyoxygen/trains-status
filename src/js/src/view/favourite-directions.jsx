@@ -7,6 +7,7 @@ import TravelOptions from "view/travel-options";
 import Auth from "auth";
 import StationsSelector from "view/stations-selector";
 import Directions from "directions"
+import { Glyphicon } from "react-bootstrap";
 
 class Direction extends React.Component{
     constructor(){
@@ -44,14 +45,14 @@ class Direction extends React.Component{
     removeDirection = () => Directions.removeFavourite(this.props.destination)
 
     render = () => (
-        <li className={`list-group-item ${this.state.status} ${this.state.disabled ? "hidden": ""}`}>
+        <li className={`list-group-item ${this.state.status} ${this.state.expanded ? "expanded": ""}`}>
             <div className="direction row">
                 <div className="col-md-11 direction-name" onClick={this.toggleExpanded}>
                     {this.props.destination.name}
                 </div>
                 <div className="col-md-1 remove-direction">
                     <a title="Remove direction" onClick={this.removeDirection}>
-                        <span className="glyphicon glyphicon-remove"/>
+                        <Glyphicon glyph="trash"/>
                     </a>
                 </div>
             </div>
