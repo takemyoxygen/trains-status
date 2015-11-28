@@ -52,7 +52,7 @@ export default class Origin extends React.Component{
                     )
                     : (
                         <div className="origin">
-                            Origin:
+                            From    :
                             <span className="station-name">{this.state.station.name}</span>
                             {this.state.available && (
                                 <div className="origin-buttons">
