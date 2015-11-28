@@ -4,12 +4,17 @@ import User from "view/user"
 
 export default class Main extends React.Component{
     render = () => (
-        <div>
-            <div className="header">
-                <User />
-                <img src="/img/train-black.png" className="logo"></img>
-                <h1>Trains status</h1>
+        <div className="content-wrapper">
+            <div className="main-content">
+                <div className="header">
+                    <User />
+                    <img src="/img/train-black.png" className="logo"></img>
+                    <h1>Trains status</h1>
+                </div>
+                <DirectionsStatus />
             </div>
-            <DirectionsStatus />
+            <div className="footer">
+                <span className="copyright">By takemyoxygen &copy; 2015</span>
+            </div>
         </div>)
 };

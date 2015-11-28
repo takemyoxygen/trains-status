@@ -1,5 +1,27 @@
 @border-color: #969696;
 
+html, body, .container, .content-wrapper,  {
+    height: 100%;
+}
+
+@footer-height: 40px;
+
+.main-content {
+    min-height: 100%;
+    margin-bottom: -@footer-height;
+}
+
+.main-content:after {
+    content: "";
+    display: block;
+    height: @footer-height;
+}
+
+.footer {
+    height: @footer-height;
+    padding-top: 5px;
+}
+
 .header {
     h1 {
         display: inline-block;
