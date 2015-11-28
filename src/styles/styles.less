@@ -1,6 +1,6 @@
 @border-color: #969696;
 @footer-height: 40px;
-@accent-background-color: #337ab7;
+@accent-background-color: #6f5499;
 
 html, body, .container, .content-wrapper,  {
     height: 100%;
@@ -15,6 +15,46 @@ html, body, .container, .content-wrapper,  {
     content: "";
     display: block;
     height: @footer-height;
+}
+
+.header {
+
+    background: @accent-background-color;
+    color: white;
+    padding: 0 28px 20px 20px;
+
+    h1 {
+        display: inline-block;
+        margin-left: 27px;
+    }
+
+    .logo {
+        height: 50px;
+        margin: -12px 10px 0 4px;
+    }
+
+    .user {
+
+        float: right;
+        margin: 22px 28px 0 0;
+
+        .sign-in {
+            margin-top: 6px;
+        }
+
+        .username {
+
+            margin-top: 12px;
+
+            a {
+                margin-left: 10px;
+            }
+        }
+
+        a {
+            color: white;
+        }
+    }
 }
 
 .footer {
@@ -40,37 +80,6 @@ html, body, .container, .content-wrapper,  {
     }
 }
 
-.header {
-    h1 {
-        display: inline-block;
-        margin-left: 27px;
-    }
-
-    .logo {
-        height: 50px;
-        margin: -12px 10px 0 4px;
-    }
-
-    .user {
-
-        float: right;
-        margin-top: 22px;
-
-        .username {
-
-            margin-top: 12px;
-
-            a {
-                margin-left: 10px;
-            }
-        }
-
-        a {
-            color: black;
-        }
-    }
-}
-
 .travel-options {
 
     padding: 20px 15px 0 15px;
@@ -91,6 +100,14 @@ html, body, .container, .content-wrapper,  {
 
             .stop-status{
                 margin-right: 5px;
+
+                &:after {
+                    content: ",";
+                }
+
+                &:last-child:after {
+                    content: "";
+                }
             }
 
             .departure-time {
@@ -177,6 +194,9 @@ html, body, .container, .content-wrapper,  {
 }
 
 .origin {
+
+    padding-left: 20px;
+
     .station-name {
         font-weight: bold;
         margin-left: 5px;

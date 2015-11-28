@@ -9,7 +9,7 @@ export default class Main extends React.Component{
             <div className="main-content">
                 <div className="header">
                     <User />
-                    <img src="/img/train-black.png" className="logo"></img>
+                    <img src="/img/train-white.png" className="logo"></img>
                     <h1>Trains status</h1>
                 </div>
                 <DirectionsStatus />

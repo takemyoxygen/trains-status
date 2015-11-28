@@ -24,13 +24,13 @@ export default class User extends React.Component{
         this.subscription.dispose();
     }
 
-    renderSignIn(){ 
+    renderSignIn(){
         gapi.signin2.render('sign-in', {
             'scope': 'profile',
             'width': 100,
             'height': 30,
             'longtitle': false,
-            'theme': 'dark',
+            'theme': 'light',
             'onsuccess': googleUser => {
                 if(!this.state.user.loggedIn){
                     Auth.signIn(googleUser);
