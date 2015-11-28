@@ -1,6 +1,7 @@
 import React from "react";
 import DirectionsStatus from "view/favourite-directions"
 import User from "view/user"
+import Footer from "view/footer";
 
 export default class Main extends React.Component{
     render = () => (
@@ -13,14 +14,6 @@ export default class Main extends React.Component{
                 </div>
                 <DirectionsStatus />
             </div>
-            <div className="footer">
-                <span className="reference">
-                    Powered by <a target="_blank" href="http://www.ns.nl/">NS.nl</a> API
-                </span>
-
-                <span className="copyright">
-                    <a target="_blank" href="http://takemyoxygen.github.io/">takemyoxygen</a> &copy; 2015
-                </span>
-            </div>
+            <Footer/>
         </div>)
 };
