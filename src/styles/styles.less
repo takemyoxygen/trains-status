@@ -1,10 +1,10 @@
 @border-color: #969696;
+@footer-height: 40px;
+@accent-background-color: #337ab7;
 
 html, body, .container, .content-wrapper,  {
     height: 100%;
 }
-
-@footer-height: 40px;
 
 .main-content {
     min-height: 100%;
@@ -19,7 +19,21 @@ html, body, .container, .content-wrapper,  {
 
 .footer {
     height: @footer-height;
-    padding-top: 5px;
+    padding: 8px 0 0 22px;
+    border: 1px solid @border-color;
+    background: @accent-background-color;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: white;
+
+    a {
+        color: white;
+        text-decoration: underline;
+
+        &:hover {
+            color: lighten(@accent-background-color, 30%);
+        }
+    }
 }
 
 .header {
@@ -44,9 +58,7 @@ html, body, .container, .content-wrapper,  {
 
             a {
                 margin-left: 10px;
-
             }
-
         }
 
         a {

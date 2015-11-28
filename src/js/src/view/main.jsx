@@ -14,7 +14,7 @@ export default class Main extends React.Component{
                 <DirectionsStatus />
             </div>
             <div className="footer">
-                <span className="copyright">By takemyoxygen &copy; 2015</span>
+                <span className="copyright">By <a target="_blank" href="http://takemyoxygen.github.io/">takemyoxygen</a> &copy; 2015</span>
             </div>
         </div>)
 };
