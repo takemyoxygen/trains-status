@@ -223,8 +223,13 @@ Target "Run" DoNothing
     ==> "Build"
 
 "Start"
+    ==> "RestoreNodePackages"
+    ==> "RestoreBowerPackages"
+    ==> "Watch"
+    ==> "RunLocally"
+
+"Start"
     =?> ("RunOnAzure", environment = Azure)
-    =?> ("Watch", environment = Local)
     =?> ("RunLocally", environment = Local)
     ==> "Run"
 
