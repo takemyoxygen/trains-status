@@ -1,2 +1,2 @@
 [config]
-command = src\deploy.bat
+command = src\build.bat Build output-dir=%DEPLOYMENT_TARGET% env=azure
