@@ -101,12 +101,12 @@ let startDetached filename args =
 
 Target "RestoreNodePackages" (fun _ ->
     printfn "Restoring NPM packages"
-    exec "npm.cmd" "install --production")
+    exec "npm" "install --production")
 
-let nodeBin = sourceDir @@ "node_modules\\.bin"
-let bower = nodeBin @@ "bower.cmd"
-let babel = nodeBin @@ "babel.cmd"
-let autoless = nodeBin @@ "autoless.cmd"
+let nodeBin = sourceDir @@ "node_modules" @@ ".bin"
+let bower = nodeBin @@ "bower"
+let babel = nodeBin @@ "babel"
+let autoless = nodeBin @@ "autoless"
 
 Target "RestoreBowerPackages" (fun _ ->
     printfn "Restoring Bower packages"
