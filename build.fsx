@@ -98,15 +98,18 @@ let startDetached filename args =
 
     printfn "Process %i has been started" proc.Id
 
+let nodePath path = 
+    if isMono then path else path + ".cmd"
+
+let npm = nodePath "npm"
+let nodeBin = sourceDir @@ "node_modules" @@ ".bin"
+let bower = nodeBin @@ "bower" |> nodePath
+let babel = nodeBin @@ "babel" |> nodePath
+let autoless = nodeBin @@ "autoless" |> nodePath
 
 Target "RestoreNodePackages" (fun _ ->
     printfn "Restoring NPM packages"
-    exec "npm" "install --production")
-
-let nodeBin = sourceDir @@ "node_modules" @@ ".bin"
-let bower = nodeBin @@ "bower"
-let babel = nodeBin @@ "babel"
-let autoless = nodeBin @@ "autoless"
+    exec npm "install --production")
 
 Target "RestoreBowerPackages" (fun _ ->
     printfn "Restoring Bower packages"
@@ -115,12 +118,12 @@ Target "RestoreBowerPackages" (fun _ ->
 
 Target "CompileJs" (fun _ ->
     printfn "Compiling ES6 JavaScript files"
-    exec babel "js/src --out-dir js/build --modules amd --stage 0"
+    exec babel "src/js/src --out-dir src/js/build --modules amd --stage 0"
 )
 
 Target "CompileLess" (fun _ ->
     printfn "Compiling LESS files"
-    exec autoless "--no-watch styles styles"
+    exec autoless "--no-watch src/styles src/styles"
 )
 
 Target "Copy" (fun _ ->

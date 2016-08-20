@@ -6,5 +6,6 @@ bower_components
 node_modules
 .module-cache
 /**/styles/styles.css
+src/js/build
 load.fsx
 .fake
