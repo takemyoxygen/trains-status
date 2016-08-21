@@ -43,7 +43,7 @@ let current home =
             defaultArg connectionString lines.[2]
 
     { Port = Port.Parse <| getArg "port" "8081"
-      LogLevel = getArg "loglevel" "warn" |> LogLevel.FromString
+      LogLevel = getArg "loglevel" "debug" |> LogLevel.FromString
       ConnectionString = connectionString
       Credentials =
           { Username = username

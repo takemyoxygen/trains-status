@@ -9,6 +9,10 @@ open System.Diagnostics
 open System.Threading
 open System.Management
 
+type Environment =
+    | Local
+    | Azure
+
 let normalize = toLower >> trimEndChars [|'\\'|]
 let sourceDir = normalize __SOURCE_DIRECTORY__
 let outputDir =
@@ -20,26 +24,13 @@ let outputDir =
 logfn "Source directory: %s" sourceDir
 logfn "Output directory: %s" outputDir
 
-[<Literal>]
-let Azure = "azure"
+let environment = 
+    match getBuildParam "env" |> toLower with
+    | "" | "local" -> Local
+    | "azure" -> Azure
+    | x -> failwithf "Environment \"%s\" is not supported." x
 
-[<Literal>]
-let Local = "local"
-
-let environment = getBuildParamOrDefault "env" Local |> toLower
-
-Target "Start" ignore
-Target "Clean" (fun _ -> CleanDir outputDir)
-
-Target "PatchConfig" (fun _ ->
-    printfn "Patching web.config"
-    let config = sourceDir @@ "web.azure.config"
-    if (TestFile config) then
-        let target = sourceDir @@ "web.config"
-        if TestFile target then DeleteFile target
-        Rename target config
-)
-
+/// Starts external process.
 let startProcess filename args embed workingFolder =
     let absoluteFilename =
         if Path.GetFileName filename = filename then
@@ -47,6 +38,8 @@ let startProcess filename args embed workingFolder =
             | Some(f) -> f
             | None -> failwithf "Failed to find file \"%s\"" filename
         else filename
+
+    logfn "Starting process \"%s\" with args \"%s\"" absoluteFilename args
 
     let info = new ProcessStartInfo(
                 FileName = absoluteFilename,
@@ -63,14 +56,14 @@ let startProcess filename args embed workingFolder =
         let rec read() = async {
             if not proc.HasExited then
                 let! line = proc.StandardOutput.ReadLineAsync() |> Async.AwaitTask
-                printfn "%s" line
+                logfn "%s" line
                 do! read()
         }
 
         let rec readError() = async {
             if not proc.HasExited then
                 let! line = proc.StandardError.ReadLineAsync() |> Async.AwaitTask
-                Console.Error.WriteLine line
+                traceError line
                 do! readError()
         }
 
@@ -89,7 +82,6 @@ let execIn folder filename args =
     startProcess filename args true folder
     |> waitForExit
 
-
 /// Starts a process that won't be terminated when FAKE build completes
 let startDetached filename args =
     let info = new ProcessStartInfo(
@@ -100,7 +92,7 @@ let startDetached filename args =
 
     startedProcesses.Add(proc.Id, proc.StartTime) |> ignore
 
-    printfn "Process %i has been started" proc.Id
+    logfn "Process %i has been started" proc.Id
 
 let nodePath path = 
     if isMono then path else path + ".cmd"
@@ -111,23 +103,51 @@ let bower = nodeBin @@ "bower" |> nodePath
 let babel = nodeBin @@ "babel" |> nodePath
 let autoless = nodeBin @@ "autoless" |> nodePath
 
+Target "Start" ignore
+
+Target "Clean" (fun _ -> CleanDir outputDir)
+
+Target "PatchConfig" (fun _ ->
+    logfn "Patching web.config"
+    let config = sourceDir @@ "web.azure.config"
+    if (TestFile config) then
+        let target = sourceDir @@ "web.config"
+        if TestFile target then DeleteFile target
+        Rename target config
+)
+
 Target "RestoreNodePackages" (fun _ ->
-    printfn "Restoring NPM packages"
+    logfn "Restoring NPM packages"
     exec npm "install --production")
 
 Target "RestoreBowerPackages" (fun _ ->
-    printfn "Restoring Bower packages"
+    logfn "Restoring Bower packages"
     execIn (sourceDir @@ "src") bower "install --production"
 )
 
+Target "CompileFs" (fun _ ->
+    ["Trains Status.sln"] |> MSBuildRelease "" "Rebuild"
+    |> Log "MsBuild output: "
+)
+
 Target "CompileJs" (fun _ ->
-    printfn "Compiling ES6 JavaScript files"
+    logfn "Compiling ES6 JavaScript files"
     exec babel "src/js/src --out-dir src/js/build --modules amd --stage 0"
 )
 
 Target "CompileLess" (fun _ ->
-    printfn "Compiling LESS files"
+    logfn "Compiling LESS files"
     exec autoless "--no-watch src/styles src/styles"
+)
+
+Target "GenerateIncludeScript" (fun _ ->
+    let args = "generate-include-scripts framework net45 type fsx"
+    let paket = ".paket" @@ "paket.exe"
+    let executable, args = 
+        if isMono then monoPath, paket + " " + args
+        else paket, args
+
+    exec executable args
 )
 
 Target "Copy" (fun _ ->
@@ -173,8 +193,8 @@ let findNodeJsProcesses (folder: string) =
 
 Target "Watch" (fun _ ->
     if TestDir nodeBin then
-        startProcess babel "js/src --watch --out-dir js/build --modules amd --stage 0" false sourceDir|> ignore
-        startProcess autoless "styles styles" false sourceDir |> ignore
+        startProcess babel "src/js/src --watch --out-dir src/js/build --modules amd --stage 0" false sourceDir|> ignore
+        startProcess autoless "src/styles src/styles" false sourceDir |> ignore
         ActivateFinalTarget "TerminateWatchers"
     else failwith "\"Watch\" can only be executed from the folder with the source code")
 
@@ -224,6 +244,7 @@ Target "Run" DoNothing
     =?> ("PatchConfig", environment = Azure)
     ==> "RestoreNodePackages"
     ==> "RestoreBowerPackages"
+    ==> "CompileFs"
     ==> "CompileJs"
     ==> "CompileLess"
     =?> ("Copy", sourceDir <> outputDir)
@@ -232,7 +253,11 @@ Target "Run" DoNothing
 "Start"
     ==> "RestoreNodePackages"
     ==> "RestoreBowerPackages"
-    ==> "Watch"
+    ==> "GenerateIncludeScript"
+    ==> "CompileFs"
+    =?> ("Watch", not isMono)
+    =?> ("CompileJs", isMono)
+    =?> ("CompileLess", isMono)
     ==> "RunLocally"
 
 "Start"
