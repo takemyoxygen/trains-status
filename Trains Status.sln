@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Trains Status", "Trains Status.fsproj", "{1AC0F0E6-273C-48DE-88BD-0BB98CB4BFE5}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Trains Status", "src\Trains Status.fsproj", "{1AC0F0E6-273C-48DE-88BD-0BB98CB4BFE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

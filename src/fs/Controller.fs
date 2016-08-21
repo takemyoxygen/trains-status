@@ -1,6 +1,7 @@
 module Controller
 
 open System
+open System.IO
 open Suave
 open Suave.Http.RequestErrors
 
@@ -108,8 +109,8 @@ let content =
         |> sprintf "(%s)$"
 
     choose
-        [GET >>= path "/" >>= file "Index.html"
-         GET >>= pathRegex staticContent >>= browseHome]
+        [ GET >>= path "/" >>= file "Index.html"
+          GET >>= pathRegex staticContent >>= browseHome]
 
 let notfound = NOT_FOUND "Nothing here"
 

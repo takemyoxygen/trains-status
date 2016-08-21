@@ -5,7 +5,20 @@ open FSharp.Data
 open System
 open Common
 
-let private endpoint = "http://webservices.ns.nl/ns-api-stations-v2"
+
+#if INTERACTIVE
+
+[<Literal>]
+let private XmlPath = __SOURCE_DIRECTORY__ + "/../samples/stations.xml"
+
+#else
+
+[<Literal>]
+let private XmlPath = "samples/stations.xml"
+
+#endif
+
+type private Xml = XmlProvider<XmlPath>
 
 type Coordinates =
     { Latitude: double
@@ -16,7 +29,7 @@ type T =
       Coordinates: Coordinates;
       Code: string}
 
-type private Xml = XmlProvider<"samples/stations.xml">
+let private endpoint = "http://webservices.ns.nl/ns-api-stations-v2"
 
 let private downloadAll credentials = async {
     let! response = Http.getAsync credentials endpoint []

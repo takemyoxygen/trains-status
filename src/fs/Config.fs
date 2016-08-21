@@ -34,7 +34,7 @@ let current home =
         match username, password, connectionString with
         | Some(user), Some(pass), Some(conn) -> user, pass, conn
         | _ ->
-            let file = Path.Combine(home, "credentials.txt")
+            let file = Path.Combine(home, "..", "credentials.txt")
             printfn "Using credentials from \"%s\"" file
             let lines = File.ReadAllLines file
 
@@ -43,7 +43,7 @@ let current home =
             defaultArg connectionString lines.[2]
 
     { Port = Port.Parse <| getArg "port" "8081"
-      LogLevel = getArg "loglevel" "warn" |> LogLevel.FromString
+      LogLevel = getArg "loglevel" "debug" |> LogLevel.FromString
       ConnectionString = connectionString
       Credentials =
           { Username = username

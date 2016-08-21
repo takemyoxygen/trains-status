@@ -1,0 +1,188 @@
+html,
+body,
+.container,
+.content-wrapper {
+  height: 100%;
+}
+.main-content {
+  min-height: 100%;
+  margin-bottom: -40px;
+}
+.main-content:after {
+  content: "";
+  display: block;
+  height: 40px;
+}
+.header {
+  background: #6f5499;
+  color: white;
+  padding: 0 28px 20px 20px;
+}
+.header h1 {
+  display: inline-block;
+  margin-left: 27px;
+}
+.header .logo {
+  height: 50px;
+  margin: -12px 10px 0 4px;
+}
+.header .user {
+  float: right;
+  margin: 22px 28px 0 0;
+}
+.header .user .sign-in {
+  margin-top: 6px;
+}
+.header .user .username {
+  margin-top: 12px;
+}
+.header .user .username a {
+  margin-left: 10px;
+}
+.header .user a {
+  color: white;
+}
+.footer {
+  height: 40px;
+  padding: 8px 22px 0 22px;
+  border: 1px solid #969696;
+  background: #6f5499;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: white;
+}
+.footer a {
+  color: white;
+  text-decoration: underline;
+}
+.footer a:hover {
+  color: #bfb2d4;
+}
+.footer .copyright {
+  float: right;
+}
+.travel-options {
+  padding: 20px 15px 0 15px;
+  color: #4d4d4d;
+  margin-bottom: 0;
+}
+.travel-options .delayed {
+  color: #DA0808;
+  font-weight: bold;
+}
+.travel-options .travel-option {
+  border-top: 1px solid #969696;
+  padding: 10px 0 10px 0;
+}
+.travel-options .travel-option .travel-option-description {
+  padding-left: 0px;
+}
+.travel-options .travel-option .travel-option-description .stop-status {
+  margin-right: 5px;
+}
+.travel-options .travel-option .travel-option-description .stop-status:after {
+  content: ",";
+}
+.travel-options .travel-option .travel-option-description .stop-status:last-child:after {
+  content: "";
+}
+.travel-options .travel-option .travel-option-description .departure-time {
+  margin-left: 3px;
+}
+.travel-options .travel-option .travel-option-status {
+  display: inline-block;
+  margin: 0 25px 0 8px;
+}
+.favourites.row {
+  margin: 0 0 40px 0;
+}
+.favourites .list-group-item {
+  border-color: #969696;
+  padding: 20px 15px;
+}
+.favourites .list-group-item.expanded {
+  padding-bottom: 5px;
+}
+.favourites .ok {
+  background: #66FFCC;
+}
+.favourites .warning {
+  background: #FFFF66;
+}
+.favourites .loading {
+  background: #E8EEFB;
+}
+.favourites .direction-name {
+  cursor: pointer;
+  font-size: 1.3em;
+}
+.favourites a {
+  cursor: pointer;
+}
+.favourites a span.glyphicon {
+  color: black;
+}
+.favourites .remove-direction {
+  text-align: right;
+}
+.favourites .remove-direction a {
+  margin-right: 10px;
+}
+.favourites .same-as-origin {
+  background-color: #eee;
+  color: #777;
+  cursor: not-allowed;
+}
+.favourites .same-as-origin .direction-name {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.favourites .direction-status {
+  display: inline-block;
+  margin: 0 20px 0 5px;
+  font-size: 1.2em;
+}
+.favourites .direction-status .glyphicon {
+  vertical-align: middle;
+  padding-bottom: 3px;
+}
+.origin {
+  padding-left: 20px;
+}
+.origin .station-name {
+  font-weight: bold;
+  margin-left: 5px;
+}
+.origin .origin-buttons {
+  display: inline;
+}
+.origin .origin-buttons .btn {
+  margin-left: 10px;
+  margin-top: -4px;
+}
+.stations-selector {
+  display: inline;
+}
+.stations-selector .stations-dropdown {
+  width: 250px;
+  display: inline-block;
+  vertical-align: bottom;
+}
+.stations-selector.invalid .Select-value {
+  background-color: rgba(255, 0, 0, 0.24);
+}
+.add-favourite-station .stations-selector {
+  margin-left: 10px;
+}
+.add-favourite-station a.btn {
+  margin-left: 10px;
+}
+.change-origin {
+  font-size: 0.8em;
+}
+.change-origin .stations-selector {
+  margin-left: 10px;
+}
+.change-origin a.btn {
+  margin-left: 10px;
+}
