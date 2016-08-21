@@ -14,14 +14,14 @@ type Environment =
     | Azure
 
 let normalize = toLower >> trimEndChars [|'\\'|]
-let sourceDir = normalize __SOURCE_DIRECTORY__
+let homeDir = normalize __SOURCE_DIRECTORY__
 let outputDir =
     (match environVarOrNone "DEPLOYMENT_TARGET" with
     | Some(dir) -> dir
     | None -> getBuildParamOrDefault "output-dir" __SOURCE_DIRECTORY__)
     |> normalize
 
-logfn "Source directory: %s" sourceDir
+logfn "Source directory: %s" homeDir
 logfn "Output directory: %s" outputDir
 
 let environment = 
@@ -75,7 +75,7 @@ let startProcess filename args embed workingFolder =
 let waitForExit (p: Process) = p.WaitForExit()
 
 let exec filename args =
-    startProcess filename args true sourceDir
+    startProcess filename args true homeDir
     |> waitForExit
 
 let execIn folder filename args =
@@ -86,7 +86,7 @@ let execIn folder filename args =
 let startDetached filename args =
     let info = new ProcessStartInfo(
                     FileName = filename,
-                    WorkingDirectory = sourceDir,
+                    WorkingDirectory = homeDir,
                     Arguments = args)
     let proc = Process.Start info
 
@@ -98,7 +98,7 @@ let nodePath path =
     if isMono then path else path + ".cmd"
 
 let npm = nodePath "npm"
-let nodeBin = sourceDir @@ "node_modules" @@ ".bin"
+let nodeBin = homeDir @@ "node_modules" @@ ".bin"
 let bower = nodeBin @@ "bower" |> nodePath
 let babel = nodeBin @@ "babel" |> nodePath
 let autoless = nodeBin @@ "autoless" |> nodePath
@@ -109,11 +109,11 @@ Target "Clean" (fun _ -> CleanDir outputDir)
 
 Target "PatchConfig" (fun _ ->
     logfn "Patching web.config"
-    let config = sourceDir @@ "web.azure.config"
+    let config = homeDir @@ "src" @@ "web.azure.config"
     if (TestFile config) then
-        let target = sourceDir @@ "web.config"
+        let target = homeDir @@ "web.config"
         if TestFile target then DeleteFile target
-        Rename target config
+        CopyFile target config
 )
 
 Target "RestoreNodePackages" (fun _ ->
@@ -122,7 +122,7 @@ Target "RestoreNodePackages" (fun _ ->
 
 Target "RestoreBowerPackages" (fun _ ->
     logfn "Restoring Bower packages"
-    execIn (sourceDir @@ "src") bower "install --production"
+    execIn (homeDir @@ "src") bower "install --production"
 )
 
 Target "CompileFs" (fun _ ->
@@ -153,18 +153,19 @@ Target "GenerateIncludeScript" (fun _ ->
 Target "Copy" (fun _ ->
     let files =
         !! "packages/**/*.*"
-        ++ "bower_components/**/*.*"
-        ++ "*.fsx"
-        ++ "fs/*.fs"
-        ++ "js/build/**/*.js"
-        ++ "styles/*.css"
-        ++ "samples/*.xml"
-        ++ "credentials.txt"
-        ++ "index.html"
+        ++ "paket-files/**/*.*"
+        ++ "src/bower_components/**/*.*"
+        ++ "src/*.fsx"
+        ++ "src/fs/*.fs"
+        ++ "src/js/build/**/*.js"
+        ++ "src/styles/*.css"
+        ++ "src/samples/*.xml"
+        ++ "src/Index.html"
+        ++ "src/favicon.ico"
+        ++ "src/img/*.*"
+        ++ "build.fsx"
         ++ "web.config"
-        ++ "favicon.ico"
-        ++ "img/*.*"
-        |> SetBaseDir sourceDir
+        |> SetBaseDir homeDir
     CopyWithSubfoldersTo outputDir [files]
 )
 
@@ -193,21 +194,21 @@ let findNodeJsProcesses (folder: string) =
 
 Target "Watch" (fun _ ->
     if TestDir nodeBin then
-        startProcess babel "src/js/src --watch --out-dir src/js/build --modules amd --stage 0" false sourceDir|> ignore
-        startProcess autoless "src/styles src/styles" false sourceDir |> ignore
+        startProcess babel "src/js/src --watch --out-dir src/js/build --modules amd --stage 0" false homeDir|> ignore
+        startProcess autoless "src/styles src/styles" false homeDir |> ignore
         ActivateFinalTarget "TerminateWatchers"
     else failwith "\"Watch\" can only be executed from the folder with the source code")
 
 FinalTarget "TerminateWatchers" (fun _ -> 
-    findNodeJsProcesses sourceDir
+    findNodeJsProcesses homeDir
     |> Seq.iter (fun p -> 
         logfn "Trying to kill process %i" p.Id
         p.Kill()))
 
 let startServer username password connectionString port =
-    let script = sourceDir @@ "src" @@ "app.fsx"
+    let script = homeDir @@ "src" @@ "app.fsx"
     let arguments = sprintf "%s username=%s password=%s connection-string=%s port=%s" script username password connectionString port
-    startProcess fsiPath arguments true sourceDir
+    startProcess fsiPath arguments true homeDir
 
 Target "RunOnAzure" (fun _ ->
     let username, password, connectionString =
@@ -222,7 +223,7 @@ Target "RunOnAzure" (fun _ ->
 
 Target "RunLocally" (fun _ ->
     let username, password, connectionString =
-        let content = File.ReadAllLines(sourceDir @@ "credentials.txt")
+        let content = File.ReadAllLines(homeDir @@ "credentials.txt")
         content.[0], content.[1], content.[2]
 
     let port = getBuildParamOrDefault "port" "8081"
@@ -240,14 +241,14 @@ Target "RunLocally" (fun _ ->
 Target "Run" DoNothing
 
 "Start"
-    =?> ("Clean", sourceDir <> outputDir)
+    =?> ("Clean", homeDir <> outputDir)
     =?> ("PatchConfig", environment = Azure)
     ==> "RestoreNodePackages"
     ==> "RestoreBowerPackages"
     ==> "CompileFs"
     ==> "CompileJs"
     ==> "CompileLess"
-    =?> ("Copy", sourceDir <> outputDir)
+    =?> ("Copy", homeDir <> outputDir)
     ==> "Build"
 
 "Start"
