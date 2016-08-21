@@ -6,6 +6,20 @@ open System.Collections.Generic
 open FSharp.Data
 open Common
 
+#if INTERACTIVE
+
+[<Literal>]
+let private XmlPath = __SOURCE_DIRECTORY__ + "/../samples/outages.xml"
+
+#else
+
+[<Literal>]
+let private XmlPath = "samples/outages.xml"
+
+#endif
+
+type private Xml = XmlProvider< XmlPath >
+
 type T = {
     Id : string;
     Advice: string option;
@@ -20,7 +34,6 @@ let generateMessage outage =
     |> Seq.map Option.get
     |> String.concat ". "
 
-type private Xml = XmlProvider< "samples/outages.xml" >
 
 let actual creds =
     async {

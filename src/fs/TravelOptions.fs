@@ -3,7 +3,19 @@ module TravelOptions
 open System
 open FSharp.Data
 
-type private Xml = XmlProvider< "samples/travel-options.xml" >
+#if INTERACTIVE
+
+[<Literal>]
+let private XmlPath = __SOURCE_DIRECTORY__ + "/../samples/travel-options.xml"
+
+#else
+
+[<Literal>]
+let private XmlPath = "samples/travel-options.xml"
+
+#endif
+
+type private Xml = XmlProvider< XmlPath >
 
 type Status =
     | AccordingToPlan

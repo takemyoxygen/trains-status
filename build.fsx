@@ -40,7 +40,7 @@ Target "PatchConfig" (fun _ ->
         Rename target config
 )
 
-let startProcess filename args embed =
+let startProcess filename args embed workingFolder =
     let absoluteFilename =
         if Path.GetFileName filename = filename then
             match tryFindFileOnPath filename with
@@ -50,7 +50,7 @@ let startProcess filename args embed =
 
     let info = new ProcessStartInfo(
                 FileName = absoluteFilename,
-                WorkingDirectory = sourceDir,
+                WorkingDirectory = workingFolder,
                 Arguments = args,
                 UseShellExecute = not embed,
                 RedirectStandardOutput = embed,
@@ -82,7 +82,11 @@ let startProcess filename args embed =
 let waitForExit (p: Process) = p.WaitForExit()
 
 let exec filename args =
-    startProcess filename args true
+    startProcess filename args true sourceDir
+    |> waitForExit
+
+let execIn folder filename args =
+    startProcess filename args true folder
     |> waitForExit
 
 
@@ -113,7 +117,7 @@ Target "RestoreNodePackages" (fun _ ->
 
 Target "RestoreBowerPackages" (fun _ ->
     printfn "Restoring Bower packages"
-    exec bower "install --production"
+    execIn (sourceDir @@ "src") bower "install --production"
 )
 
 Target "CompileJs" (fun _ ->
@@ -169,8 +173,8 @@ let findNodeJsProcesses (folder: string) =
 
 Target "Watch" (fun _ ->
     if TestDir nodeBin then
-        startProcess babel "js/src --watch --out-dir js/build --modules amd --stage 0" false |> ignore
-        startProcess autoless "styles styles" false |> ignore
+        startProcess babel "js/src --watch --out-dir js/build --modules amd --stage 0" false sourceDir|> ignore
+        startProcess autoless "styles styles" false sourceDir |> ignore
         ActivateFinalTarget "TerminateWatchers"
     else failwith "\"Watch\" can only be executed from the folder with the source code")
 
@@ -183,7 +187,7 @@ FinalTarget "TerminateWatchers" (fun _ ->
 let startServer username password connectionString port =
     let script = sourceDir @@ "src" @@ "app.fsx"
     let arguments = sprintf "%s username=%s password=%s connection-string=%s port=%s" script username password connectionString port
-    startProcess fsiPath arguments true
+    startProcess fsiPath arguments true sourceDir
 
 Target "RunOnAzure" (fun _ ->
     let username, password, connectionString =

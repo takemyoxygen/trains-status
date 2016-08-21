@@ -4,7 +4,21 @@ open System
 open Http
 open FSharp.Data
 
-type private Xml = XmlProvider< "samples/live-departures.xml" >
+
+#if INTERACTIVE
+
+[<Literal>]
+let private XmlPath = __SOURCE_DIRECTORY__ + "../samples/live-departures.xml"
+
+#else
+
+[<Literal>]
+let private XmlPath = "samples/live-departures.xml"
+
+#endif
+
+
+type private Xml = XmlProvider< XmlPath >
 
 type T =
     { Id : int
