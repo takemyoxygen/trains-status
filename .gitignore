@@ -9,3 +9,6 @@ node_modules
 src/js/build
 load.fsx
 .fake
+bin
+obj
+paket-files

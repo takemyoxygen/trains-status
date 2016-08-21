@@ -1,5 +1,4 @@
-#load "generate-references.fsx"
-#load "load.fsx"
+#load "../paket-files/include-scripts/net45/include.main.group.fsx"
 
 #r "System.Xml.Linq"
 
