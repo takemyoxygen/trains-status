@@ -181,7 +181,7 @@ FinalTarget "TerminateWatchers" (fun _ ->
         p.Kill()))
 
 let startServer username password connectionString port =
-    let script = sourceDir @@ "app.fsx"
+    let script = sourceDir @@ "src" @@ "app.fsx"
     let arguments = sprintf "%s username=%s password=%s connection-string=%s port=%s" script username password connectionString port
     startProcess fsiPath arguments true
 
