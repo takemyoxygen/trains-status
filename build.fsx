@@ -132,7 +132,7 @@ Target "CompileFs" (fun _ ->
 
 Target "CompileJs" (fun _ ->
     logfn "Compiling ES6 JavaScript files"
-    exec babel "src/js/src --out-dir src/js/build --modules amd --stage 0"
+    exec babel "src/js/src --out-dir src/js/build"
 )
 
 Target "CompileLess" (fun _ ->
@@ -194,7 +194,7 @@ let findNodeJsProcesses (folder: string) =
 
 Target "Watch" (fun _ ->
     if TestDir nodeBin then
-        startProcess babel "src/js/src --watch --out-dir src/js/build --modules amd --stage 0" false homeDir|> ignore
+        startProcess babel "src/js/src --watch --out-dir src/js/build" false homeDir|> ignore
         startProcess autoless "src/styles src/styles" false homeDir |> ignore
         ActivateFinalTarget "TerminateWatchers"
     else failwith "\"Watch\" can only be executed from the folder with the source code")
