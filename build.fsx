@@ -82,18 +82,6 @@ let execIn folder filename args =
     startProcess filename args true folder
     |> waitForExit
 
-/// Starts a process that won't be terminated when FAKE build completes
-let startDetached filename args =
-    let info = new ProcessStartInfo(
-                    FileName = filename,
-                    WorkingDirectory = homeDir,
-                    Arguments = args)
-    let proc = Process.Start info
-
-    startedProcesses.Add(proc.Id, proc.StartTime) |> ignore
-
-    logfn "Process %i has been started" proc.Id
-
 let nodePath path = 
     if isMono then path else path + ".cmd"
 
