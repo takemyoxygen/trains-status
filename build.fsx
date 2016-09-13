@@ -97,7 +97,11 @@ let startDetached filename args =
 let nodePath path = 
     if isMono then path else path + ".cmd"
 
-let npm = nodePath "npm"
+let npm = 
+    if environment = Azure 
+    then environVar "PROGRAMFILES" @@ @"npm\3.9.5\npm.cmd"
+    else nodePath "npm"
+
 let nodeBin = homeDir @@ "node_modules" @@ ".bin"
 let bower = nodeBin @@ "bower" |> nodePath
 let babel = nodeBin @@ "babel" |> nodePath
