@@ -71,7 +71,6 @@
     <Compile Include="fs\Stations.fs" />
     <Compile Include="fs\Controller.fs" />
     <Compile Include="fs\LiveDepartures.fs" />
-    <None Include="generate-references.fsx" />
     <None Include="app.fsx" />
     <None Include="build.fsx" />
     <None Include="playground.fsx" />
