@@ -8,9 +8,9 @@ open Common
 
 type Config =
     { Port: Port
-      Credentials: Credentials;
-      LogLevel: LogLevel;
-      ConnectionString: string}
+      Credentials: Credentials
+      LogLevel: LogLevel
+      ConnectionString: string }
 
 let private args =
     Environment.GetCommandLineArgs()

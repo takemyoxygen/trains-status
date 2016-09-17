@@ -13,7 +13,7 @@ module Option =
     let tryMap f = function
     | Some(x) ->
         match f x with
-        | true, _ as result -> Some <| snd result
+        | true, value -> Some value
         | _ -> None
     | None -> None
 

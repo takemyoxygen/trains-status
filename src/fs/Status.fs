@@ -61,16 +61,16 @@ let private travelOptionFrom origin destination creds (opt: TravelOptions.T) = a
         { From =
             { Station = origin;
                 Time = Some opt.DepartureTime.Planned;
-                Delay = opt.DepartureDelay };
+                Delay = opt.DepartureDelay }
           To =
             { Station = destination;
                 Time = Some opt.ArrivalTime.Planned;
-                Delay =  opt.ArrivalDelay };
+                Delay =  opt.ArrivalDelay }
           Status = travelOptionStatus opt
           Warnings = outages
           Via =
             opt.Legs
-            |> Seq.skip 1
+            |> Seq.skip 1 // first leg is the origin itself - this information is already int the "From" field.
             |> Seq.map (fun leg ->
                 let stop = leg.Stops.[0]
                 { Station = stop.Name;
