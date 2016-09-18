@@ -1,4 +1,4 @@
-﻿#r "packages/FAKE/tools/FakeLib.dll"
+﻿#r "packages/azurefunctions/FAKE/tools/FakeLib.dll"
 #r "System.Management"
 
 open System
