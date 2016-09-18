@@ -230,6 +230,27 @@ Target "RunLocally" (fun _ ->
     loop()
 )
 
+Target "DeployAzureFunctions" (fun _ ->
+    let functions = 
+        Directory.GetDirectories(homeDir @@ "src/functions")
+        |> Array.filter (fun dir -> Path.GetFileName dir <> "packages")
+
+    let copyFunctionTo destination source =
+        let functionName = Path.GetFileName source
+        tracefn "Copying function \"%s\" to \"%s\"" functionName destination
+        let destinationPath = destination @@ functionName
+
+        if Directory.Exists destinationPath then
+            Directory.Delete(destinationPath, true)
+
+        Directory.CreateDirectory destinationPath |> ignore
+        CopyRecursive source destinationPath true |> ignore
+
+    if homeDir <> outputDir then
+        functions 
+        |> Seq.iter (copyFunctionTo outputDir)
+)
+
 Target "Run" DoNothing
 
 "Start"
@@ -258,4 +279,4 @@ Target "Run" DoNothing
     =?> ("RunLocally", environment = Local)
     ==> "Run"
 
-RunTargetOrDefault "Run"
+RunTargetOrDefault "DeployAzureFunctions"
