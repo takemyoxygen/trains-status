@@ -27,7 +27,7 @@ type Coordinates =
 type T =
     { Name : string
       Coordinates: Coordinates;
-      Code: string}
+      Code: string }
 
 let private endpoint = "http://webservices.ns.nl/ns-api-stations-v2"
 

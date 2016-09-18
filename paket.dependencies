@@ -4,3 +4,8 @@ nuget FSharp.Data
 nuget Suave
 nuget Newtonsoft.Json
 nuget WindowsAzure.Storage
+
+// This package is required for Azure functions. Looks like it can't be referenced directly from
+// project.json of the function itself, as it causes weird TraceWriter parameters binding 
+// when function is executed in Azure.
+nuget Microsoft.Azure.WebJobs
