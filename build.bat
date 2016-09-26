@@ -10,6 +10,6 @@ if "%FUNCTIONS_EXTENSION_VERSION%"=="" (
     exit /b %errorlevel%
 ) else (
     echo Deploying functions.
-    xcopy src\functions %DEPLOYMENT_TARGET% /s /f
+    xcopy src\functions %DEPLOYMENT_TARGET% /s /f /Y
 )
 
