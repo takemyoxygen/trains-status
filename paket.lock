@@ -1,7 +1,6 @@
 NUGET
   remote: https://www.nuget.org/api/v2
     FAKE (4.7.3)
-    FSharp.Core (4.0.0.1)
     FSharp.Data (2.2.3)
       Zlib.Portable (>= 1.10) - framework: portable-net40+sl50+wp80+win80
     FsPickler (1.2.21)
@@ -559,8 +558,3 @@ NUGET
       Newtonsoft.Json (>= 9.0.1) - framework: >= netstandard13
       System.Spatial (>= 5.6.4) - framework: >= netstandard13
     Zlib.Portable (1.11) - framework: portable-net40+sl50+wp80+win80
-
-GROUP AzureFunctions
-NUGET
-  remote: https://www.nuget.org/api/v2
-    FAKE (4.39.1)
