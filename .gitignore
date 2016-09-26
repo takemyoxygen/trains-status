@@ -12,3 +12,4 @@ load.fsx
 bin
 obj
 paket-files
+src/functions/**/project.lock.json
