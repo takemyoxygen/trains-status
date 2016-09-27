@@ -1,5 +1,6 @@
 #r "System.Net.Http"
-#r "System.Xml.Linq"
+
+#load "../common/xml.fsx"
 
 #if !COMPILED
 #r "../../../packages/Microsoft.Azure.WebJobs/lib/net45/Microsoft.Azure.WebJobs.Host.dll"
@@ -9,7 +10,6 @@
 
 open System
 open System.Net
-open System.Xml.Linq
 open System.Net.Http
 open System.Net.Http.Headers
 open Microsoft.Azure.WebJobs.Host
@@ -20,6 +20,8 @@ open FSharp.Data.HttpRequestHeaders
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 
+open Xml
+
 type Station = { 
     Name: string
     LiveDeparturesUrl: string
@@ -27,12 +29,10 @@ type Station = {
 }
 
 let private translateResponse xml =
-    let doc = XDocument.Parse xml
-    let x name = XName.Get name
-    doc.Element(x "Stations").Elements(x "Station")
+    (xparse xml) -!> "Stations" -*> "Station"
     |> Seq.map (fun stationXml -> 
-        let code = stationXml.Element(x "Code").Value
-        { Name = stationXml.Element(x "Namen").Element(x "Lang").Value
+        let code = stationXml -!> "Code" |> xval
+        { Name = stationXml -!> "Namen" -!> "Lang" |> xval
           Code = code
           LiveDeparturesUrl = sprintf "http://www.ns.nl/actuele-vertrektijden/avt?station=%s" <| code.ToLower() })
     |> List.ofSeq
