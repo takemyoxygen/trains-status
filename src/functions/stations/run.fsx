@@ -14,19 +14,28 @@ open System.Net.Http
 open System.Net.Http.Headers
 open Microsoft.Azure.WebJobs.Host
 
-type Station = { 
-    Name: string
-    LiveDeparturesUrl: string
-    Code: string
-}
+type Coordinates = 
+    { Latitude: double
+      Longitude: double }
+
+type Station = 
+    { Name: string
+      LiveDeparturesUrl: string
+      Code: string }
+
+let private translateCoordinates stationXml =
+    { Latitude = stationXml -!> "Lat" |> xval |> Double.Parse
+      Longitude = stationXml -!> "Lon" |> xval |> Double.Parse }
+
+let private translateStation stationXml =
+    let code = stationXml -!> "Code" |> xval
+    { Name = stationXml -!> "Namen" -!> "Lang" |> xval
+      Code = code
+      LiveDeparturesUrl = sprintf "http://www.ns.nl/actuele-vertrektijden/avt?station=%s" <| code.ToLower() }
 
 let private translateResponse xml =
     (xparse xml) -!> "Stations" -*> "Station"
-    |> Seq.map (fun stationXml -> 
-        let code = stationXml -!> "Code" |> xval
-        { Name = stationXml -!> "Namen" -!> "Lang" |> xval
-          Code = code
-          LiveDeparturesUrl = sprintf "http://www.ns.nl/actuele-vertrektijden/avt?station=%s" <| code.ToLower() })
+    |> Seq.map (fun stationXml -> translateCoordinates stationXml, translateStation stationXml)
     |> List.ofSeq
 
 let Run (req: HttpRequestMessage, log: TraceWriter) =
@@ -39,5 +48,6 @@ let Run (req: HttpRequestMessage, log: TraceWriter) =
     Http.get "http://webservices.ns.nl/ns-api-stations-v2" username password
     |> translateResponse
     |> fun stations -> log.Info(sprintf "Got %i stations" stations.Length); stations
+    |> List.map snd
     |> Json.serialize
     |> Http.Response.ofJson
