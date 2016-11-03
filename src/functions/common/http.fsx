@@ -7,6 +7,7 @@ module Http
 #r "../packages/FSharp.Data/2.3.2/lib/net40/FSharp.Data.dll"
 #endif
 
+open System.Collections.Specialized
 open System.Net
 open System.Net.Http
 open System.Net.Http.Headers
@@ -17,7 +18,6 @@ open FSharp.Data.HttpRequestHeaders
 /// Performs HTTP GET request to the given URL using Basic authentication
 let get url username password = 
     Http.RequestString(url, headers = [BasicAuth username password])
-
 
 module Response = 
 
